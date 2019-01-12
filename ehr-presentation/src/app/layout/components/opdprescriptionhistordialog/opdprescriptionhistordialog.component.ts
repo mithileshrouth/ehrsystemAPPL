@@ -45,7 +45,7 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
      * Setting Value to Field 
      */
 
-
+/*
     let response;
     let pdata;
     
@@ -64,7 +64,7 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
          console.log("There is some error on submitting...");
      });
 
-
+*/
 
   }
 
