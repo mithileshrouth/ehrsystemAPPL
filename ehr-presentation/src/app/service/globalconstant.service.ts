@@ -6,12 +6,13 @@ import { Injectable } from '@angular/core';
 export class GlobalconstantService {
 
   constructor() { }
-
+  
  // private APIURL = "http://192.168.2.16:8088/ehrsystem/ehrsrvc/";
   //private APIURL = "http://192.168.2.10/ehrsystem/ehrsrvc/";
   //private APIURL = "http://127.0.0.1:8011/ehrsystem/ehrsrvc/";
   //private APIURL = "http://127.0.0.1/ehrsystem/ehrsrvc/";
-    private APIURL = "http://127.0.0.1/ehrsystemAPPL/ehrsrvc/";
+  private APIURL = "http://127.0.0.1/ehrsystemAPPL/ehrsrvc/";
+ // private APIURL =  "http://13.234.41.243/devehrsystem/ehrsrvc/";
   //private APIURL = "http://medewise.com/medehr/";
   // private APIURL = "http://softhought.com/medewise/ehrsrvc/";
   private APIKEY = "24ecdccb1258eaacfd441e012ac034392403c692";
@@ -73,6 +74,7 @@ export class GlobalconstantService {
 
   public patientInfoBycode_URL = this.APIURL+"patient/getPatientInfoByCode";
   public patientSearchBycode_URL = this.APIURL+"patient/patientSearchByCode";
+  public patientSearchByQry_URL = this.APIURL+"patient/patientSearchByQry";
   public associatedEmpSearchBycode_URL = this.APIURL+"patient/associateEmpByCode";
   public patientSearchByaadhar_URL = this.APIURL+"patient/patientSearchByAadhar";
   public ipdpatientByEmpRel_URL = this.APIURL+"patient/getPatientListIPD";
@@ -115,6 +117,11 @@ export class GlobalconstantService {
 
   public vaccinationScheduleList_URL = this.APIURL+"master/getVaccinationSchedule";
   public vaccinListByschedule_URL = this.APIURL+"master/getPatientVaccinListBySchedule";
+
+
+
+
+  public masterDataSave_URL = this.APIURL+"master/saveCommonMastDatas";
 
   getApiURL(){
     return this.APIURL;

@@ -270,7 +270,15 @@ export class IpdregistrationComponent implements OnInit {
 }
 
   selectPatient(event) {
-    console.log(event);
+   // console.log(event);
+
+    if(event.value.blood_group == "" || event.value.blood_group == null) {
+      this.ipdRegistrationForm.controls['bldgrpCtrl'].enable();
+    }
+    else {
+      this.ipdRegistrationForm.controls['bldgrpCtrl'].disable();
+    }
+
     this.ipdRegistrationForm.patchValue({
       patinetNameCtrl : event.value.patient_name ,
       bldgrpCtrl : event.value.blood_group 
@@ -278,6 +286,12 @@ export class IpdregistrationComponent implements OnInit {
   }
 
   getChoosePatientList(empcode,relation) {
+
+    this.ipdRegistrationForm.patchValue({
+      patinetNameCtrl : null ,
+      bldgrpCtrl : null 
+    });
+
     let dataval;
     let patientlist;
     this.patientService.getPatientForIPD(empcode,relation).then(data => {

@@ -127,17 +127,26 @@
                                             </mat-select>
                                         </mat-form-field> -->
 
-                                        <mat-form-field class="fullwidthinp">
-                                            <mat-select formControlName="symptomsMultiCtrl" placeholder="Signs And Symptoms" [multiple]="true" #multiSelect (selectionChange)="getDiseaseList($event)">
-                                                 <ngx-mat-select-search formControlName="symptomsMultiFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
-                                                 <mat-option *ngFor="let symptom of filteredSymptomMulti | async" [value]="symptom" >
-                                                     {{symptom.name}}
-                                                 </mat-option>
-                                             </mat-select>
-                                         </mat-form-field>
+                                        
+                                            <mat-form-field class="fullwidthinp" style="width:90%">
+                                                    <mat-select formControlName="symptomsMultiCtrl" placeholder="Signs And Symptoms" [multiple]="true" #multiSelect (selectionChange)="getDiseaseList($event)">
+                                                        <ngx-mat-select-search formControlName="symptomsMultiFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]=" 'No Records Found' " ></ngx-mat-select-search>
+                                                        <mat-option *ngFor="let symptom of filteredSymptomMulti | async" [value]="symptom" >
+                                                            {{symptom.name}} 
+                                                        </mat-option>
+                                                    </mat-select>
+                                            </mat-form-field>
+
+                                            <div style="width:10%;float: right;margin-top: 4px;">
+                                                    <button mat-icon-button type="button" color="warn" (click)="openSignSymptomsEntryDialog()">
+                                                            <mat-icon aria-label="Signs">enhanced_encryption</mat-icon>
+                                                    </button>
+                                            </div>
+
+                                  
  
 
-                                        <mat-form-field class="fullwidthinp">
+                                        <mat-form-field class="fullwidthinp" style="width:90%">
                                             <mat-select formControlName="diagnosisMultiCtrl" placeholder="Diagnosis List" [multiple]="true" #multiSelect (selectionChange)="getMedicine($event)">
                                                 <ngx-mat-select-search formControlName="diagnosisMultiFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
                                                 <mat-option *ngFor="let diagnosis of filteredDiagnosisMulti | async" [value]="diagnosis">
@@ -145,6 +154,11 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
+                                        <div style="width:10%;float: right;margin-top: 4px;">
+                                                <button mat-icon-button type="button" color="warn" (click)="openDiagnosisEntryDialog()">
+                                                        <mat-icon aria-label="Symptoms">plus_one</mat-icon>
+                                                </button>
+                                        </div>
 
 
                                        
@@ -298,7 +312,7 @@
                                         </div>
                                         -->
 
-
+                                        <br>
                                         <mat-form-field class="fullwidthinp">
                                             <textarea matInput placeholder="Final Summary" formControlName="finalsummryCtrl"></textarea>
                                         </mat-form-field>
@@ -313,7 +327,7 @@
                                             </div>
                                             <div fxFlex="70%">
                                                 <mat-form-field>
-                                                    <input matInput placeholder="Days" formControlName="sickdaysCtrl" (input)="clearFormValidErr($event)"/>
+                                                    <input matInput placeholder="Days" formControlName="sickdaysCtrl" (input)="clearFormValidErr($event)" autocomplete="off"/>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -333,12 +347,13 @@
 
                                         <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
                                             <div fxFlex="30%">
-                                                <mat-checkbox formControlName="isReffHospital"  (change)="enableReffHospital($event)">Reffer Hospital</mat-checkbox>
+                                                <mat-checkbox formControlName="isReffHospital"  (change)="enableReffHospital($event)">Referral Hospital</mat-checkbox>
                                             </div>
                                             <div fxFlex="70%">
-                                                <mat-form-field style="width:100%;">
-                                                    <mat-select formControlName="reffHospitalCtrl" placeholder="" #singleSelect>
+                                                <mat-form-field style="width:100%;" >
+                                                    <mat-select formControlName="reffHospitalCtrl" placeholder="" #singleSelect [style.display]="none">
                                                         <ngx-mat-select-search formControlName="reffHospitalFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
+                                                       
                                                         <mat-option *ngFor="let reports of filteredHospitals | async" [value]="reports">
                                                             {{reports.name}}
                                                         </mat-option>

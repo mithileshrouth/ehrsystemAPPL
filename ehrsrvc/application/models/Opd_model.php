@@ -584,20 +584,19 @@ class Opd_model extends CI_Model{
 	public function getOpdPatientPrescHistory($patientID,$hospital_id) {
 		$patient_data = [];
 		$where = [
-			"ipd_patient_master.patient_id" => $patientID,
+			"patient_health_profile.patient_id" => $patientID,
 			"patient_health_profile.opd_ipd_flag" => "O"
 		];
 		$query = $this->db->select("
 								  `patients`.`patient_id` as patientid,
 									patients.`patient_code`,
 									patients.`patient_name`,
-									ipd_patient_master.admission_id AS ipdID,
 									DATE_FORMAT(patient_health_profile.`date`,'%d-%m-%Y') AS healthprofileDt,
 									patient_health_profile.patient_health_profile_id,
-									patient_health_profile.`comment` AS doctorcomment
+									patient_health_profile.`prescription_addmission_id`
 									" , FALSE)
 							 ->from("patient_health_profile") 
-							 ->join("patients","patients.patient_id = ipd_patient_master.patient_id","LEFT")
+							 ->join("patients","patients.patient_id = patient_health_profile.patient_id","LEFT")
 							 ->where($where)
 							 ->order_by("patient_health_profile.date","DESC")
 							// ->limit(1)
@@ -610,9 +609,9 @@ class Opd_model extends CI_Model{
 					{
 						$patient_data[] = [
 							"rowResultData" => $rows,
-							"patienthealthProfileData" => $this->patient->getHealthProfileData($ipdAdmId,"I",$rows->patient_health_profile_id),
-							"medicineDatas" => $this->medicine->getLastPrescMedicines($ipdAdmId,"I",$hospital_id,$rows->patient_health_profile_id),
-							"investigationsData" => $this->investigation->getLastPrescTestReports($ipdAdmId ,"I",$hospital_id,$rows->patient_health_profile_id)
+							"patienthealthProfileData" => $this->patient->getHealthProfileData($rows->prescription_addmission_id,"O",$rows->patient_health_profile_id),
+							"medicineDatas" => $this->medicine->getLastPrescMedicines($rows->prescription_addmission_id,"O",$hospital_id,$rows->patient_health_profile_id),
+							"investigationsData" => $this->investigation->getLastPrescTestReports($rows->prescription_addmission_id ,"O",$hospital_id,$rows->patient_health_profile_id)
 						];
 						
 					}

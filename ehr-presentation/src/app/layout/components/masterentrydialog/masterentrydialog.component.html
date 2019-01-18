@@ -1,0 +1,31 @@
+<div id="masterEntryDialogPage">
+<form [formGroup]="masterEntryForm">
+<ul style="list-style:none;">
+    <li *ngFor="let fields of fieldsArry">
+      <mat-form-field>
+        <input matInput  placeholder="{{fields.placeholder}}" formControlName="{{fields.ctrlname}}" autocomplete="off">
+      </mat-form-field>
+    </li>
+   
+   
+</ul>
+</form>
+
+<!--
+<button (click)="addProperty()">Add Property</button>
+<form [formGroup]="dynamicForm">
+<div formArrayName="properties">
+  <div *ngFor="let fields of fieldsArry" >
+    <input type="text" class="form-control" [formControlName]="{{fields.ctrlname}}">
+  </div>
+</div>
+</form>
+<br>
+<pre>{{dynamicForm.value | json }}</pre>
+-->
+
+ <!--
+<button mat-raised-button (click)="openDialog()">Pick one</button>--> 
+<button  mat-raised-button (click)="closeDialog()" >Cancel</button>
+<button  mat-raised-button (click)="saveMasterEntryData()" >Save</button>
+</div>

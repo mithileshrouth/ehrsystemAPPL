@@ -136,4 +136,19 @@ export class CommonService {
      });
   }
 
+
+
+  saveMasterDataByDialog(datas) {
+    let myData = JSON.stringify({datas:datas});
+    return new Promise(resolve => {
+       this.http.post(this.global.masterDataSave_URL , myData).subscribe(data => {
+         resolve(data);
+       }, err => {
+         console.log(err);
+       });
+    });
+  }
+
+
+
 }

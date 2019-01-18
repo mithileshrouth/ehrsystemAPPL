@@ -25,7 +25,7 @@
 
               <div fxFlex="32%">
                   <mat-form-field class="fullwidthinp">
-                      <mat-select placeholder="Blood Group" formControlName="bloodGrpCtrl" >
+                      <mat-select placeholder="Blood Group" formControlName="bloodGrpCtrl">
                         <mat-option *ngFor="let bloodgrp of bloodGroupList[0]" [value]="bloodgrp.id">
                             {{bloodgrp.bld_group_code}}
                         </mat-option>

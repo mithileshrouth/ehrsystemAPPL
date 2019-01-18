@@ -261,6 +261,13 @@ export class IpddischargeComponent implements OnInit {
           this.isRemoveEnable = true;
         }
 
+
+        if(pdata.blood_group == "" || pdata.blood_group == null) {
+          this.ipdDischargeForm.controls['bldgrpCtrl'].enable();
+        }
+        else {
+          this.ipdDischargeForm.controls['bldgrpCtrl'].disable();
+        }
        
 
         this.ipdDischargeForm.patchValue({

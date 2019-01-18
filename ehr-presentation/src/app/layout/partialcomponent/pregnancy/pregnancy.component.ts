@@ -81,13 +81,15 @@ export class PregnancyComponent implements OnInit {
   medicineError:string = "";
   testReportError:string = "";
   validFormErr:string = "";
+
+  
   
   constructor(private commonService:CommonService, private symptomdiseaseService:SymptomdiseaseService , private datashareService:DatashareService , private patientService:PatientService , public dialog: MatDialog ,  private fb: FormBuilder) { 
     
     this.pregnencyestimatedForm = new FormGroup({
         lmpDateCtrl : new FormControl('' , Validators.required),
         eddDateCtrl : new FormControl('' , Validators.required),
-        bloodGrpCtrl : new FormControl({value: '', disabled: true})
+        bloodGrpCtrl : new FormControl({value: ''})
     });
 
 
@@ -205,9 +207,19 @@ calEstimateDeliveryDate(type: string, event) {
         medicinedata = response.medicineInfo;
         reportdata = response.reportsInfo;
         
-        this.pregnencyestimatedForm.patchValue({
-          bloodGrpCtrl: pdata.blood_group
-        });
+        if(pdata.blood_group == "" || pdata.blood_group == null) {
+          this.pregnencyestimatedForm.controls['bloodGrpCtrl'].enable();
+          this.pregnencyestimatedForm.patchValue({
+            bloodGrpCtrl: pdata.blood_group
+          });
+        }
+        else {
+          this.pregnencyestimatedForm.patchValue({
+            bloodGrpCtrl: pdata.blood_group
+          });
+          this.pregnencyestimatedForm.controls['bloodGrpCtrl'].disable();
+        }
+        
 
 
       const count3 = Object.keys(medicinedata).length;
@@ -540,8 +552,9 @@ savePregnancy() {
       pregnancyVaccinInfo : this.pregnancyVaccinationGivenForm.value,
       additionalInfo : this.additionalInfoForm.value
     };
-    
-      
+
+        console.log(objParam);
+       
         let response;
         this.patientService.insertIntoPregnancy(objParam).then(data => {
           response = data;
@@ -562,6 +575,7 @@ savePregnancy() {
         error => {
             console.log("There is some error on submitting...");
         });
+      
       
   }
 

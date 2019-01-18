@@ -13,6 +13,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA , MatDialogConfig} from '@angul
 import { SuccessdialogComponent } from '../components/successdialog/successdialog.component';
 import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 import { OpdprescriptionhistordialogComponent } from '../components/opdprescriptionhistordialog/opdprescriptionhistordialog.component';
+import { MasterentrydialogComponent } from '../components/masterentrydialog/masterentrydialog.component';
+
 
 
 
@@ -103,7 +105,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
 
 
 
-  private selectedTab = 0;
+  public selectedTab = 0;
   patientData ;
   PatientID = null;
   PatientName = null;
@@ -279,6 +281,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
           this.filterMedReports();
         });
 
+
       this.getHospitals();
       this.filteredHospitals.next(this.refferHospitals.slice());
       this.presciptionForm.get('reffHospitalFilterCtrl').valueChanges
@@ -286,7 +289,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         .subscribe(() => {
           this.filterHospital();
         });
-
+  
 
       let response;
       let pdata;
@@ -335,17 +338,24 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         const isAdmit = pdata.keep_in_observation == 0  ? true : false;
         const isreferal = pdata.hospital_rec_flag == 1  ? true : false;
 
-        if(isreferal){
+        if(pdata.hospital_rec_flag == 1){
           this.presciptionForm.controls['reffHospitalCtrl'].enable(); 
+        
+        }
+
+        if(pdata.accidental_approval == 1 ) {
+            this.presciptionForm.patchValue({
+              approvalCtrl : accidental_approval,
+              observCtrl : keepObserv,
+              admitCtrl : isAdmit ,
+              
+            });
         }
 
         this.presciptionForm.patchValue({
           finalsummryCtrl: pdata.comments,
           sickCtrl: sickCtrlStatus,
           sickdaysCtrl : pdata.no_of_days_sick,
-          approvalCtrl : accidental_approval,
-          observCtrl : keepObserv,
-          admitCtrl : isAdmit ,
           isReffHospital : isreferal
         });
 
@@ -702,11 +712,15 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
      console.log(this.addedMeddata);
      console.log(this.addedInvestigations);
      console.log(this.presciptionHealthForm.value);*/
-      
+
+      console.log("Prescript Valid is "+this.validatePresciptionForm());
+
     if(this.validatePresciptionForm()) {
 
       this.sendPhrmcyBtnActive = false;
       let response;
+
+    
       this.symptomdiseaseService.insertToOPD(this.presciptionHealthForm.value,this.presciptionForm.value,this.addedMeddata,this.addedInvestigations).then(data => {
         response = data;
           this.sendPhrmcyBtnActive = true;
@@ -723,20 +737,31 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
          error => {
            console.log("There is some error on submitting...");
        });
+      
+
     }
 
 
     }
 
-    validatePresciptionForm(){
+    validatePresciptionForm() {
       this.validFormErr = "";
       let validForm = false;
-      if(this.presciptionForm.controls['sickCtrl'].value && this.presciptionForm.controls['sickdaysCtrl'].value <= 0){
-            this.validFormErr = "Error : Sick Days must be greater than 0";
-            validForm = false;
+      if(this.presciptionForm.controls['sickCtrl'].value) {
+            if(this.presciptionForm.controls['sickdaysCtrl'].value <= 0 ) {
+              this.validFormErr = "Error : Sick Days must be greater than 0";
+              //validForm = false;
+              return false;
+            }
+            
+            return true
       }
-      validForm = true;
-      return validForm;
+      else {
+        return true;
+        
+      }
+      
+    
     }
 
     resetPresForm(){
@@ -823,7 +848,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
                
       },
       error => {
-       console.log("There is some error in Investigation List...");
+       console.log("There is some error in hospital List...");
      });
     }
 
@@ -1031,8 +1056,90 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
       });
     
       dialogRef.afterClosed().subscribe(result => {
+        
+      });
+    }
+
+    openSignSymptomsEntryDialog() {
+
+      let fields = [
+        {
+          "ctrlname" : "symptomCtrl",
+          "inputtyep" : "text",
+          "placeholder" : "Symptom Name"
+        },
+        {
+          "ctrlname" : "symptomGrpCtrl",
+          "inputtyep" : "text",
+          "placeholder" : "Symptom Group"
+        }
+      ];
+
+      let formCtrlInilize = {
+        symptomCtrl : new FormControl(),
+        symptomGrpCtrl: new FormControl(),
+      }
+
+      const dialogRef = this.dialog.open(MasterentrydialogComponent, {
+        width: '350px',
+        disableClose: true,
+        data:  {
+          fielddatas : fields,
+          initializeField:formCtrlInilize,
+         // msg : 'OPD Saved Successfully',
+         // msgicon : 'check_circle',
+          iconcolor: '#1d8c3d',
+          tbl : 'symptoms',
+          datafrom : 'SYMPTOMS'
+         // btnurl : 'panel/todaysreg'
+          }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        this.getSymptoms();
+      });
+    }
+
+    openDiagnosisEntryDialog() {
+      
+      
+      let fields = [
+        {
+          "ctrlname" : "diagonosisNameCtrl",
+          "inputtyep" : "text",
+          "placeholder" : "Diagonosis Name"
+        },
+        {
+          "ctrlname" : "accociatedIcdCtrl",
+          "inputtyep" : "text",
+          "placeholder" : "Accociated Icd Code"
+        }
+      ];
+
+      let formCtrlInilize = {
+        diagonosisNameCtrl : new FormControl(),
+        accociatedIcdCtrl: new FormControl(),
+      }
+
+      const dialogRef = this.dialog.open(MasterentrydialogComponent, {
+        width: '350px',
+        disableClose: true,
+        data:  {
+          fielddatas : fields,
+          initializeField:formCtrlInilize,
+         // msg : 'OPD Saved Successfully',
+         // msgicon : 'check_circle',
+          iconcolor: '#1d8c3d',
+          tbl : 'diagonosis',
+          datafrom : 'DIAGONOSIS'
+         // btnurl : 'panel/todaysreg'
+          }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
       
       });
+
     }
     
 }

@@ -4,20 +4,46 @@
           <mat-card style="padding:0;">
             <!--<h4 class="card_title"> Registration</h4>-->
               <mat-card-content >
-                   
-                  <div class="container reggrid_block" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                 <div class="container reggrid_block" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
                         
                       <div class="fieldsearch" fxFlex="60%" >
-                            <form [formGroup]="IDsearchForm" >
+                        <form [formGroup]="IDsearchForm" >
                           <div class="ID-search">
+
+                            <!-- Start -->
+                            <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" >
+                                
+                                    <div fxFlex="96%">
+
+                                            <mat-form-field class="fullwidthinp" >
+                                               <input matInput placeholder="* Search By  Code / Name / Mobile / Aadhar No" aria-label="Patient" [matAutocomplete]="auto" formControlName="patientAdvSearchCtrl" (keyup)="getPatientListBySearch($event)">
+                                          
+
+                                                <mat-autocomplete #auto="matAutocomplete" 
+                                                mat-search-text-change="null"
+                                                [displayWith]="displayFn.bind(this)"
+                                               
+                                                >
+
+                                                
+
+                                                  <mat-option *ngFor="let patient of filteredPatients | async" [value]="patient.id" >
+                                                   <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
+                                                    <small>Code: {{patient.code}}</small> |
+                                                    <small>Name : {{patient.name}}</small> 
+                                                  </mat-option>
+                                                
+                                                </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                            </div>
+                            <!-- End -->
+
+                            <!--
                               <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" >
                                 
                                    <div fxFlex="40%">
-                                       <!--
-                                        <mat-form-field class="fullwidthinp">
-                                            <input matInput placeholder="Enter Patient ID" formControlName="patientID" autocomplete="off" />
-                                        </mat-form-field> -->
-
+                                      
                                     <mat-form-field class="fullwidthinp">
                                         <mat-select formControlName="patientID" placeholder="Search By Patient ID" disableOptionCentering #singleSelect (selectionChange)="changePpatientOption($event)" >
                                             <ngx-mat-select-search  formControlName="pcodeFilterCtrl"
@@ -27,7 +53,7 @@
                                             ></ngx-mat-select-search>
                                             <mat-option [value] ="resetSelect">Select</mat-option>
                                             <mat-option *ngFor="let pcode of filteredPatientCode | async" [value]="pcode">
-                                                  {{pcode.code}}
+                                                  {{pcode.code}} - {{pcode.name}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
@@ -54,8 +80,14 @@
                                     </div>
 
                               </div>
+                            -->
+
+
+
                           </div>
                         </form>
+
+                        <!--
                           <mat-checkbox (change)="enableAdvanceSearch($event)" >Enable Advance Search</mat-checkbox>
                           <form [formGroup]="FieldsearchForm" >
                           <div class="Field-search margincontent" *ngIf="enableAdvancesearch">
@@ -63,7 +95,7 @@
                                  
                                      <div fxFlex="30%">
                                         <mat-form-field class="fullwidthinp">
-                                            <!--<input matInput placeholder="Enter Patient Name" formControlName="patientNameCtrl" autocomplete="off" />-->
+                        
 
                                             <mat-select formControlName="patientNameCtrl" placeholder="Search Patient Name" disableOptionCentering #singleSelect >
                                                 <ngx-mat-select-search  formControlName="patientNameFilterCtrl"
@@ -98,6 +130,9 @@
                               </div>
                           </div>
                           </form>
+                        -->
+
+
                           
                         <div class="reg-action margincontent" >
                             <button mat-flat-button class="regblockbtn center-obj" style="background: #09446d;"  (click)="searchPatient()" *ngIf="!searchLoader">
@@ -114,6 +149,10 @@
                                    <mat-icon>clear</mat-icon>
                                 </button>
                             </p>
+
+                            
+
+                            <!--
                             <p class="error_cls" *ngIf="basicSearchValidErr" style="margin:10px auto;margin-bottom:0px">Select atleast one search option
                                 <button mat-icon-button (click)="removeError()" >
                                    <mat-icon>clear</mat-icon>
@@ -124,6 +163,7 @@
                                    <mat-icon>clear</mat-icon>
                                 </button>
                             </p>
+                            -->
                         </div>
                           
                       </div><!--end of fieldsearch-->
@@ -334,6 +374,38 @@
                 
                     <mat-paginator [pageSizeOptions]="[50, 100, 200]" showFirstLastButtons></mat-paginator>
                 </div>
+
+
+
+
+
+
+                
+<!--
+
+                <div style="margin:100px;">
+                <form class="example-form">
+                    <mat-form-field class="example-full-width" >
+                      <input matInput placeholder="State" aria-label="State" [matAutocomplete]="auto" [formControl]="stateCtrl">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+                          <img class="example-option-img" aria-hidden [src]="state.flag" height="25">
+                          <span>{{state.name}}</span> |
+                          <small>Population: {{state.population}}</small>
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  
+                    <br>
+                  
+                   
+                  </form>
+      
+                </div>
+                -->
+
+
+
 
      </section>
     

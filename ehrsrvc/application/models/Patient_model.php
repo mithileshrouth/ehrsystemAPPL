@@ -63,6 +63,30 @@ class Patient_model extends CI_Model
      * @name getPatientList
      * @return $patient_data get all patient and their type
      */
+    public function patientSearchByQry($qry)
+    {
+        $patient_data = "";
+        $query = $this->db->select("patients.patient_id,patients.patient_code,patients.patient_name,patients.mobile_one,patients.employee_id,patients.adhar")
+            ->from("patients")
+            ->like('patients.patient_code', $qry)
+            ->or_like('patients.patient_name', $qry)
+            ->or_like('patients.mobile_one', $qry)
+            ->or_like('patients.adhar', $qry)
+            ->order_by('patients.patient_name', 'ASC')
+            ->limit(20)
+            ->get();
+        //echo $this->db->last_query();
+        if ($query->num_rows() > 0) {
+            $patient_data = $query->result();
+        }
+        return $patient_data;
+    }
+
+    /**
+     *
+     * @name getPatientList
+     * @return $patient_data get all patient and their type
+     */
     public function associateEmpByCode($pcode)
     {
         $patient_data = "";
@@ -303,10 +327,20 @@ class Patient_model extends CI_Model
 
     public function searchPatient($request)
     {
+        /*
+        echo "<pre>";
+        print_r($request);
+        echo "</pre>";
+        */
+
         $patient_data = "";
         $searchType = $request->stype;
         $formValue = $request->values;
 
+        
+        
+        /*
+        closed on 17.01.2019 ======================================= Because one field searching enabled
         if ($searchType == "BASIC") {
             $pdetail = $formValue->patientID;
             $padhardtl = trim($formValue->patientAadhar);
@@ -373,6 +407,19 @@ class Patient_model extends CI_Model
                     $patient_data = $query->row();
                 }
             }
+        }
+
+        */
+
+        $patientid = $formValue->patientAdvSearchCtrl;
+
+        $query = $this->db->select("patients.*,DATE_FORMAT(patients.dob,'%d-%m-%Y') AS pdob,patient_type.*", FALSE)
+        ->from("patients")
+        ->join("patient_type", "patients.patient_type_id = patient_type.patient_type_id", "LEFT")
+        ->where("patients.patient_id",$patientid)
+        ->get();
+        if ($query->num_rows() > 0) {
+            $patient_data = $query->row();
         }
 
         return $patient_data;

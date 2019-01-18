@@ -214,6 +214,12 @@ export class IpdvisitComponent implements OnInit {
         medicinedata = response.medicineInfo;
         reportdata = response.reportsInfo;
 
+        if(pdata.blood_group == "" || pdata.blood_group == null) {
+          this.ipdVisitRegistrationForm.controls['bldgrpCtrl'].enable();
+        }
+        else {
+          this.ipdVisitRegistrationForm.controls['bldgrpCtrl'].disable();
+        }
 
 
 
@@ -556,7 +562,7 @@ export class IpdvisitComponent implements OnInit {
 
 
   onSubmit(formdata) {
-    console.log(formdata);
+      //console.log(formdata);
       let response;
         this.ipdService.saveRegularVisitIPD(formdata,this.addedMeddata,this.addedInvestigations).then(data => {
           response = data;

@@ -11,6 +11,7 @@ import { AppMaterialModule } from '../app-material/app-material.module';
 import { OkdialogComponent } from './components/dialog/okdialog/okdialog.component';
 import { SuccessdialogComponent } from './components/successdialog/successdialog.component';
 import { ConfirmationdischargeComponent } from  './components/confirmationdischarge/confirmationdischarge.component';
+import { MasterentrydialogComponent } from './components/masterentrydialog/masterentrydialog.component';
 
 
 @NgModule({
@@ -22,8 +23,8 @@ import { ConfirmationdischargeComponent } from  './components/confirmationdischa
         ReactiveFormsModule
        
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent  ],
-    entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent ]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent  ],
+    entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent ]
  
 })
 export class LayoutModule {}

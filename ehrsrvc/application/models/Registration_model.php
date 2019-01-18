@@ -154,9 +154,7 @@ class Registration_model extends CI_Model{
 		$regdate = date("Y-m-d");
 		$searchType = $request->stype;
 		$formValue = $request->values;
-		
-	
-		
+		/* Closed on 17.01.2019 =   ================================= Because single field serach enable
 		if($searchType=="BASIC"){
 			$pdetail = $formValue->patientID;
 			$padhardtl = $formValue->patientAadhar;
@@ -206,7 +204,29 @@ class Registration_model extends CI_Model{
                          ->where($where)
                          ->get();
 		}
+		
+		*/
+
+		
+		$patientid = $formValue->patientAdvSearchCtrl;
+
+		$where = [
+			"registration.hospital_id" => $hospital_id,
+			"DATE_FORMAT(registration.date_of_registration,'%Y-%m-%d')" => $regdate,
+			"patients.patient_id" => $patientid,
+			"registration.is_deleted" => "N"
+		];
+
+		$query = $this->db
+						 ->select("*")
+                         ->from("registration") 
+						 ->join("patients","patients.patient_id = registration.patient_id" , "INNER")
+                         ->where($where)
+						 ->get();
+						 
+		
 		//echo $this->db->last_query();
+		
 		if($query->num_rows()>0)
 		{
 			$isAlreadyReg = true;

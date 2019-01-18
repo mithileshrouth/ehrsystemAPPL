@@ -7,6 +7,10 @@ class Login  extends CI_Controller{
         $this->load->model("User_model", "user", TRUE);
         $this->load->model("Authorization_model", "authorisation", TRUE);
     }
+	
+	public function index(){
+		echo "Login";
+	}
     /**
      * @method getLogin
      * @desc Login credential will be checked here.

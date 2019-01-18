@@ -1,13 +1,19 @@
-<div id="ipdVisithistoryPage">
+<div id="opdPreschistoryPage">
+  <!--
   <div style="margin-top:-35px;margin-right:-20px;text-align: right;">
     <p> 
       <mat-icon (click)="closeDialog()">close</mat-icon>
-      <!--<button mat-mini-fab  (click)="closeDialog()" ><mat-icon  >close</mat-icon></button>-->
     </p>
   </div>
+  -->
   
   <div style="max-height:460px;overflow-y:scroll;margin-bottom: 6%;">
-  <mat-accordion class="ipdhistoryAccordian">
+
+
+    <!--  <mat-progress-spinner class="example-margin" [color]="color" [mode]="mode" [value]="value"></mat-progress-spinner> -->
+    <mat-spinner class="matSpinner" *ngIf="!isContentLoaded"></mat-spinner>
+
+  <mat-accordion class="ipdhistoryAccordian" *ngIf="isContentLoaded">
   
     <div *ngFor="let ipdhistory of visitHistoryList[0];let i = index">
       <mat-expansion-panel class="custom-header" [expanded]="step === i" (opened)="getIpdHistoryByDate(i,ipdhistory)" hideToggle="true"  #example >
@@ -19,7 +25,7 @@
                     Visit Date {{ipdhistory.rowResultData.healthprofileDt}}
                 </mat-chip>
               </mat-chip-list> -->
-              Visit Date {{ipdhistory.rowResultData.healthprofileDt}}
+              Date {{ipdhistory.rowResultData.healthprofileDt}}
             </mat-panel-title>
             
             <mat-panel-description>

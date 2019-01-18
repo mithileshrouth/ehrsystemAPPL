@@ -18,12 +18,26 @@ import { isObject } from 'rxjs/internal/util/isObject';
 
 import { ConfirmationdialogComponent } from '../components/confirmationdialog/confirmationdialog.component';
 
+/*
 
-
+export interface State {
+  flag: string;
+  name: string;
+  population: string;
+}
+*/
 interface PatientCode{
   id: string,
-  code: string
+  code: string,
+  name : string
 }
+
+export interface PatientInfo{
+  id: string,
+  code: string,
+  name : string
+}
+
 
 interface PatientAadhar{
   id: string,
@@ -38,6 +52,20 @@ interface PatientAadhar{
 })
 
 export class PatienregistrationComponent implements OnInit ,OnDestroy {
+
+  
+
+
+ 
+  //patientAdvSearchCtrl = new FormControl();
+  filteredPatients: Observable<PatientInfo[]>;
+  //filteredStates: Observable<State[]>;
+
+
+  patientinfo:PatientInfo[] = [];
+
+  
+
   version = VERSION;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -129,7 +157,17 @@ export class PatienregistrationComponent implements OnInit ,OnDestroy {
   
 
   constructor(private zone:NgZone,private patientService:PatientService,private _global:GlobalconstantService,public dialog: MatDialog,private registerService: RegistrationService ) {
-   
+    
+/*
+    this.filteredStates = this.stateCtrl.valueChanges
+    .pipe(
+      startWith(''),
+      map(state => state ? this._filterStates(state) : this.states.slice())
+    );
+  
+*/
+    
+
      this.patientRegForm = new FormGroup({
           searchpatientCtrl: new FormControl(''),
           hdnPatientID: new FormControl(''),
@@ -154,7 +192,8 @@ export class PatienregistrationComponent implements OnInit ,OnDestroy {
       patientID: new FormControl(''),
       pcodeFilterCtrl: new FormControl(''),
       patientAadhar: new FormControl(''),
-      aadharFilterCtrl: new FormControl('')
+      aadharFilterCtrl: new FormControl(''),
+      patientAdvSearchCtrl : new FormControl('')
       });
 
       
@@ -179,6 +218,19 @@ export class PatienregistrationComponent implements OnInit ,OnDestroy {
 
 
    }
+
+   /*
+   private _filterStates(value: string): State[] {
+    const filterValue = value.toLowerCase();
+
+    return this.states.filter(state => state.name.toLowerCase().indexOf(filterValue) === 0 ||  state.population.toLowerCase().indexOf(filterValue) === 0);
+  }
+  */
+
+  private _filterAdvancePatient(value: string): PatientInfo[] {
+    const filterValue = value.toLowerCase();
+    return this.patientinfo.filter(patient => patient.name.toLowerCase().indexOf(filterValue) === 0 ||  patient.code.toLowerCase().indexOf(filterValue) === 0);
+  }
   
    private patientcodes: PatientCode[] = [];
    public filteredPatientCode: ReplaySubject<PatientCode[]> = new ReplaySubject<PatientCode[]>(1);
@@ -200,7 +252,7 @@ export class PatienregistrationComponent implements OnInit ,OnDestroy {
 
 ngOnInit() {
   this.getTodaysRegistration();
- // this.getPatientCode();
+  this.getPatientCode('E');
 
 
   this.IDsearchForm.get('patientID').valueChanges
@@ -294,8 +346,13 @@ ngOnDestroy() {
 }
 
 
+displayFn(id) {
+  if (!id) return '';
+  let index = this.patientinfo.findIndex(patient => patient.id === id);
+  return this.patientinfo[index].name + " ( " + this.patientinfo[index].code + " ) ";
+}
 
- 
+
   enableAdvanceSearch(event) {
 
     this.isCheked = !this.isCheked;
@@ -406,6 +463,7 @@ searchPatient(){
     searchType = 'BASIC';
     
   }
+
   this.patientService.checkIsRegisteredToday(searchData,searchType).then(data => {
     response = data;
     isExist = response.isexist ;
@@ -464,7 +522,10 @@ searchPatient(){
           this.tblPatientLine = pdata.line_number;
           this.tblPatientMbl = pdata.mobile_one;
           this.tblPatientAadhar = pdata.adhar;
- 
+            
+          this.IDsearchForm.patchValue({
+            patientAdvSearchCtrl : null
+          });
      
           this.patientTblRegForm.patchValue({
             regpcodeCtrl: pdata.patient_code
@@ -659,6 +720,7 @@ searchPatient(){
 
   getPatientCode(code){
     this.patientcodes = [];
+    this.patientinfo = [];
     this.aadharnumbers = [];
     let dataval;
     let patientlist;
@@ -672,7 +734,8 @@ searchPatient(){
 
                 resultObj = {
                     'code':dataval.patient[i].patient_code,
-                    'id': dataval.patient[i].patient_id
+                    'id': dataval.patient[i].patient_id,
+                    'name' : dataval.patient[i].patient_name
                 }
 
                 
@@ -684,8 +747,15 @@ searchPatient(){
                 }
                 */
                 this.patientcodes.push(resultObj);
+                this.patientinfo.push(resultObj);
               //  this.aadharnumbers.push(aadharObj);
             }
+
+            this.filteredPatients = this.IDsearchForm.get("patientAdvSearchCtrl").valueChanges
+            .pipe(
+              startWith(''),
+              map(patientinfo => patientinfo ? this._filterAdvancePatient(patientinfo) : this.patientinfo.slice())
+            );
            
           this.filteredPatientCode.next(this.patientcodes.slice());
           /*
@@ -736,7 +806,8 @@ searchPatient(){
 
                 resultObj = {
                     'code':dataval.patient[i].patient_code,
-                    'id': dataval.patient[i].patient_id
+                    'id': dataval.patient[i].patient_id,
+                    'name' : dataval.patient[i].patient_name
                 }
 
                 
@@ -820,21 +891,27 @@ searchPatient(){
 
   }
 
+   
   private filterPatientCode() {
     if (!this.patientcodes) {
       return;
     }
     // get the search keyword
     let search =  this.IDsearchForm.get('pcodeFilterCtrl').value;
+  //  console.log("Search Forrm " + search);
+  //  console.log(this.patientcodes)
     if (!search) {
       this.filteredPatientCode.next(this.patientcodes.slice());
       return;
     } else {
       search = search.toLowerCase();
     }
+  
     // filter the banks
     this.filteredPatientCode.next(
-      this.patientcodes.filter(patientcd => patientcd.code.toLowerCase().indexOf(search) > -1)
+      this.patientcodes.filter(patientcd => patientcd.code.toLowerCase().indexOf(search) > -1 || patientcd.name.toLowerCase().indexOf(search) > -1)
+   
+      //this.patientcodes.filter = Object.assign({}, this.fields)
     );
   }
   

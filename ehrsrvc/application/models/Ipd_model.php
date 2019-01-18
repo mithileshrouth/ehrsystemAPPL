@@ -17,11 +17,7 @@ class Ipd_model extends CI_Model{
 			$healthProfileArry = [];
 			$todaydt = date("Y-m-d H:i:s");
 			
-			/*
-			echo "<pre>";
-			print_r($request);
-			echo "</pre>";
-			*/
+		
 			
 			$formMasterData = $request->fdata;
 			$selectedPatient = $formMasterData->choosePatientCtrl;
@@ -32,6 +28,21 @@ class Ipd_model extends CI_Model{
 			$systemic_exm = (trim(htmlspecialchars($formMasterData->systemicExaminationCtrl)));
 			$provision_exm = (trim(htmlspecialchars($formMasterData->provisionalExaminationCtrl)));
 			$final_dignosis = (trim(htmlspecialchars($formMasterData->finalDiagnosisCtrl)));
+
+			
+
+			/**
+            *  update patients table for blood group
+            *  Blood Group Info
+			*/
+		
+			if(isset($formMasterData->bldgrpCtrl)) {
+
+					$bloodGrp = $formMasterData->bldgrpCtrl;
+					$updData = ["patients.blood_group" => $bloodGrp];
+                    $this->db->where('patients.patient_id', $selectedPatient->patient_id);
+					$this->db->update('patients', $updData);
+			}
 			
 			$ipd_master_data = [
 				"hospital_id" => $hospital_id,
@@ -130,6 +141,20 @@ class Ipd_model extends CI_Model{
 			
 			$ipd_row_id =  trim($formMasterData->ipdRowIDCtrl); 
 			$patient_id = trim($formMasterData->patientID); 
+
+			
+			/**
+            *  update patients table for blood group
+            *  Blood Group Info
+			*/
+		
+			if(isset($formMasterData->bldgrpCtrl)) {
+				$bloodGrp = $formMasterData->bldgrpCtrl;
+				$updData = ["patients.blood_group" => $bloodGrp];
+				$this->db->where('patients.patient_id', $patient_id);
+				$this->db->update('patients', $updData);
+			}
+
 			
 			$healthProfileArry = [
 				"patient_id" => $patient_id,
@@ -208,7 +233,20 @@ class Ipd_model extends CI_Model{
 	        $dischargeSummry = trim(htmlspecialchars($formMasterData->dischargeCommentCtrl));
 	        $finalDiagnos = trim(htmlspecialchars($formMasterData->finalCommentCtrl));
 	        
-	        $referal_hospital_id = $formMasterData->reffHospitalCtrl;
+			$referal_hospital_id = $formMasterData->reffHospitalCtrl;
+			
+
+			/**
+            *  update patients table for blood group
+            *  Blood Group Info
+			*/
+		
+			if(isset($formMasterData->bldgrpCtrl)) {
+				$bloodGrp = $formMasterData->bldgrpCtrl;
+				$updData = ["patients.blood_group" => $bloodGrp];
+				$this->db->where('patients.patient_id', $patient_id);
+				$this->db->update('patients', $updData);
+			}
 	        
 	           
 	        $ipd_master_upd = [

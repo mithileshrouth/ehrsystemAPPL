@@ -16,6 +16,13 @@ import { IpdService } from '../../../service/ipd.service';
   styleUrls: ['./opdprescriptionhistordialog.component.css']
 })
 export class OpdprescriptionhistordialogComponent implements OnInit {
+
+  color = 'primary';
+  mode = 'determinate';
+  value = 50;
+
+  isContentLoaded = false;
+
   panelOpenState = false;
   medicineDisplayedColumns: string[] = ['medicine_name', 'value', 'frequeny', 'number_of_days_sick_leave'];
   medicineDataSource:any = [];
@@ -45,18 +52,19 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
      * Setting Value to Field 
      */
 
-/*
+
     let response;
     let pdata;
     
-    this.ipdService.getOpdPatientPrescHistory(patientID,ipdAdmsID).then(data => {
+    this.patientService.getOpdPatientPrescHistory(patientID).then(data => {
       response = data;
       if(response.msg_status==200) {
+        this.isContentLoaded = true;
         pdata = response.result ; 
         this.visitHistoryList.push(pdata);
     }
     else{
-       
+      this.isContentLoaded = false;
       }
      },
 
@@ -64,7 +72,7 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
          console.log("There is some error on submitting...");
      });
 
-*/
+
 
   }
 

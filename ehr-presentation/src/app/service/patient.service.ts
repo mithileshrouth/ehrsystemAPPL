@@ -173,7 +173,7 @@ export class PatientService {
     filterPatientByCode(pcode){
       let myData = JSON.stringify({pcode: pcode});
        return new Promise(resolve => {
-          this.http.post(this.global.patientSearchBycode_URL,myData).subscribe(data => {
+          this.http.post(this.global.patientSearchByQry_URL,myData).subscribe(data => {
             resolve(data);
            
           }, err => {

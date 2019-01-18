@@ -67,7 +67,8 @@ class Pregnancy_model extends CI_Model {
             $investigation = $paramData->investigationInfo;
             $patientvaccinInfo = $paramData->pregnancyVaccinInfo;
             $additional = $paramData->additionalInfo;
-            
+
+
             $registrationID = $healthPrf->hdnregistrationID;
             $pcode = $healthPrf->hdnpatientID;
             
@@ -90,6 +91,18 @@ class Pregnancy_model extends CI_Model {
             
            // $vaccineDtlData = $patientvaccinInfo->pregnancyVaccinRows;
             
+           /**
+            *  update patients table for blood group
+            *  Blood Group Info
+            */
+            if(isset($pregnencyInfo->bloodGrpCtrl)) {
+                $bloodGrp = $pregnencyInfo->bloodGrpCtrl;
+                    $updData = ["patients.blood_group" => $bloodGrp];
+                    $this->db->where('patients.patient_id', $patientid);
+                    $this->db->update('patients', $updData);
+            }
+            
+
             $opdPrescriptionArry = [
                 "opd_prescription_id" => $opdPrecesptionID,
                 "registrationid" => $registrationID,
@@ -110,13 +123,7 @@ class Pregnancy_model extends CI_Model {
                 "prescription_from" => "PREGNANCY" 
             ];
             
-            /*
-             echo "--------------------------------";
             
-             echo "<pre>";
-             print_r($opdPrescriptionArry);
-             echo "</pre>";
-           */
             
              $this->db->insert('opd_prescription', $opdPrescriptionArry);
              $opd_precp_id = $this->db->insert_id();
