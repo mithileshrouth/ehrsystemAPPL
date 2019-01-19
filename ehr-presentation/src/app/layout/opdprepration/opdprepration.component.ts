@@ -1070,7 +1070,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         },
         {
           "ctrlname" : "symptomGrpCtrl",
-          "inputtyep" : "text",
+          "inputtyep" : "select",
           "placeholder" : "Symptom Group"
         }
       ];
@@ -1090,7 +1090,8 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
          // msgicon : 'check_circle',
           iconcolor: '#1d8c3d',
           tbl : 'symptoms',
-          datafrom : 'SYMPTOMS'
+          datafrom : 'SYMPTOMS',
+          heading:'Add Symptoms'
          // btnurl : 'panel/todaysreg'
           }
       });
@@ -1102,7 +1103,9 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
 
     openDiagnosisEntryDialog() {
       
-      
+      let symptomselectedval = this.presciptionForm.get("symptomsMultiCtrl").value;
+      console.log(symptomselectedval);
+     
       let fields = [
         {
           "ctrlname" : "diagonosisNameCtrl",
@@ -1112,7 +1115,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         {
           "ctrlname" : "accociatedIcdCtrl",
           "inputtyep" : "text",
-          "placeholder" : "Accociated Icd Code"
+          "placeholder" : "ICD Code"
         }
       ];
 
@@ -1131,13 +1134,15 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
          // msgicon : 'check_circle',
           iconcolor: '#1d8c3d',
           tbl : 'diagonosis',
-          datafrom : 'DIAGONOSIS'
+          datafrom : 'DIAGONOSIS',
+          heading:'Add Diagnosis'
          // btnurl : 'panel/todaysreg'
           }
       });
     
       dialogRef.afterClosed().subscribe(result => {
-      
+          //this.getDiseaseList(this.presciptionForm.get("symptomsMultiCtrl").value);
+          this.getDiseaseList(this.presciptionForm.get('symptomsMultiCtrl'));
       });
 
     }

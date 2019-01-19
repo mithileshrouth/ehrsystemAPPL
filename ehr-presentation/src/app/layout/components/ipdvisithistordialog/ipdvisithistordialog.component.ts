@@ -11,6 +11,7 @@ import { IpdService } from '../../../service/ipd.service';
 
 
 
+
 @Component({
   selector: 'app-ipdvisithistordialog',
   templateUrl: './ipdvisithistordialog.component.html',

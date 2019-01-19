@@ -15,6 +15,7 @@ import { MatSelect, VERSION } from '@angular/material';
 export class MasterentrydialogComponent implements OnInit {
   fieldsArry = [];
   msg:string;
+  heading:string;
   msgIcon:string;
   iconColor:string;
   redirectUrl:string;
@@ -30,6 +31,7 @@ export class MasterentrydialogComponent implements OnInit {
     this.fieldsArry = this.data.fielddatas;  
     this.tablename = this.data.tbl;  
     this.dataFrom = this.data.datafrom;
+    this.heading = this.data.heading;
     this.formIntilizeGroup = this.data.initializeField
 
     this.masterEntryForm = new FormGroup(this.formIntilizeGroup);
