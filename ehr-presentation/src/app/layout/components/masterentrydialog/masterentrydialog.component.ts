@@ -23,8 +23,14 @@ export class MasterentrydialogComponent implements OnInit {
   dataFrom : string;
   formIntilizeGroup ;
   masterEntryForm:any = FormGroup;
+  masterDataList_Group = [];
 
-  dynamicForm:any = FormGroup;
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
+  bufferValue = 75;
+  isEnableProgress = false;
+  
 
   constructor(private router:Router,public dialogRef: MatDialogRef<MasterentrydialogComponent> , private commonService:CommonService, @Inject(MAT_DIALOG_DATA) public data: any , private fb: FormBuilder ) { 
 
@@ -35,35 +41,45 @@ export class MasterentrydialogComponent implements OnInit {
     this.formIntilizeGroup = this.data.initializeField
 
     this.masterEntryForm = new FormGroup(this.formIntilizeGroup);
-    //console.log(this.masterEntryForm);
+    console.log(this.fieldsArry);
   }
 
 
   ngOnInit() {
+    this.isEnableProgress = false;
+    if(this.tablename == "symptoms") {
+      this.getMasterData("group",this.masterDataList_Group);
+    }
 
   }
 
 
   closeDialog(): void {
     let data = {"from":"Close"}
-    this.dialogRef.close();
+    this.dialogRef.close(data);
   }
 
 
   saveMasterEntryData(){
+    this.isEnableProgress = true;
     let response;
     let otherinfo = {tname:this.tablename,datafrm:this.dataFrom}
     let params = {
       formsVal : this.masterEntryForm.value,
       otherInfo : otherinfo
     }
-   
+  
+
     this.commonService.saveMasterDataByDialog(params).then(data => {
       response = data;
      if(response.msg_status == 200) {
-      this.dialogRef.close();
+      this.isEnableProgress = false;
+      let data = {"from":"Save"}
+      this.dialogRef.close(data);
+    
      }
      else{
+        this.isEnableProgress = false;
        console.log();
      }
              
@@ -71,7 +87,25 @@ export class MasterentrydialogComponent implements OnInit {
     error => {
      console.log("There is some error in master data entry dialog...");
    });
+
+
   }
+
+
+  getMasterData(tblname,storeData){
+   // this.masterDataList = [];
+    let dataval;
+    let datalist;
+    this.commonService.getMasterInfo(tblname).then(data => {
+      dataval = data;
+      datalist = dataval.result;
+      storeData.push(datalist);
+    },
+    error => {
+     console.log("There is some error in hospital List...");
+   });
+  }
+
 
 
 

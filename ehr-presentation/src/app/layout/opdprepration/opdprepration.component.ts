@@ -14,7 +14,12 @@ import { SuccessdialogComponent } from '../components/successdialog/successdialo
 import { INTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/src/platform_providers';
 import { OpdprescriptionhistordialogComponent } from '../components/opdprescriptionhistordialog/opdprescriptionhistordialog.component';
 import { MasterentrydialogComponent } from '../components/masterentrydialog/masterentrydialog.component';
-
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
 
 
 
@@ -116,6 +121,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
   testReportError:string = "";
   validFormErr:string = "";
   lastPresciptionID:number = 0;
+  masterDataList = [];
   
 
   displayedColumns: string[] = [ 'datetd' , 'medicinetd' , 'dosagetd' , 'unittd', 'daystd' , 'actiontd'];
@@ -134,7 +140,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
   localStrgPcode = "";
   localStrgRid;
 
-    constructor(private router:Router, private commonService:CommonService, private symptomdiseaseService:SymptomdiseaseService , private datashareService:DatashareService , private patientService:PatientService , public dialog: MatDialog) {
+    constructor(private router:Router, private commonService:CommonService, private symptomdiseaseService:SymptomdiseaseService , private datashareService:DatashareService , private patientService:PatientService , public dialog: MatDialog, public snackBar: MatSnackBar) {
    
       this.presciptionForm = new FormGroup({
         symptomsMultiCtrl: new FormControl(''),
@@ -252,6 +258,8 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
     /** Subject that emits when the component has been destroyed. */
     private _onDestroy = new Subject<void>();
   
+  
+
     ngOnInit() {
 
       /*
@@ -1066,17 +1074,17 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         {
           "ctrlname" : "symptomCtrl",
           "inputtyep" : "text",
-          "placeholder" : "Symptom Name"
-        },
-        {
-          "ctrlname" : "symptomGrpCtrl",
-          "inputtyep" : "select",
-          "placeholder" : "Symptom Group"
+          "placeholder" : "Symptom Name *",
+           "defaultdata" : null
         }
+        
       ];
 
+
+   
+
       let formCtrlInilize = {
-        symptomCtrl : new FormControl(),
+        symptomCtrl : new FormControl('',Validators.required),
         symptomGrpCtrl: new FormControl(),
       }
 
@@ -1086,18 +1094,21 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         data:  {
           fielddatas : fields,
           initializeField:formCtrlInilize,
-         // msg : 'OPD Saved Successfully',
-         // msgicon : 'check_circle',
           iconcolor: '#1d8c3d',
           tbl : 'symptoms',
           datafrom : 'SYMPTOMS',
           heading:'Add Symptoms'
-         // btnurl : 'panel/todaysreg'
+        
           }
       });
     
       dialogRef.afterClosed().subscribe(result => {
-        this.getSymptoms();
+   
+
+        if(result.from=="Save") {
+          this.openSnackBar("Symptom Added successfully");
+          this.getSymptoms();
+        }
       });
     }
 
@@ -1110,7 +1121,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         {
           "ctrlname" : "diagonosisNameCtrl",
           "inputtyep" : "text",
-          "placeholder" : "Diagonosis Name"
+          "placeholder" : "Diagonosis Name *"
         },
         {
           "ctrlname" : "accociatedIcdCtrl",
@@ -1120,7 +1131,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
       ];
 
       let formCtrlInilize = {
-        diagonosisNameCtrl : new FormControl(),
+        diagonosisNameCtrl : new FormControl('',Validators.required),
         accociatedIcdCtrl: new FormControl(),
       }
 
@@ -1130,21 +1141,35 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         data:  {
           fielddatas : fields,
           initializeField:formCtrlInilize,
-         // msg : 'OPD Saved Successfully',
-         // msgicon : 'check_circle',
           iconcolor: '#1d8c3d',
           tbl : 'diagonosis',
           datafrom : 'DIAGONOSIS',
           heading:'Add Diagnosis'
-         // btnurl : 'panel/todaysreg'
-          }
+         }
       });
     
       dialogRef.afterClosed().subscribe(result => {
           //this.getDiseaseList(this.presciptionForm.get("symptomsMultiCtrl").value);
-          this.getDiseaseList(this.presciptionForm.get('symptomsMultiCtrl'));
+          if(result.from=="Save") {
+            this.openSnackBar("Diagnosis Added successfully");
+            this.getDiseaseList(this.presciptionForm.get('symptomsMultiCtrl'));
+          }
       });
 
     }
+
+
+
+
+    openSnackBar(msg) {
+      let config = new MatSnackBarConfig();
+      config.duration = 3000;
+      this.snackBar.open(msg, "", config);
+     
+    }
+
+
+
+
     
 }

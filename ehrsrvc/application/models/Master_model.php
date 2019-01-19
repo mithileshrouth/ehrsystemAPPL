@@ -5,6 +5,47 @@ if (! defined('BASEPATH'))
 class Master_model extends CI_Model
 {
 
+    /**
+     * @By Mithilesh
+     * @date 19.01.2019
+     * @desc get Master data according to table  
+     */
+    public function getMasterData($table) {
+        /**
+         * optionID = alias for common use of dropdown ID
+         * optionName = alias for common use of dropdown Value
+         */
+      
+
+        $data = [];
+        if(isset($table)) {
+            if($table=="group") {
+                $query = $this->db->select("group.id AS optionID , group.name AS optionName")
+                             ->from($table) 
+                             ->order_by("group.name")
+                             ->get();
+             }
+         /**
+          * Make more elseif If it is required
+          * elseif($table==""){ }
+          */
+             
+            if($query->num_rows() > 0 ) {
+             $data = $query->result();
+            }
+
+            return $data;
+        }
+        else {
+            // return blank data
+            return $data;
+        }
+        
+      
+        
+    }
+
+
     public function saveCommonMastDatas($request,$hospital_id) {
       /*  echo "Model";
         echo "<pre>";
@@ -55,12 +96,12 @@ class Master_model extends CI_Model
 
         try {
 
-            /*
+           /*
             echo "Model";
             echo "<pre>";
             print_r($insertDataArry);
             echo "</pre>";
-            */
+         */
             
 
             $this->db->insert($tablename , $insertDataArry); 

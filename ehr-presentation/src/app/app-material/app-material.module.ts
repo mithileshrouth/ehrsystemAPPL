@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatToolbarModule, MatSidenavModule, MatListModule ,MatMenuModule , MatNativeDateModule ,MatSortModule , MatPaginatorModule, MatButtonToggleModule, DateAdapter, MatChipsModule   } from '@angular/material';
+import { MatToolbarModule, MatSidenavModule, MatListModule ,MatMenuModule , MatNativeDateModule ,MatSortModule , MatPaginatorModule, MatButtonToggleModule, DateAdapter, MatChipsModule, MatProgressBarModule, MatTooltipModule, MatSnackBarModule   } from '@angular/material';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -23,6 +23,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatBadgeModule } from '@angular/material/badge';
 import { DateFormat } from '../date-format';
+
+
 
 
 
@@ -60,7 +62,10 @@ import { DateFormat } from '../date-format';
     NgxMatSelectSearchModule,
     MatButtonToggleModule,
     MatBadgeModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+    MatSnackBarModule
     
     
   ],
@@ -95,7 +100,10 @@ import { DateFormat } from '../date-format';
     NgxMatSelectSearchModule,
     MatButtonToggleModule,
     MatBadgeModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule,
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   providers: [
     { 

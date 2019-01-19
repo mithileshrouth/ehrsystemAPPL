@@ -102,7 +102,7 @@
 
                 </section>
 
-
+      
 
 
                 <section class="prescription">
@@ -128,7 +128,7 @@
                                         </mat-form-field> -->
 
                                         
-                                            <mat-form-field class="fullwidthinp" style="width:90%">
+                                            <mat-form-field class="fullwidthinp" style="width:95%">
                                                     <mat-select formControlName="symptomsMultiCtrl" placeholder="Signs And Symptoms" [multiple]="true" #multiSelect (selectionChange)="getDiseaseList($event)">
                                                         <ngx-mat-select-search formControlName="symptomsMultiFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]=" 'No Records Found' " ></ngx-mat-select-search>
                                                         <mat-option *ngFor="let symptom of filteredSymptomMulti | async" [value]="symptom" >
@@ -137,16 +137,16 @@
                                                     </mat-select>
                                             </mat-form-field>
 
-                                            <div style="width:10%;float: right;margin-top: 4px;">
-                                                    <button mat-icon-button type="button" color="warn" (click)="openSignSymptomsEntryDialog()">
-                                                            <mat-icon aria-label="Signs">enhanced_encryption</mat-icon>
+                                            <div style="width:5%;float: right;margin-top: 4px;">
+                                                    <button mat-icon-button type="button"  (click)="openSignSymptomsEntryDialog()"  matTooltip="+ Add Symptom">
+                                                            <mat-icon aria-label="Signs">plus_one</mat-icon>
                                                     </button>
                                             </div>
 
                                   
  
 
-                                        <mat-form-field class="fullwidthinp" style="width:90%">
+                                        <mat-form-field class="fullwidthinp" style="width:95%">
                                             <mat-select formControlName="diagnosisMultiCtrl" placeholder="Diagnosis List" [multiple]="true" #multiSelect (selectionChange)="getMedicine($event)">
                                                 <ngx-mat-select-search formControlName="diagnosisMultiFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
                                                 <mat-option *ngFor="let diagnosis of filteredDiagnosisMulti | async" [value]="diagnosis">
@@ -154,9 +154,9 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
-                                        <div style="width:10%;float: right;margin-top: 4px;">
-                                                <button mat-icon-button type="button" color="warn" (click)="openDiagnosisEntryDialog()">
-                                                        <mat-icon aria-label="Symptoms">plus_one</mat-icon>
+                                        <div style="width:5%;float: right;margin-top: 4px;">
+                                                <button mat-icon-button type="button" color="warn" (click)="openDiagnosisEntryDialog()" matTooltip="+ Add Diagnosis">
+                                                        <mat-icon aria-label="Diagnosis">plus_one</mat-icon>
                                                 </button>
                                         </div>
 
@@ -415,5 +415,3 @@
     </div>
     <!--end of search container-->
 </div>
-
-

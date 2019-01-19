@@ -150,5 +150,17 @@ export class CommonService {
   }
 
 
+  getMasterInfo(tbl) {
+    let data = JSON.stringify({datas:tbl});
+    return new Promise(resolve => {
+       this.http.post(this.global.getmasterTblData_URL,data).subscribe(data => {
+         resolve(data);
+       }, err => {
+         console.log(err);
+       });
+    });
+  }
+
+
 
 }
