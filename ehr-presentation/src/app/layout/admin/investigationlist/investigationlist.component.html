@@ -1,0 +1,60 @@
+<div id="investigationlistPage">
+
+  <div class="wraper-container">
+    <div class="search-container">
+        <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+            
+          <div class="invsearchTabs" fxFlex="90%">
+                    <mat-toolbar style="background: transparent;justify-content: center;"> 
+                            <h4 class="card_title"> Investigation List</h4>
+                    </mat-toolbar>
+
+                    <div class="invtables">
+                      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 reglisttable">
+
+                        <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+                      
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="slno">
+                          <th mat-header-cell *matHeaderCellDef style="width:20%;"> Sl No. </th>
+                          <td mat-cell *matCellDef="let row; let i =index;">{{i+1}}  </td>
+                        </ng-container>
+                      
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="investigation_name">
+                          <th mat-header-cell *matHeaderCellDef style="width:20%;"> Test Name </th>
+                          <td mat-cell *matCellDef="let row">{{row.investigation_name}} </td>
+                        </ng-container>
+
+                         <!-- Name Column -->
+                         <ng-container matColumnDef="investigation_id">
+                          <th mat-header-cell *matHeaderCellDef style="width:20%;"> Action </th>
+                          <td mat-cell *matCellDef="let row">
+                           
+                            <button type="button" mat-flat-button color="primary" class="prescriptionBtn customeblockBtn" (click)="getInvEditDetail($event,row)" id="invRowBtn_{{row.investigation_id}}">
+                              Edit
+                          </button>
+                          </td>
+                        </ng-container>
+
+                       
+                
+                      
+                        
+                      
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+                      
+                      
+                    </div>
+
+
+           </div>
+ 
+
+
+
+
+</div>

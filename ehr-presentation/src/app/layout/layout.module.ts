@@ -12,6 +12,7 @@ import { OkdialogComponent } from './components/dialog/okdialog/okdialog.compone
 import { SuccessdialogComponent } from './components/successdialog/successdialog.component';
 import { ConfirmationdischargeComponent } from  './components/confirmationdischarge/confirmationdischarge.component';
 import { MasterentrydialogComponent } from './components/masterentrydialog/masterentrydialog.component';
+import { SymptomsdialogComponent } from './admin/components/symptomsdialog/symptomsdialog.component';
 
 
 
@@ -24,7 +25,7 @@ import { MasterentrydialogComponent } from './components/masterentrydialog/maste
         ReactiveFormsModule
        
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent  ],
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SymptomsdialogComponent  ],
     entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent ]
  
 })

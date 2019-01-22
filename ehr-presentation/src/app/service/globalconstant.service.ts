@@ -124,6 +124,56 @@ export class GlobalconstantService {
   public masterDataSave_URL = this.APIURL+"master/saveCommonMastDatas";
   public getmasterTblData_URL = this.APIURL+"master/getMasterInfos";
 
+// Group
+public groupList_URL = this.APIURL+"master/getGroup";
+
+
+
+  /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ INVESTIGATION URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+
+  public insertINV_URL = this.APIURL+"investigation/insertIntoInvestigation";
+  public updateINV_URL = this.APIURL+"investigation/updateInvestigation";
+  public invList_URL = this.APIURL+"investigation/getInvestigationList";
+
+   /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ DIAGONOSIS URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+
+  public insertDIAG_URL = this.APIURL+"diagonosis/insertIntoDiagonosis";
+  public updateDIAG_URL = this.APIURL+"diagonosis/updateDiagonosis";
+  public diagList_URL = this.APIURL+"diagonosis/getDiagonosisList";
+  public diagData_URL = this.APIURL+"diagonosis/getDiagonosisDataById";
+
+  /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ SYMPTOMS URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+
+  public insertSYMP_URL = this.APIURL+"symptoms/insertIntoSymptoms";
+  public sympList_URL = this.APIURL+"symptoms/getSymptomsList";
+
+
+  /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ FILE UPLOAD URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+
+  public excelvalidation_URL = this.APIURL+"fileimport/insertIntoTemp";
+  public insertEMP_URL = this.APIURL+"Fileimport/insertIntoEmployee";
+
+
   getApiURL(){
     return this.APIURL;
   }

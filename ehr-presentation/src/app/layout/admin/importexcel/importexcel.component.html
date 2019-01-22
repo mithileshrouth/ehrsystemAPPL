@@ -1,0 +1,32 @@
+<p>
+  importexcel works!
+</p>
+
+
+
+
+
+  <div style="text-align:center">
+   <!-- <form [formGroup]="excelImportForm" (ngSubmit)="onSubmit(excelImportForm.value)">
+    <input type="file"  formControlName="fileNameCtrl" id="selectFile" name="selectFile">
+    <section id="testSubmitBlock">
+      <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+          <button mat-flat-button color="primary" class="phrmcybtn"  (click)="onSubmit()"> Upload</button>
+      </div>
+  </section>
+    </form> -->
+
+    <input type="file" name="employeefile" id="employeefile" (change)="upload($event.target.files)" />
+     <br />
+    
+   <!--<ng-container *ngIf="uploadSuccess">
+      Upload Successful
+    </ng-container> --> 
+
+  </div> 
+
+  
+
+
+
+  

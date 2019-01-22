@@ -1,0 +1,64 @@
+
+
+<table class="table table-striped mat-elevation-z8" style="font-size: 11px;
+letter-spacing: 1px;" >
+  <thead>
+    <tr style="background-color: #5361c6; color: #f3f1ed;">
+      <th>Estate Name</th>
+      <th>Employee Code</th>
+      <th>PF No.</th>
+      <th>Employee Name</th>
+      <th>Father's Name</th>
+      <th>Division/<br>Department Name</th>
+      <th>Category</th>
+      <th>DOB</th>
+      <th>DOJ</th>
+      <th>Age</th>
+      <th>Year Of Service</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let excelrow of employeeList; let i = index">
+       <!-- <div *ngIf="(excelrow.estate_name.error);else i">
+            <td class="errorcell"> {{excelrow.estate_name.value}} </td> 
+            </div>
+            <ng-template #i><td class="errorcell"><td>{{excelrow.estate_name.value}}</td></ng-template>-->
+        <td>{{excelrow.estate_name.value}}</td>
+      <td>{{excelrow.employee_code.value}}</td>
+      <td>{{excelrow.pf_no.value}}</td>
+      <td>{{excelrow.employee_name.value}}</td>
+      <td>{{excelrow.father_name.value}}</td>
+      <td>{{excelrow.division_or_departm.value}}</td>
+      <td>{{excelrow.category.value}}</td>
+      <td>{{excelrow.dob.value}}</td>
+      <td>{{excelrow.doj.value}}</td>
+      <td align="center">{{excelrow.age.value}}</td>
+      <td align="center">{{excelrow.year_of_service.value}}</td>
+    
+    </tr>
+   
+  </tbody>
+</table>
+
+<section id="SubmitBlock">
+  <div *ngIf="this.isButtonVisible" (click)="this.isButtonVisible = false" class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+      <button  mat-flat-button color="primary" class="phrmcybtn" type="button" (click)="saveData()"> Save</button>
+  </div>
+
+
+</section>
+
+<section id="SubmitBlock" *ngIf="this.msg" (click)="this.msg = false">
+
+    <mat-toolbar>
+
+        <div style="width:100%;float: right;text-align:right;">
+          <b style="margin-right:245px;">{{messagetext}}</b>
+            <button mat-flat-button color="primary"  style="width:10%;" (click)="redirectToComp()" type="button" >Close</button>
+         
+        </div>
+    </mat-toolbar>
+
+
+
+</section>

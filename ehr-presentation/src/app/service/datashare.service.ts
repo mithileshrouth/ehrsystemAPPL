@@ -15,6 +15,10 @@ export interface ipdDischargeRowData {
   objIPDDischargeSingledata : any;
 }
 
+export interface invRowData {
+  objINVSingledata : any;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +33,7 @@ export class DatashareService {
   prescriptionsingleRow : prescriptionData = { objPresSingledata : "" };
   ipdRegSingleRow : ipdRowData = { objIPDSingledata : "" };
   ipddischargeSingleRow : ipdDischargeRowData = { objIPDDischargeSingledata : "" };
+  invSingleRow : invRowData = { objINVSingledata : "" };
 
   saveData(obj){
     this.sharingData.objPatient = obj; 
@@ -60,6 +65,14 @@ export class DatashareService {
 
   getIPDDischargeRowData(){
     return this.ipddischargeSingleRow.objIPDDischargeSingledata;
+  }
+
+  setINVRowData(obj){
+    this.invSingleRow.objINVSingledata = obj;
+  }
+
+  getINVRowData(){
+    return this.invSingleRow.objINVSingledata;
   }
 
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { GlobalconstantService } from './globalconstant.service';
 import { resolve } from 'url';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -161,6 +162,224 @@ export class CommonService {
     });
   }
 
+  getGroup() {
+    return new Promise(resolve => {
+       this.http.get(this.global.groupList_URL).subscribe(data => {
+         resolve(data);
+       }, err => {
+         console.log(err);
+       });
+    });
+  }
+  
+
+ 
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Inser test name into Investigation table
+ */
+  insertIntoInvestigation(formval) {
+    let datas = JSON.stringify({fdata:formval});
+    return new Promise(resolve => {
+      this.http.post(this.global.insertINV_URL,datas).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+   });
+  }
+
+/**
+ * @author Shankha Ghosh
+ * @description get Investigation List
+ */
+getTestList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.invList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update investagation data by investagation_id
+ */
+updateInvestigation(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateINV_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+  
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert diagonosis into diagonosis table
+ */
+
+
+insertIntoDiagonosis(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertDIAG_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @description get Diagonosis List
+ */
+getDiagonosisList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.diagList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @description get Diagonosis Data by Id
+ */
+getDiagonosisDataById(data) {
+ // console.log(data);
+  let datas = JSON.stringify({data:data});
+  return new Promise(resolve => {
+    
+      this.http.post(this.global.diagData_URL,datas).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update Diagonosis data by diagonosis_id
+ */
+updateDiagonosis(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateDIAG_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @description get symptoms List
+ */
+getSymptomsList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.sympList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert symptoms into symptoms table
+ */
+
+
+insertIntoSymptoms(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertSYMP_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description file upload excel
+ */
+uploadFile(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.excelvalidation_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+/**
+ * 
+ * @param formdata 
+ */
+public uploadImage(formdata:any){
+ // let datas = JSON.stringify({fdata:formdata});
+  
+  return this.http.post(this.global.excelvalidation_URL,formdata)
+  .catch((err) => {
+                
+    // Do messaging and error handling here
+
+    return Observable.throw(err)
+  });
+
+  }
+
+  basicUpload(files: File[]){
+    console.log('Files')
+    console.log(files);
+    var formData = new FormData();
+    Array.from(files).forEach(f => formData.append('file', f))
+    return new Promise(resolve => {
+    this.http.post(this.global.excelvalidation_URL, formData)
+      .subscribe(event => {  
+        console.log('done')
+      })
+    });
+  }
+
+
+  /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert diagonosis into diagonosis table
+ */
+
+
+insertIntoEmployee(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertEMP_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
 
 
 }

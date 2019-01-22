@@ -20,6 +20,14 @@ const routes: Routes = [
             { path:'ipdvisit', loadChildren:'./ipdvisit/ipdvisit.module#IpdvisitModule'},
             { path:'ipdlist', loadChildren:'./ipdlist/ipdlist.module#IpdlistModule'},
             { path:'discharge', loadChildren:'./ipddischarge/ipddischarge.module#IpddischargeModule'},
+            { path:'test', loadChildren:'./admin/investigation/investigation.module#InvestigationModule'},
+            { path:'testlist', loadChildren:'./admin/investigationlist/investigationlist.module#InvestigationlistModule'},
+            { path:'diagonosis', loadChildren:'./admin/diagonosis/diagonosis/diagonosis.module#DiagonosisModule'},
+            { path:'diagonosislist', loadChildren:'./admin/diagonosis/diagonosislist/diagonosislist.module#DiagonosislistModule'},
+            { path:'excel', loadChildren:'./admin/importexcel/importexcel.module#ImportexcelModule'},
+            { path:'symptoms', loadChildren:'./admin/symptoms/symptoms/symptoms.module#SymptomsModule'},
+            { path:'symptomslist', loadChildren:'./admin/symptoms/symptomslist/symptomslist.module#SymptomslistModule'},
+
            
 
             { path:'sickapproval', loadChildren:'./sickleaveapproval/sickleaveapproval.module#sickleaveapprovalModule'} ,  
