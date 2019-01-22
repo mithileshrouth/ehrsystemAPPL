@@ -16,6 +16,7 @@ import { SymptomsdialogComponent } from './admin/components/symptomsdialog/sympt
 
 
 
+
 @NgModule({
     imports: [
         CommonModule,
@@ -25,7 +26,7 @@ import { SymptomsdialogComponent } from './admin/components/symptomsdialog/sympt
         ReactiveFormsModule
        
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SymptomsdialogComponent  ],
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SymptomsdialogComponent,  ],
     entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent ]
  
 })

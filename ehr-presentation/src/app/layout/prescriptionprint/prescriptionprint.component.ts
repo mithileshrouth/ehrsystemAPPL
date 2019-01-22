@@ -154,7 +154,7 @@ doc.save('sample Report.pdf');
     }
 
 
-
+/*
     pdf3(){
      
       let l = {
@@ -193,7 +193,7 @@ doc.save('sample Report.pdf');
       
         doc.save("table.pdf");
      
-    }
+    } */
 
 
     downloadPdf() {
