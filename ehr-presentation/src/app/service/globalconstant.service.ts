@@ -11,10 +11,12 @@ export class GlobalconstantService {
   //private APIURL = "http://192.168.2.10/ehrsystem/ehrsrvc/";
   //private APIURL = "http://127.0.0.1:8011/ehrsystem/ehrsrvc/";
   //private APIURL = "http://127.0.0.1/ehrsystem/ehrsrvc/";
-  private APIURL = "http://127.0.0.1:8088/ehrsystemAPPL/ehrsrvc/";
+  // private APIURL = "http://127.0.0.1:8088/ehrsystemAPPL/ehrsrvc/";
  // private APIURL =  "http://13.234.41.243/devehrsystem/ehrsrvc/";
   //private APIURL = "http://medewise.com/medehr/";
   // private APIURL = "http://softhought.com/medewise/ehrsrvc/";
+
+  private APIURL =  "http://13.234.41.243/ehr/ehrsrvc/";
   private APIKEY = "24ecdccb1258eaacfd441e012ac034392403c692";
 
   // URL INFO
@@ -113,7 +115,8 @@ export class GlobalconstantService {
 
   public ipdPatientVisitHistory_URL = this.APIURL+"ipd/getIpdPatientVisitHistory";
   public opdPatientPrescHistory_URL = this.APIURL+"opd/getOpdPatientPrescHistory";
-
+  
+  public opdipdPrescPrint_URL = this.APIURL+"ipd/getOpdIpdPrescPrint";
 
   public vaccinationScheduleList_URL = this.APIURL+"master/getVaccinationSchedule";
   public vaccinListByschedule_URL = this.APIURL+"master/getPatientVaccinListBySchedule";

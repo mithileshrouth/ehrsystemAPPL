@@ -1,9 +1,10 @@
 //import { Component, OnInit } from '@angular/core';
 import * as jsPDF from 'jspdf';
-import { Component, Input, OnInit, Inject } from '@angular/core';
+import { Component, Input, OnInit, Inject , ViewChild , ElementRef } from '@angular/core';
 //declare let jsPDF;
 import * as $ from "jquery";
 import 'jspdf-autotable';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-prescriptionprint',
@@ -11,7 +12,7 @@ import 'jspdf-autotable';
   styleUrls: ['./prescriptionprint.component.css']
 })
 export class PrescriptionprintComponent implements OnInit {
-
+  @ViewChild('test') el: ElementRef;
   constructor() { }
 
   ngOnInit() {
@@ -202,5 +203,36 @@ doc.save('sample Report.pdf');
          doc.save("obrz.pdf");
       });
   }
+
+  margins = {
+    top: 70,
+    bottom: 40,
+    left: 30,
+    width: 550
+  };
+  
+abc(){
+  
+  var pdf = new jsPDF('p', 'pt', 'a4');
+  pdf.setFontSize(18);
+  pdf.fromHTML(document.getElementById('html-2-pdfwrapper'), 
+    30, // x coord
+    70,
+    {
+      // y coord
+      width: 550// max width of content on PDF
+    },function(dispose) {
+      //headerFooterFormatting(pdf)
+    }, 
+    this.margins);
+    
+  var iframe = document.createElement('iframe');
+  iframe.setAttribute('style','z-index:9999;position:absolute;left:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
+  
+  document.body.appendChild(iframe);
+  
+  iframe.src = pdf.output('datauristring');
+}
+
 
 }

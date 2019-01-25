@@ -33,7 +33,7 @@ class Symptom_model extends CI_Model{
      * @author Mithilesh Routh
      * @return $data
      * @desc get all symptoms list
-	 * @used in controller -- opd
+	* @used in controller -- opd,ipd_model
      */
 	public function getSymptomsDataByIds($symptoms , $hospital_id){
 		
