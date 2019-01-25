@@ -1,3 +1,8 @@
+#ipdListPage .navBtn button{
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
 .patientsearchTabs .mat-icon {
     padding-right: 5px;
 }

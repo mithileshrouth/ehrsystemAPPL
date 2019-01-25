@@ -27,6 +27,13 @@ export class IpdvisithistordialogComponent implements OnInit {
   iconColor:string;
   redirectUrl:string;
 
+  color = 'primary';
+  mode = 'determinate';
+  value = 50;
+
+  isContentLoaded = false;
+  isRecordFoundFound = true;
+
 
   visitHistoryList = [];
   medicineRowsData = [];
@@ -53,13 +60,21 @@ export class IpdvisithistordialogComponent implements OnInit {
     let pdata;
     
     this.ipdService.getIpdPatientVisitHistory(patientID,ipdAdmsID).then(data => {
+      this.isRecordFoundFound = false;
       response = data;
       if(response.msg_status==200) {
+        this.isContentLoaded = true;
         pdata = response.result ; 
+        if(this.visitHistoryList.length > 0){
+          this.isRecordFoundFound = true;
+        }
+        else{
+          this.isRecordFoundFound = false;
+        }
         this.visitHistoryList.push(pdata);
     }
     else{
-       
+      this.isContentLoaded = false;
       }
      },
 

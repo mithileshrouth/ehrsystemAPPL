@@ -14,6 +14,8 @@ import { SuccessdialogComponent } from '../components/successdialog/successdialo
 import { IpdService } from './../../service/ipd.service';
 //import { ConfirmationdialogComponent } from '../components/confirmationdialog/confirmationdialog.component';
 import { ConfirmationdischargeComponent } from '../components/confirmationdischarge/confirmationdischarge.component';
+import { SuccessdialogwithprintComponent } from '../components/successdialogwithprint/successdialogwithprint.component';
+
 
 
 
@@ -621,12 +623,16 @@ export class IpddischargeComponent implements OnInit {
         this.ipdService.saveDischargeIPD(formdata,this.addedMeddata).then(data => {
           response = data;
           if(response.msg_data == "SUCCESS" && response.msg_status == "200"){
-            this.openDialog();
+            let presdata =  response.result;
             this.ipdDischargeForm.reset();
             this.addedMeddata = [];
             
             localStorage.removeItem("dischipdadmissionID");
             localStorage.removeItem("dischipdpatientID");
+            //this.openDialog();
+            this.openDialogWithPdfPreview(presdata.prescription,presdata.healthprfl,'I','DISCHARGE');
+
+
           }
           else{
             this.openDialogError();
@@ -674,6 +680,11 @@ export class IpddischargeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
     
     });
+  }
+
+
+  backToIpdList() {
+    this.router.navigateByUrl('panel/ipdlist');
   }
 
 
@@ -775,6 +786,28 @@ openConfirmationDialog(delid) {
    
   });
 
+}
+
+
+
+openDialogWithPdfPreview(id,hid,ipdopd,callfrom) {
+  let idinfo = {opdipdID:id,hlthPrflID:hid,ipdopd:ipdopd,callfrom:callfrom}
+  const dialogRef = this.dialog.open(SuccessdialogwithprintComponent, {
+    width: '850px',
+    height:'550px',
+    disableClose: true,
+    data:  {
+      msg : 'Saved Successfully',
+      msgicon : 'check_circle',
+      iconcolor: '#1d8c3d',
+      btnurl : 'panel/ipdlist',
+      savedIdRef  : idinfo
+      }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+  
+  });
 }
 
 

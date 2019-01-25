@@ -74,6 +74,7 @@ class Login  extends CI_Controller{
 			'doctor_id'=>$user->doctor_id
             ]
         ];
+        //print_r($data);
         $secreat_key = $this->config->item('enc_secrete_key');
         $jwt = JWT::encode(
         $data,      //Data to be encoded in the JWT

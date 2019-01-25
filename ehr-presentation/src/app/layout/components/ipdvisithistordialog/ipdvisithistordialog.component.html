@@ -1,12 +1,24 @@
 <div id="ipdVisithistoryPage">
+  <!--
 <div style="margin-top:-35px;margin-right:-20px;text-align: right;">
   <p> 
     <mat-icon (click)="closeDialog()">close</mat-icon>
-    <!--<button mat-mini-fab  (click)="closeDialog()" ><mat-icon  >close</mat-icon></button>-->
+    
   </p>
 </div>
+-->
 
 <div style="max-height:460px;overflow-y:scroll;margin-bottom: 6%;">
+
+    <mat-spinner class="matSpinner" *ngIf="!isContentLoaded" [value]="90"></mat-spinner>
+
+    <!--
+    <div id="norecordsFoundErr" *ngIf="!isRecordFoundFound">
+     
+      <p style="text-align: center;" > No records found</p>
+    </div>
+    -->
+    
 <mat-accordion class="ipdhistoryAccordian">
 
   <div *ngFor="let ipdhistory of visitHistoryList[0];let i = index">

@@ -203,7 +203,14 @@ class Pregnancy_model extends CI_Model {
                 return false;
             } else {
                 $this->db->trans_commit();
-                return true;
+
+                $returnData = [];
+				$returnData = [
+					"prescription" => $opd_precp_id,
+					"healthprfl" => $healthprofile_inserted_id
+                ];
+                return $returnData;
+               // return true;
             }
             
         }
@@ -341,6 +348,63 @@ class Pregnancy_model extends CI_Model {
         // echo $this->db->last_query();
         if( $query ){ return TRUE;}else{return FALSE;}
         
+    }
+
+
+    /**
+     * @By Mithilesh
+     * @date 23.01.2019
+     * @desc get given vaccin list
+     */
+
+    public function getGivenVaccinListByPrescID($presid,$opd_ipd_flag,$hospital_id) {
+        $data = [];
+        $where = [
+                "patient_vaccination.opd_ipd_id" => $presid,
+                "patient_vaccination.opd_ipd_flag" => $opd_ipd_flag,
+                "patient_vaccination.hospital_id" => $hospital_id
+                
+            ];
+        $query = $this->db->select("
+                            DATE_FORMAT(patient_vaccination.vaccin_given_date,'%d/%m/%Y') AS vaccingivenDt,
+                            vaccination_master.*
+                            ")
+							 ->from("patient_vaccination") 
+							 ->join("vaccination_master","vaccination_master.id = patient_vaccination.vaccination_master_id","INNER") 
+                             ->where($where)
+                             ->where("patient_vaccination.vaccin_given_date IS NOT NULL")
+							 ->order_by('patient_vaccination.vaccin_given_date')
+							 ->get();
+                             
+        //echo $this->db->last_query();
+        if($query->num_rows()>0){
+            $data = $query->result();
+			}
+        return $data;
+    }
+
+
+    public function getPatientPregnancyInfoByPres($presid,$opd_ipd_flag,$hospital_id) {
+        $data = [];
+        $where = [
+                "patient_pregnancy_info.opd_ipd_pres_id" => $presid,
+                "patient_pregnancy_info.opd_ipd_flag" => $opd_ipd_flag
+            ];
+        $query = $this->db->select("
+                            DATE_FORMAT(patient_pregnancy_info.lmp_date,'%d/%m/%Y') AS lastMensurationPrdDt,
+                            DATE_FORMAT( patient_pregnancy_info.estimate_delivery_date,'%d/%m/%Y') AS estimatedDelvryDt,
+                            DATE_FORMAT(patient_pregnancy_info.next_checkup_dt,'%d/%m/%Y') AS nextChkupDtPrdDt,
+                            patient_pregnancy_info.remarks
+                            ")
+							 ->from("patient_pregnancy_info") 
+							 ->where($where)
+                             ->get();
+                             
+        //echo $this->db->last_query();
+        if($query->num_rows()>0){
+            $data = $query->row();
+			}
+        return $data;
     }
     
     

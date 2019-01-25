@@ -1,3 +1,9 @@
+#ipdVisitPage .navBtn button{
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
 .blockContent {
     width: 96%;
     margin: 0 auto;

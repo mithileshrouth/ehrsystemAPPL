@@ -274,6 +274,10 @@ export class TodaysregistrationComponent implements OnInit {
     this.router.navigateByUrl('panel/sickapproval');
   }
 
+  backToIpdList() {
+    this.router.navigateByUrl('panel/doctor');
+  }
+
 
 
 

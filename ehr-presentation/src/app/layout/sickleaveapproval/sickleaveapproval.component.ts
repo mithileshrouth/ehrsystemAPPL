@@ -22,7 +22,7 @@ export class SickleaveapprovalComponent implements OnInit {
   'challan_number' ,
   'line_number' ,
   'mobile_one',
-  'no_of_days_sick'];
+  ];
   sickLeaveList=[];
   recordsFound=false;
   isButtonActive=true;
@@ -96,7 +96,7 @@ export class SickleaveapprovalComponent implements OnInit {
 
   }
 
- sickApprove(opdId,status)
+ sickApprove(rowid,status)
   {
     let sickLeaveApprovalStatus;
     let response;
@@ -105,7 +105,7 @@ export class SickleaveapprovalComponent implements OnInit {
     }else{
       sickLeaveApprovalStatus='Y'
     }
-    this.registrationService.sickApprove(opdId,sickLeaveApprovalStatus).then(
+    this.registrationService.sickApprove(rowid,sickLeaveApprovalStatus).then(
       data=>{
         response=data;
               if(response.result==1){
@@ -123,7 +123,7 @@ export class SickleaveapprovalComponent implements OnInit {
   }
   
 
-  goTodaysRegistration(){
+  backToList(){
     this.router.navigateByUrl('panel/todaysreg');
   }
 }

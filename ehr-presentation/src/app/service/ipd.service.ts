@@ -107,4 +107,21 @@ export class IpdService {
   }
 
 
+  /**
+   * Used For Both IPD & OPD Print Presc.
+   * params = opdipdmasterid,healthprofileid,opdipdType
+   */
+
+  getPrintDataForPresc(params){
+    let myData = JSON.stringify({params:params});
+     return new Promise(resolve => {
+        this.http.post(this.global.opdipdPrescPrint_URL,myData).subscribe(data => {
+          resolve(data);
+        }, err => {
+          console.log(err);
+        });
+      });
+  }
+
+
 }

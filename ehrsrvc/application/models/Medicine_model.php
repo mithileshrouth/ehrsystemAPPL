@@ -160,7 +160,7 @@ class Medicine_model extends CI_Model{
 						 ->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","INNER")
 						 ->where($where)
 						 ->get();
-		
+		//echo $this->db->last_query();
         if($query->num_rows()>0) {
             $resultdata=$query->result();
         }

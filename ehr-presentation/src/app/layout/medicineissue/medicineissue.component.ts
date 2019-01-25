@@ -334,5 +334,9 @@ export class MedicineissueComponent implements OnInit {
       });
     }
 
+    backToIpdList() {
+      this.router.navigateByUrl('panel/prescriptionlist');
+    }
+
 
 }

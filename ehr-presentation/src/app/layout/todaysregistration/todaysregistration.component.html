@@ -1,4 +1,4 @@
-<div class="wraper-container">
+<div id="opdPrepPage" class="wraper-container">
     <div class="search-container">
 
 
@@ -11,9 +11,20 @@
             <div class="patientsearchTabs" fxFlex="96%">
                     <mat-toolbar style="background: transparent;"> 
                             <h4 class="card_title"> Today's Registration</h4>
+
+                            <div style="width:100%;text-align:right;" class="navBtn">
+                                    <button mat-raised-button color="primary" class="toplink" (click)="backToIpdList()" >Back To Home </button>
+                                    &nbsp;
+                                    <button mat-raised-button color="warn" class="toplink" (click)=gotoSickLeaveApprovalList()>
+                                            <!--<i class="material-icons">event_available</i>--> Sick Leave Approval
+                                        </button>
+                                    
+                            </div>
+                            <!--
                             <button mat-raised-button color="warn" class="customeBtn" (click)=gotoSickLeaveApprovalList()>
                                 <i class="material-icons">event_available</i> Sick Leave Approval
                             </button>
+                            -->
                     </mat-toolbar>
                     
                     

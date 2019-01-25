@@ -643,11 +643,17 @@ class Patient extends CI_Controller{
         if ($client_token != "") {
             if ($client_token->jti == $server_token) {
 
+
+                $token_data = $client_token->data;
+			    $hospital_id = $token_data->hospital_id;
+			    $doctor_id = $token_data->doctor_id;
+			    $userid = $token_data->user_id;
+
                 $postdata = file_get_contents("php://input");
                 $request = json_decode($postdata);
-                $opdid = $request->opd_prescription_id;
+                $id = $request->rowid;
                 $status = $request->sick_leave_apprv;
-                $updateData = $this->patient->updateSickApprovalStatus($opdid, $status);
+                $updateData = $this->patient->updateSickApprovalStatus($id, $status ,$userid);
 
 
 

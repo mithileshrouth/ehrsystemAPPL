@@ -71,6 +71,35 @@ class Disease_model extends CI_Model{
             }
         return $resultdata;
     }
+
+
+    /**
+     * @name getDiseaseByIds
+     * @author Mithilesh Routh
+     * @return $data
+     * @desc get all symptoms list
+	 * @used in controller -- opd,ipd_model
+     */
+	public function getDiseaseByIds($disease , $hospital_id){
+		
+		$data = stringToArray($disease);
+		$resultdata = "";
+		$where = [
+			"diagonosis.hospital_id" => $hospital_id
+		];
+	
+		$query = $this->db->select("*")
+                         ->from("diagonosis") 
+						  ->where($where)
+						  ->where_in('diagonosis.diagonosis_id', $data)
+						 ->order_by('diagonosis.diagonosis_name')
+                         ->get();
+	//	echo $this->db->last_query();
+        if($query->num_rows()>0) {
+            $resultdata=$query->result();
+        }
+        return $resultdata;
+	}
     
 	
 

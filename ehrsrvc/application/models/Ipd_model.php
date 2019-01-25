@@ -292,8 +292,14 @@ class Ipd_model extends CI_Model{
 	            $this->db->trans_rollback();
 	            return false;
 	        } else {
-	            $this->db->trans_commit();
-	            return true;
+				$this->db->trans_commit();
+				$returnData = [];
+				$returnData = [
+					"prescription" => $ipd_row_id,
+					"healthprfl" => $healthprofile_inserted_id
+				];
+				return $returnData;
+	            //return true;
 	        }
 	        
 	    }
@@ -676,5 +682,57 @@ class Ipd_model extends CI_Model{
 			}
         return $patient_data;
 	}
+
+
+
+	public function getOpdIpdPrescPrint($opdipd_masterid,$opdipd_healthprofileid,$opdipd_type,$hospital_id) {
+		$data = [];
+		$where = [
+			"patient_health_profile.`patient_health_profile_id`" => $opdipd_healthprofileid,
+			"patient_health_profile.`prescription_addmission_id`" => $opdipd_masterid,
+			"patient_health_profile.`opd_ipd_flag`" => $opdipd_type
+		];
+		$query = $this->db->select("
+								  `patients`.`patient_id` as patientid,
+									patients.`patient_code`,
+									patients.`patient_name`,
+									opd_prescription.`symptom_list`,
+									opd_prescription.`diagonised_list`,
+									ipd_patient_master.instruction,
+									ipd_patient_master.discharge_summary,
+									ipd_patient_master.final_digonosis,
+									DATE_FORMAT(ipd_patient_master.next_checkup_dt,'%d/%m/%Y') AS nextChkupDtDt,
+									CASE 
+									WHEN ipd_patient_master.`admission_id` IS NOT NULL THEN ipd_patient_master.`admission_id`
+									WHEN opd_prescription.id IS NOT NULL THEN opd_prescription.`opd_prescription_id`
+									END AS prescno,
+									patient_health_profile.*
+									" , FALSE)
+							 ->from("patient_health_profile") 
+							 ->join("ipd_patient_master","patient_health_profile.prescription_addmission_id = ipd_patient_master.admission_id AND patient_health_profile.opd_ipd_flag = 'I'","LEFT")
+							 ->join("opd_prescription","opd_prescription.id = patient_health_profile.prescription_addmission_id AND patient_health_profile.opd_ipd_flag = 'O'","LEFT")
+							 ->join("patients","patients.patient_id = patient_health_profile.patient_id","INNER")
+							 ->where($where)
+							 ->order_by("patient_health_profile.date","DESC")
+							 ->limit(1)
+							 ->get();
+			//echo $this->db->last_query();		
+		if($query->num_rows()>0){
+				//$patient_data = $query->result();
+				$rows = $query->row();
+					
+						$data = [
+							"symptoms" => $this->symptom->getSymptomsDataByIds($rows->symptom_list,$hospital_id),
+							"diagnosis" => $this->disease->getDiseaseByIds($rows->diagonised_list,$hospital_id),
+							"patienthealthProfileData" => $rows,
+							"medicineDatas" => $this->medicine->getLastPrescMedicines($opdipd_masterid,$opdipd_type,$hospital_id,$rows->patient_health_profile_id),
+							"investigationsData" => $this->investigation->getLastPrescTestReports($opdipd_masterid ,$opdipd_type,$hospital_id,$rows->patient_health_profile_id)
+						];
+						
+					
+			}
+        return $data;
+	}
+
    
 }

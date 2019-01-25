@@ -453,21 +453,38 @@ class Patient_model extends CI_Model
      */
     public function getSickApprovedList()
     {
-        $resultdata = "";
-
-        // if($regDate!=""){
-        //
-        // }
-
+        $resultdata = [];
+        $today = date("Y-m-d");
+        
+        /*
         $where = [
             "opd_prescription.sick_flag" => "Y",
             "DATE_FORMAT(`opd_prescription`.`date`,'%Y-%m-%d')" => date("Y-m-d")
         ];
+
         $query = $this->db->select("opd_prescription.*,patients.*")
             ->from("opd_prescription")
             ->join("patients", "opd_prescription.patient_id=patients.patient_id")
             ->where($where)
             ->get();
+
+        */
+
+
+        $where = [
+            
+             "DATE_FORMAT(`patient_sickleave_detail`.`applied_for_date`,'%Y-%m-%d')" => $today
+        ];
+
+        $query = $this->db->select("
+                        patient_sickleave_detail.*,
+                        patients.*")
+            ->from("patient_sickleave_detail")
+            ->join("patients", "patient_sickleave_detail.patient_id=patients.patient_id")
+            ->where($where)
+            ->get();
+
+
         if ($query->num_rows() > 0) {
             $resultdata = $query->result();
         }
@@ -478,16 +495,20 @@ class Patient_model extends CI_Model
      *
      * @param type $request
      */
-    public function updateSickApprovalStatus($opdid, $status)
+    public function updateSickApprovalStatus($id, $status ,$userid)
     {
         $rsltSt = FALSE;
         try {
             $this->db->trans_begin();
 
-            $this->db->where("opd_prescription_id", $opdid);
-            $this->db->update("opd_prescription", array(
-                'sick_leave_apprv' => $status
-            ));
+            $updAry = [
+
+                "patient_sickleave_detail.is_approved" => $status,
+                "patient_sickleave_detail.approved_by" => $userid,
+                "patient_sickleave_detail.approved_on" => date("Y-m-d H:i:s")
+            ];
+            $this->db->where("patient_sickleave_detail.id", $id);
+            $this->db->update("patient_sickleave_detail", $updAry);
 
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
@@ -513,10 +534,10 @@ class Patient_model extends CI_Model
         }
 
         $where = [
-            "DATE_FORMAT(`opd_prescription`.`date`,'%Y-%m-%d')" => $searchDate
+            "DATE_FORMAT(`patient_sickleave_detail`.`applied_for_date`,'%Y-%m-%d')" => $searchDate
         ];
         $query = $this->db->select("COUNT(*)as cnt")
-            ->from("opd_prescription")
+            ->from("patient_sickleave_detail")
             ->where($where)
             ->get();
         // echo($this->db->last_query());
@@ -539,11 +560,11 @@ class Patient_model extends CI_Model
         }
 
         $where = [
-            "DATE_FORMAT(`opd_prescription`.`date`,'%Y-%m-%d')" => $searchDate,
-            "opd_prescription.sick_leave_apprv" => 'Y'
+            "DATE_FORMAT(`patient_sickleave_detail`.`applied_for_date`,'%Y-%m-%d')" => $searchDate,
+            "patient_sickleave_detail.is_approved" => 'Y'
         ];
         $query = $this->db->select("COUNT(*)as cnt")
-            ->from("opd_prescription")
+            ->from("patient_sickleave_detail")
             ->where($where)
             ->get();
         // echo($this->db->last_query());

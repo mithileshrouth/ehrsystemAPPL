@@ -223,7 +223,13 @@ class Vaccination_model extends CI_Model{
                return false;
            } else {
                $this->db->trans_commit();
-               return true;
+               $returnData = [];
+				$returnData = [
+					"prescription" => $opd_precp_id,
+					"healthprfl" => $healthprofile_inserted_id
+                ];
+                return $returnData;
+               //return true;
            }
            
        }

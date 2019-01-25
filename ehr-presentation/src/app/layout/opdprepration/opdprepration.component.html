@@ -219,7 +219,7 @@
                                                         </mat-form-field>
                                                     </th>
                                                     <th>
-                                                        <button type="button" mat-mini-fab color="primary" (click)="addMedicine()"><mat-icon class="addicon">add_circle</mat-icon></button>
+                                                        <button type="button" mat-mini-fab color="primary" type="button" (click)="addMedicine()"><mat-icon class="addicon">add_circle</mat-icon></button>
                                                     </th>
 
                                                 </tr>
@@ -248,8 +248,17 @@
 
                                     <mat-divider [vertical]="true"></mat-divider>
 
-                                    <div fxFlex="40%">
-                                        <h4 class="blockheading">Add Investigations/Tests</h4>
+                                    <div fxFlex="35%">
+                                        <h4 class="blockheading">Add Tests
+                                                <!--<div style="width:5%;float: right;margin-top: 4px;">
+                                                        <button mat-icon-button type="button" color="warn" (click)="openInvestigationEntryDialog()" matTooltip="+ Add Test">
+                                                                <mat-icon aria-label="Diagnosis">plus_one</mat-icon>
+                                                        </button>
+                                                </div>-->
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <span (click)="openInvestigationEntryDialog()" matTooltip="+ New Test" color="warn" style="color: #FF2616;font-size: 12px;cursor:pointer;">+ New Test</span>  
+                                        </h4>
                                         <p style="color:#F00;text-align: right;">{{testReportError}}</p>
                                         <div class="patient_investigation">
 
@@ -257,12 +266,13 @@
 
                                             <table style="width:100%;" class="cutomTbl" cellspacing="0" cellpadding="0">
                                                 <tr>
-                                                    <th>Date</th>
+                                                    <!--<th>Date</th>-->
                                                     <th>Report</th>
                                                     <th>Action</th>
                                                 </tr>
 
                                                 <tr>
+                                                    <!--
                                                     <th style="width: 30%;">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker2" placeholder="" formControlName="investigationDt">
@@ -270,6 +280,7 @@
                                                             <mat-datepicker #picker2></mat-datepicker>
                                                         </mat-form-field>
                                                     </th>
+                                                    -->
 
                                                     <th style="width: 60%;">
                                                         <mat-select formControlName="reportsCtrl" placeholder="Reports" #singleSelect (selectionChange)="clearTestError($event)">
@@ -287,7 +298,7 @@
                                                 </tr>
 
                                                 <tr *ngFor="let addedinv of addedInvestigations;">
-                                                    <td>{{addedinv.invdate | date:'dd/MM/yyyy' }}</td>
+                                                   <!-- <td>{{addedinv.invdate | date:'dd/MM/yyyy' }}</td>-->
                                                     <td>{{addedinv.reports.name}}</td>
 
                                                     <td>
@@ -300,7 +311,11 @@
 
                                             </table>
 
+                                            
+
                                         </div>
+
+                                        
 
                                         <!--
                                         <h4 class="blockheading">Report Upload</h4>
@@ -351,7 +366,7 @@
                                             </div>
                                             <div fxFlex="70%">
                                                 <mat-form-field style="width:100%;" >
-                                                    <mat-select formControlName="reffHospitalCtrl" placeholder="" #singleSelect [style.display]="none">
+                                                    <mat-select formControlName="reffHospitalCtrl" placeholder="" #singleSelect >
                                                         <ngx-mat-select-search formControlName="reffHospitalFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
                                                        
                                                         <mat-option *ngFor="let reports of filteredHospitals | async" [value]="reports">
@@ -373,7 +388,7 @@
                                     <div fxFlex="20%">
                                         <p style="color:#F00;text-align: right;padding-right: 10px;">{{validFormErr}}</p>
                                         <button mat-flat-button color="warn" class="" type="button" (click)="resetPresForm();">+ New</button>
-                                        <button mat-flat-button color="primary" class="phrmcybtn" type="submit" *ngIf="sendPhrmcyBtnActive" >Send To Pharmacy</button>
+                                        <button mat-flat-button color="primary" class="phrmcybtn" type="submit" *ngIf="sendPhrmcyBtnActive" >Save</button>
                                        
                                         <button mat-flat-button color="default" class="phrmcybtn" *ngIf="!sendPhrmcyBtnActive" style="vertical-align: middle;padding: 4px 0;" type="button">
                                             <mat-spinner [diameter]="25" color="primary" ></mat-spinner>
@@ -415,3 +430,4 @@
     </div>
     <!--end of search container-->
 </div>
+

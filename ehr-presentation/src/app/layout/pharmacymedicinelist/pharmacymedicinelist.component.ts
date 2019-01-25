@@ -35,14 +35,18 @@ export class PharmacymedicinelistComponent implements OnInit {
 
 
   displayedColumns: string[] = [
-  'action',
-  'patient_code',
-  'patient_name',
-  'mobile_one'
+    'action',
+    'prescription_No',
+    'prescDate',
+    'patient_code',
+    'patient_name',
+    'mobile_one'
 ];
 
 displayedColumnsIPD: string[] = [
   'action',
+  'prescription_ID',
+  'prescDate',
   'patient_code',
   'patient_name',
   'mobile_one'

@@ -47,9 +47,9 @@ export class RegistrationService {
     
   }
 
-  sickApprove(opdid,status){
+  sickApprove(rowid,status){
    
-    let myData = JSON.stringify({opd_prescription_id:opdid,sick_leave_apprv:status});
+    let myData = JSON.stringify({rowid:rowid,sick_leave_apprv:status});
      return new Promise(resolve => {
         this.http.post(this.global.sickApprovalUpdate_URL,myData).subscribe(data => {
           resolve(data);

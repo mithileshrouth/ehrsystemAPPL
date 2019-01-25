@@ -22,6 +22,7 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
   value = 50;
 
   isContentLoaded = false;
+  isRecordFoundFound = true;
 
   panelOpenState = false;
   medicineDisplayedColumns: string[] = ['medicine_name', 'value', 'frequeny', 'number_of_days_sick_leave'];
@@ -57,10 +58,18 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
     let pdata;
     
     this.patientService.getOpdPatientPrescHistory(patientID).then(data => {
+      this.isRecordFoundFound = false;
       response = data;
       if(response.msg_status==200) {
         this.isContentLoaded = true;
         pdata = response.result ; 
+       
+        if(this.visitHistoryList.length > 0){
+          this.isRecordFoundFound = true;
+        }
+        else{
+          this.isRecordFoundFound = false;
+        }
         this.visitHistoryList.push(pdata);
     }
     else{

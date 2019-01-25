@@ -1,3 +1,8 @@
+#ipdDischargePage .navBtn button{
+    border-radius: 50px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
 .blockContent {
     width: 96%;
     margin: 0 auto;
@@ -5,6 +10,9 @@
 }
 .blockContent h5{
     letter-spacing: 1px;
+    font-size: 13px;
+    font-weight:bold;
+    
 }
 .ipdFormContainer {
     box-shadow: 0px 7px 22px 2px #c0c0c0;
@@ -115,3 +123,5 @@ textarea {
 .form_block_title {
     margin-left: 20px;
 }
+
+

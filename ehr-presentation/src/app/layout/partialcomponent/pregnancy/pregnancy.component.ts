@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA , MatDialogConfig } from '@angular/material';
 import { IpdService } from '../../../service/ipd.service';
 import { SuccessdialogComponent } from '../../components/successdialog/successdialog.component';
+import { SuccessdialogwithprintComponent } from '../../components/successdialogwithprint/successdialogwithprint.component';
+
 
 
 
@@ -559,11 +561,12 @@ savePregnancy() {
         this.patientService.insertIntoPregnancy(objParam).then(data => {
           response = data;
           if(response.msg_data == "SUCCESS" && response.msg_status == "200") {
-          
+             let presdata =  response.result;
              localStorage.removeItem("patientid_preg");
              localStorage.removeItem("tpcd");
              localStorage.removeItem("regid");
-             this.openDialog();
+            // this.openDialog();
+            this.openDialogWithPdfPreview(presdata.prescription,presdata.healthprfl,'O','PREGNANCY');
             
          
           }
@@ -613,6 +616,26 @@ savePregnancy() {
     });
   }
 
+
+  openDialogWithPdfPreview(id,hid,ipdopd,callfrom) {
+    let idinfo = {opdipdID:id,hlthPrflID:hid,ipdopd:ipdopd,callfrom:callfrom}
+    const dialogRef = this.dialog.open(SuccessdialogwithprintComponent, {
+      width: '850px',
+      height:'550px',
+      disableClose: true,
+      data:  {
+        msg : 'OPD Saved Successfully',
+        msgicon : 'check_circle',
+        iconcolor: '#1d8c3d',
+        btnurl : 'panel/todaysreg',
+        savedIdRef  : idinfo
+        }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+    
+    });
+  }
 
 
 

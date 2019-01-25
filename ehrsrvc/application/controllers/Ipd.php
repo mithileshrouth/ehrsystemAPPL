@@ -11,6 +11,8 @@ class Ipd extends CI_Controller{
 		$this->load->model("Disease_model", "disease", TRUE);
 		$this->load->model("Medicine_model", "medicine", TRUE);
 		$this->load->model("Investigation_model", "investigation", TRUE);
+		$this->load->model("Master_model", "master", TRUE);
+		$this->load->model("Pregnancy_model", "pregnancy", TRUE);
 
         
     }
@@ -321,6 +323,7 @@ class Ipd extends CI_Controller{
                     $json_response = [
                         "msg_status"=>HTTP_SUCCESS,
                         "msg_data"=>"SUCCESS",
+                        "result" => $register
                     ];
                 }
                 else{
@@ -479,14 +482,158 @@ class Ipd extends CI_Controller{
 		echo json_encode( $json_response );
 		exit;
 	}
-	
+    
+    
+    /*
+    public function getOpdIpdPrescPrint() {
+		CUSTOMHEADER::getCustomHeader();
+        $json_response = [];
+        $headers = $this->input->request_headers();
+		if(CUSTOMHEADER::getAuthotoken($headers)){$client_token = CUSTOMHEADER::getAuthotoken($headers);}else{$client_token = "";}
+		
+		$server_token="";
+        if($client_token!=""){
+            $server_token = $this->authorisation->getToken($client_token->jti)->web_token;
+           
+        } 
+        if($client_token!=""){
+        if($client_token->jti==$server_token ){
+        
+		$token_data = $client_token->data;
+		$hospital_id = $token_data->hospital_id;
+		
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+            /*
+        echo "<pre>";
+        print_r($request);
+        echo "</pre>";
+          
+		//$patientID = $request->pid;
+//		$ipdAdmID = $request->admid;
+
+       // print_r($request);
+        $Params = $request->params;
+        $opdipd_masterid = $Params->opdipd;
+        $opdipd_healthprofileid = $Params->healthprofile;
+        $opdipd_type = $Params->type;
+		
+        $resultdata = $this->ipd->getOpdIpdPrescPrint($opdipd_masterid,$opdipd_healthprofileid,$opdipd_type,$hospital_id);
+           
+		$json_response = [
+                "msg_status"=>HTTP_SUCCESS,
+                "msg_data"=>"Authentication ok.",
+                "result"=>$resultdata
+		];
+		
+        }else {
+            $json_response = [
+                "msg_status"=>HTTP_AUTH_FAIL,
+                "msg_data"=>"Authentication fail."
+            ];
+        }
+        } else{
+             $json_response = [
+                "msg_status"=>HTTP_AUTH_FAIL,
+                "msg_data"=>"Authentication fail."
+            ];
+
+        }
+        header('Content-Type: application/json');
+		echo json_encode( $json_response );
+		exit;
+    }
+    */
+    
 	
 	private function getAge($dob){
 		$dateOfBirth = date('d-m-Y',strtotime($dob));
 		$today = date("Y-m-d");
 		$diff = date_diff(date_create($dateOfBirth), date_create($today));
 		return $diff->format('%y');
-	}
+    }
+    
+
+    public function getOpdIpdPrescPrint() {
+
+            CUSTOMHEADER::getCustomHeader();
+            $secreat_key =config_item('enc_secrete_key');
+          
+
+            $this->load->library('Pdf');
+            $pdf = $this->pdf->load();
+            
+            if($this->uri->segment(3)!="" AND $this->uri->segment(4)!="" AND $this->uri->segment(5)!="" AND $this->uri->segment(6)!="") {
+                $client_token = $this->uri->segment(3);
+                $token = JWT::decode($client_token, $secreat_key, array('HS512'));
+
+                $opdipd_masterid =  $this->uri->segment(4);
+                $opdipd_healthprofileid =  $this->uri->segment(5);
+                $opdipd_type = $this->uri->segment(6);
+                $calling_from = $this->uri->segment(7);
+                $hospital_id = $token->data->hospital_id;
+                $doctor_id = $token->data->doctor_id;
+                $server_token = $this->authorisation->getToken($token->jti)->web_token;
+
+              
+
+                if($server_token == $token->jti) {
+                    $result['prescData'] = $this->ipd->getOpdIpdPrescPrint($opdipd_masterid,$opdipd_healthprofileid,$opdipd_type,$hospital_id);
+                    $result['doctorname'] = $this->master->getDoctorData($doctor_id,$hospital_id)->doctor_name;
+
+                    if($calling_from == "CONSULTATION"){
+                        $page = 'prescription/presc_pdf';
+                    }
+                    elseif($calling_from == "PREGNANCY" || $calling_from == "VACCINATION") {
+                       
+                        $result['vaccinData'] =  $this->pregnancy->getGivenVaccinListByPrescID($result['prescData']['patienthealthProfileData']->prescription_addmission_id,$result['prescData']['patienthealthProfileData']->opd_ipd_flag,$hospital_id);
+
+                        $result['pregnancyInfo'] =  $this->pregnancy->getPatientPregnancyInfoByPres($result['prescData']['patienthealthProfileData']->prescription_addmission_id,$result['prescData']['patienthealthProfileData']->opd_ipd_flag,$hospital_id);
+                        
+                        $page = 'prescription/presc_pregnancy_pdf';
+                    }
+                    elseif($calling_from == "DISCHARGE") {
+                         
+                        $result['vaccinData'] =  $this->pregnancy->getGivenVaccinListByPrescID($result['prescData']['patienthealthProfileData']->prescription_addmission_id,$result['prescData']['patienthealthProfileData']->opd_ipd_flag,$hospital_id);
+                        $page = 'prescription/pres_discharge_pdf';
+                    }
+                    else{
+                        $page = 'prescription/presc_pdf';
+                    }
+                   
+
+
+                     $html = $this->load->view($page, $result,TRUE);
+                   
+                    $pdf->WriteHTML($html); 
+                    $output = 'prescription' . date('Y_m_d_H_i_s') . '_.pdf'; 
+                    $pdf->Output("$output", 'I');
+                    
+                    exit();
+                   
+                }
+                else{
+                    $html = "<h2>Token Mismatch</h>";
+                    $pdf->WriteHTML($html); 
+                    $output = 'prescription' . date('Y_m_d_H_i_s') . '_.pdf'; 
+                    $pdf->Output("$output", 'I');
+                    exit();
+                }
+            }
+            else {
+                $html = "<h2>Invalid URL</h>";
+                $pdf->WriteHTML($html); 
+                $output = 'prescription' . date('Y_m_d_H_i_s') . '_.pdf'; 
+                $pdf->Output("$output", 'I');
+                exit();
+            }
+            
+
+           
+
+
+           
+    }
 
 	    
     

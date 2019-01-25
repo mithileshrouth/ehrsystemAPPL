@@ -5,6 +5,27 @@ if (! defined('BASEPATH'))
 class Master_model extends CI_Model
 {
 
+    public function getDoctorData($doctor_id,$hospital_id) {
+        $data = [];
+        $where = [
+            "doctormaster.doctor_id" => $doctor_id,
+            "doctormaster.hospital_id" => $hospital_id
+        ];
+
+        $query = $this->db->select("*")
+        ->from("doctormaster") 
+        ->get();
+
+        if($query->num_rows() > 0 ) {
+            $data = $query->row();
+        }
+
+        return $data;
+
+    }
+
+
+
     /**
      * @By Mithilesh
      * @date 19.01.2019
@@ -88,6 +109,14 @@ class Master_model extends CI_Model
                 "accociated_icd_code" => trim(htmlspecialchars($diagonosisIcd)),
                 "hospital_id" => $hospital_id
 
+            ];
+        }
+        elseif($tablename == "investigation") {
+            $investigationName = NULL;
+            if(isset($formDatas->investigationNameCtrl)){ $investigationName = $formDatas->investigationNameCtrl; }
+            $insertDataArry = [
+                "investigation_name" => trim(htmlspecialchars($investigationName)),
+                "hospital_master_id" => $hospital_id
             ];
         }
         else {

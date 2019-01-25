@@ -14,7 +14,26 @@ class Opd extends CI_Controller{
 		$this->load->model("Pregnancy_model", "pregnancy", TRUE);
 
         
-    }
+	}
+	
+
+	/*
+	public function getDatesByDays() {
+		$a = 42;
+		$date = date("Y-m-d");
+
+		for($i=0;$i<$a;$i++) {
+			
+			//$date = date('Y-m-d', strtotime("+1 day"));
+			echo $date;
+			$date = date('Y-m-d', strtotime("+1 day", strtotime($date)));
+			
+			echo "<br>";
+		}
+		
+	}
+	*/
+
 
 	public function insertIntoOpd()
     {
@@ -45,7 +64,8 @@ class Opd extends CI_Controller{
 			if($register){
 				$json_response = [
                     "msg_status"=>HTTP_SUCCESS,
-                    "msg_data"=>"SUCCESS",
+					"msg_data"=>"SUCCESS",
+					"result" => $register
                 ];
 			}
 			else{
@@ -173,7 +193,8 @@ class Opd extends CI_Controller{
 	            if($register){
 	                $json_response = [
 	                    "msg_status"=>HTTP_SUCCESS,
-	                    "msg_data"=>"SUCCESS",
+						"msg_data"=>"SUCCESS",
+						"result" => $register
 	                ];
 	            }
 	            else{
@@ -239,12 +260,13 @@ class Opd extends CI_Controller{
 	            $request = json_decode($postdata);
 	            
 	            
-	            $register = $this->pregnancy->insertIntoPregnancy($request,$hospital_id,$doctor_id);
-	            
+				$register = $this->pregnancy->insertIntoPregnancy($request,$hospital_id,$doctor_id);
+				
 	            if($register){
 	                $json_response = [
 	                    "msg_status"=>HTTP_SUCCESS,
-	                    "msg_data"=>"SUCCESS",
+						"msg_data"=>"SUCCESS",
+						"result" => $register
 	                ];
 	            }
 	            else{

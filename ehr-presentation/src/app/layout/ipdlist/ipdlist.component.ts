@@ -238,7 +238,9 @@ openConfirmationDialog(delid) {
 }
 
 
-
+backToIpdList() {
+  this.router.navigateByUrl('panel/doctor');
+}
 
 
 }

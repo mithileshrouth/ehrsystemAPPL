@@ -20,6 +20,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material';
+import { SuccessdialogwithprintComponent } from '../components/successdialogwithprint/successdialogwithprint.component';
+
 
 
 
@@ -727,16 +729,23 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
 
       this.sendPhrmcyBtnActive = false;
       let response;
-
-    
+     // this.openDialogTest(53,110);
+     
       this.symptomdiseaseService.insertToOPD(this.presciptionHealthForm.value,this.presciptionForm.value,this.addedMeddata,this.addedInvestigations).then(data => {
         response = data;
           this.sendPhrmcyBtnActive = true;
         if(response.msg_status == 200) {
-          this.openDialog();
+          let presdata =  response.result;
+        //  console.log(presdata);
+
+        //  console.log("presdata.prescription"+presdata.prescription);
+        //  console.log("presdata.healthprfl"+presdata.healthprfl);
           localStorage.removeItem("regtype");
           localStorage.removeItem("tpcd");
           localStorage.removeItem("regid");
+          localStorage.removeItem("consult_pid");
+          this.openDialogWithPdfPreview(presdata.prescription,presdata.healthprfl,'O','CONSULTATION');
+
         }
         else{
        
@@ -745,6 +754,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
          error => {
            console.log("There is some error on submitting...");
        });
+     
       
 
     }
@@ -813,6 +823,7 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
 
 
     getIvestigations(){
+      this.medreports = [];
       let dataval;
       let reportlist;
       this.symptomdiseaseService.getInvestigations().then(data => {
@@ -1159,6 +1170,50 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
     }
 
 
+    // Investigation
+    openInvestigationEntryDialog() {
+      
+    
+     
+     
+      let fields = [
+        {
+          "ctrlname" : "investigationNameCtrl",
+          "inputtyep" : "text",
+          "placeholder" : "Test Name *"
+        }
+        
+      ];
+
+      let formCtrlInilize = {
+        investigationNameCtrl : new FormControl('',Validators.required)
+        
+      }
+
+      const dialogRef = this.dialog.open(MasterentrydialogComponent, {
+        width: '350px',
+        disableClose: true,
+        data:  {
+          fielddatas : fields,
+          initializeField:formCtrlInilize,
+          iconcolor: '#1d8c3d',
+          tbl : 'investigation',
+          datafrom : 'INVESTIGATION', // don't change this value
+          heading:'Add Test'
+         }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+          //this.getDiseaseList(this.presciptionForm.get("symptomsMultiCtrl").value);
+          if(result.from=="Save") {
+            this.openSnackBar("Test Added successfully");
+            this.getIvestigations();
+          }
+      });
+
+    }
+
+
 
 
     openSnackBar(msg) {
@@ -1166,6 +1221,28 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
       config.duration = 3000;
       this.snackBar.open(msg, "", config);
      
+    }
+
+
+
+    openDialogWithPdfPreview(id,hid,ipdopd,callfrom) {
+      let idinfo = {opdipdID:id,hlthPrflID:hid,ipdopd:ipdopd,callfrom:callfrom}
+      const dialogRef = this.dialog.open(SuccessdialogwithprintComponent, {
+        width: '850px',
+        height:'550px',
+        disableClose: true,
+        data:  {
+          msg : 'OPD Saved Successfully',
+          msgicon : 'check_circle',
+          iconcolor: '#1d8c3d',
+          btnurl : 'panel/todaysreg',
+          savedIdRef  : idinfo
+          }
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+      
+      });
     }
 
 

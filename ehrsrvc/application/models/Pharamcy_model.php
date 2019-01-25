@@ -38,14 +38,16 @@ class Pharamcy_model extends CI_Model{
 							patients.patient_code,
 							opd_prescription.id AS prescription_ID,
 							opd_prescription.opd_prescription_id AS prescription_No,
+							DATE_FORMAT(opd_prescription.date,'%d/%m/%Y') AS prescDate,
 							'O' AS prescFrom
-						")
+							",FALSE)
                           ->from("opd_prescription") 
 						  ->join("issue_medicine_master","issue_medicine_master.opd_ipd_prescription_id = opd_prescription.id AND issue_medicine_master.opd_ipd_flag = 'O' ", "LEFT")
 						  ->join("patients" , "patients.patient_id = opd_prescription.patient_id" , "INNER")
 						  ->join("patient_type" , "patient_type.patient_type_id = patients.patient_type_id" , "INNER")
 						  ->where($where)
 						  ->where('issue_medicine_master.issue_id IS NULL')
+						  ->order_by('opd_prescription.date','DESC')
 						  ->get();
 						  
 		// echo $this->db->last_query();
@@ -90,8 +92,9 @@ class Pharamcy_model extends CI_Model{
 			`patients`.`mobile_one`,
 			`patients`.`patient_code`, 
 			`ipd_patient_master`.`admission_id` AS `prescription_ID`, 'I' AS prescFrom,
+			DATE_FORMAT(patient_health_profile.date,'%d/%m/%Y') AS prescDate,
 			patient_health_profile.`patient_health_profile_id`
-		")
+		",FALSE)
 	  ->from("patient_health_profile") 
 	  ->join("ipd_patient_master","ipd_patient_master.`admission_id` = patient_health_profile.`prescription_addmission_id` AND patient_health_profile.`opd_ipd_flag` = 'I'", "INNER")
 	  ->join("patients" , "patients.patient_id = ipd_patient_master.patient_id" , "INNER")
@@ -104,6 +107,7 @@ class Pharamcy_model extends CI_Model{
 				GROUP BY patient_health_profile.`prescription_addmission_id`
 			)")
 	  ->where('issue_medicine_master.issue_id IS NULL')
+	  ->order_by('patient_health_profile.date','DESC')
 	  ->get();
 
 						  

@@ -168,6 +168,34 @@ class Opd_model extends CI_Model{
 			$medInsert = $this->insertIntoMedicines($hospital_id,$opd_precp_id,$healthprofile_inserted_id,$request->medicines);
 			$testReportinsert = $this->insertIntoTestReports($hospital_id,$opd_precp_id,$healthprofile_inserted_id,$request->reports);
 			
+
+
+			// Insert Into Sick Leav Approval if sick leave apply
+			if(isset($sickFlag) && $sickFlag=="Y" && $noofdaysSick > 0 ) {
+
+				$insert_patient_sickleave_detail = [];
+				$apply_date = date("Y-m-d");
+					for($i=0;$i<$noofdaysSick;$i++) {
+						
+						$insert_patient_sickleave_detail = [
+							"opd_ipd__id" => $opd_precp_id,
+							"opd_ipd_flag" => "O",
+							"patient_id" => $patientid,
+							"applied_for_date" => $apply_date,
+							"is_approved" => "N",
+							"approved_by" => NULL,
+							"approved_on" => NULL
+						];
+
+						$this->db->insert('patient_sickleave_detail', $insert_patient_sickleave_detail); 
+						$apply_date = date('Y-m-d', strtotime("+1 day", strtotime($apply_date)));
+						
+					}
+
+			}
+
+
+
 			
 			$updArry = [
 				"registration.served_flag" => 'Y',
@@ -186,8 +214,16 @@ class Opd_model extends CI_Model{
                 $this->db->trans_rollback();
 				return false;
             } else {
+				
 				$this->db->trans_commit();
-                return true;
+				$returnData = [];
+				$returnData = [
+					"prescription" => $opd_precp_id,
+					"healthprfl" => $healthprofile_inserted_id
+				];
+				return $returnData;
+                //return true;
+                
             }
 				
 		}
@@ -206,14 +242,21 @@ class Opd_model extends CI_Model{
 				$medicinerow = $medicineData[$i]->medicinetd;
 				$doserow = $medicineData[$i]->dosagetd;
 				$frequencyrow = $medicineData[$i]->unittd;
-					
+				
+				$doseRowID = NULL;
+				if(isset($doserow->id)){ $doseRowID = $doserow->id; }
+
+				$freqRowID = NULL;
+				if(isset($frequencyrow->id)){ $freqRowID = $frequencyrow->id; }
+
+
 				$insert_arry = [
 					"hospital_id" => $hospital_id,
 					"prescription_admission_id" => $opd_precp_id,
 					"opd_ipd_flag" => 'O',
 					"medicine_id" => $medicinerow->id,
-					"dose_id" => $doserow->id,
-					"frequeny" => $frequencyrow->id,
+					"dose_id" => $doseRowID,
+					"frequeny" => $freqRowID,
 					"number_of_days_sick_leave" => $medicineData[$i]->daystd,
 					"health_profile_id" => $healthprofile_inserted_id
 				];
@@ -239,7 +282,8 @@ class Opd_model extends CI_Model{
 					"prescription_addmission_id" => $opd_precp_id,
 					"opd_ipd_flag" => 'O',
 					"test_id" => $testsrow->id,
-					"date" => date('Y-m-d',strtotime($reportsData[$i]->invdate)),
+				//	"date" => date('Y-m-d',strtotime($reportsData[$i]->invdate)),
+					"date" => date('Y-m-d'),
 					"health_profile_id" => $healthprofile_inserted_id
 				];
 				$this->db->insert('opd_ipd_test', $insert_arry); 

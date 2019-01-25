@@ -6,7 +6,7 @@ import { AppMaterialModule } from '../../app-material/app-material.module';
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { IpdlistRoutingModule } from './ipdlist-routing.module';
 import { IpdlistComponent } from './ipdlist.component';
-import { PrescriptionprintComponent } from '../prescriptionprint/prescriptionprint.component';
+
 
 //import { ConfirmationdischargeComponent } from '../components/confirmationdischarge/confirmationdischarge.component';
 
@@ -20,7 +20,7 @@ import { PrescriptionprintComponent } from '../prescriptionprint/prescriptionpri
         ReactiveFormsModule
     ],
     declarations: [
-        IpdlistComponent,PrescriptionprintComponent
+        IpdlistComponent
     ],
     entryComponents:[]
 })

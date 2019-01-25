@@ -1,6 +1,14 @@
-<div class="wraper-container blockContent">
+<div id="ipdDischargePage" class="wraper-container blockContent">
   <div class="search-container">
-      <h5> IPD Discharge Module</h5>
+      
+
+      <mat-toolbar>
+            <h5> IPD Discharge</h5>
+            <div class="navBtn" style="width:100%;float: right;text-align:right;">
+                <button mat-raised-button color="primary" class="toplink" (click)="backToIpdList()" >Back To List </button>  &nbsp;&nbsp;
+                <!--<button mat-raised-button color="warn" class="toplink" (click)="visitIPDHistory()" >Visit History</button>-->
+            </div>
+        </mat-toolbar>
 
 
     <div class="ipdFormContainer">
@@ -233,8 +241,39 @@
                             </div>
                         </div>
 
+                        <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+                                <div fxFlex="46%">
+                                    <mat-form-field class="fullwidthinp">
+                                        <textarea matInput placeholder="Instructions" formControlName="instructionCommentCtrl" autocomplete="off" ></textarea>
+                                    </mat-form-field>
+                                </div>
 
-                          
+                                <div fxFlex="46%">
+                                        <mat-form-field class="fullwidthinp">
+                                                <textarea matInput placeholder="Final Diagnosis" formControlName="finalCommentCtrl" autocomplete="off" ></textarea>
+                                        </mat-form-field>
+                                </div>
+                        </div>
+
+                        <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+                                <div fxFlex="93%">
+                                        <mat-form-field class="fullwidthinp">
+                                                <textarea matInput placeholder="Discharge Summary" formControlName="dischargeCommentCtrl" autocomplete="off" ></textarea>
+                                        </mat-form-field>
+                                </div>
+                        </div>
+
+                        <!--
+                        <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+                                <div fxFlex="92%">
+                                        <mat-form-field class="fullwidthinp">
+                                                <textarea matInput placeholder="Final Diagnosis" formControlName="finalCommentCtrl" autocomplete="off" ></textarea>
+                                        </mat-form-field>
+                                </div>
+                        </div>
+                        -->
+
+                        <!--
                         <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
                             <div fxFlex="30%">
                                 <mat-form-field class="fullwidthinp">
@@ -243,7 +282,7 @@
                             </div>
                             <div fxFlex="30%">
                                 <mat-form-field class="fullwidthinp">
-                                    <textarea matInput placeholder="Discharged Summary" formControlName="dischargeCommentCtrl" autocomplete="off" ></textarea>
+                                    <textarea matInput placeholder="Discharge Summary" formControlName="dischargeCommentCtrl" autocomplete="off" ></textarea>
                                 </mat-form-field>
                             </div>
                             <div fxFlex="30%">
@@ -251,7 +290,8 @@
                                     <textarea matInput placeholder="Final Diagnosis" formControlName="finalCommentCtrl" autocomplete="off" ></textarea>
                                 </mat-form-field>
                             </div>
-                          </div>
+                        </div>
+                        -->
 
 
                           <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">

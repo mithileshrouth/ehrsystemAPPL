@@ -518,7 +518,9 @@ export class IpdregistrationComponent implements OnInit {
     });
   }
 
-
+  backToIpdList() {
+    this.router.navigateByUrl('panel/ipdlist');
+  }
   /*
   * --------------------------------------------------------------------------------------------------------
   * ----------------------------------------MEDICINE RELATED CALLS------------------------------------------
