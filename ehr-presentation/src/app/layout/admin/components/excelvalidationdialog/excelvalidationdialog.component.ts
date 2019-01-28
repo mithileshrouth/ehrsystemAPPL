@@ -5,6 +5,7 @@ import { PatientService } from '../../../../service/patient.service';
 import { Observable} from 'rxjs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material';
 
 
 @Component({
@@ -16,17 +17,23 @@ export class ExcelvalidationdialogComponent implements OnInit {
 
   exceldata;
   employeeList=[];
-  private isButtonVisible = true;
+  public isButtonVisible = true;
   totalError=0;
 
-  private msg=false;
+  public msg=false;
   messagetext='';
+
+  updatemessage:string;
+  updateaction:string;
+  validFormErr:string;
+
 
   test_cls=0;
   constructor(
     private router:Router,
     public dialogRef: MatDialogRef<ExcelvalidationdialogComponent> ,
     private commonService:CommonService,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any 
     ) {
 
@@ -104,14 +111,25 @@ export class ExcelvalidationdialogComponent implements OnInit {
       if(response.msg_data == "SUCCESS" && response.msg_status == "200"){
         //this.openDialog();
         this.isButtonVisible=false;
-        this.msg=true;
-        this.messagetext='Save Successfully';
+      
+
+        this.updatemessage='Saved Successfully';
+        this.updateaction='Import File';
+ 
+        console.log('success');
+        this.openSnackBar(this.updatemessage,this.updateaction);
        
       }
       else{
       //  this.openDialogError();
-        this.msg=true;
-        this.messagetext='Something Wrong  ';
+     
+
+        this.updatemessage='Something Wrong!';
+        this.updateaction='';
+  
+        
+        this.openSnackBar(this.updatemessage,this.updateaction);
+
       }
       console.log(response);
     },
@@ -127,5 +145,12 @@ export class ExcelvalidationdialogComponent implements OnInit {
       this.router.navigateByUrl('panel/excel');
      
     }    
+
+
+    openSnackBar(message: string, action: string) {
+      this.snackBar.open(message, action, {
+        duration: 2000,
+      });
+    }
 
 }//end of class

@@ -16,7 +16,7 @@ import {MatSnackBar} from '@angular/material';
 export class ImportgrnvalidationdialogComponent implements OnInit {
   exceldata;
   grnList=[];
-  private isButtonVisible = true;
+  public isButtonVisible = true;
   totalError=0;
 
   updatemessage:string;
@@ -80,7 +80,7 @@ export class ImportgrnvalidationdialogComponent implements OnInit {
   this.commonService.insertIntoMedicine(this.grnList,).then(data => {
     response = data;
     if(response.msg_data == "SUCCESS" && response.msg_status == "200"){
-      this.updatemessage='Save Successfully';
+      this.updatemessage='Saved Successfully';
         this.updateaction='Import File';
  
         console.log('success');

@@ -29,6 +29,8 @@ export class ImportexcelComponent implements OnInit {
   fileNameCtrl:string = "";
   authentication;
   isLoader=false;
+  filename:string = "";
+
   
   constructor(
      private router:Router,
@@ -90,8 +92,9 @@ upload(files: File[]){
  
   console.log(files);
   this.isLoader=true;
-  
+  this.filename=files[0].name;
   this.basicUpload(files);
+  this.isLoader=true;
   
 
 }
@@ -118,7 +121,7 @@ basicUpload(files: File[]){
       this.isLoader=false;
       const dialogRef = this.dialog.open(ExcelvalidationdialogComponent, {
         width: '950px',
-        height:'700px',
+        height:'500px',
         disableClose: true,
         data: event 
       });
