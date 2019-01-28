@@ -100,36 +100,38 @@ class Fileimport extends CI_Controller{
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(5,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(5,$i)->getValue()  ),
                     );
 
-                    $category[] = array(
+                 
+                    $challan[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(6,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(6,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(6,$i)->getValue()  ),
                     );
 
+                    $line[] = array(
+                        "error" => 0,
+                        "cell" =>  $objWorksheet->getCellByColumnAndRow(7,$i)->getColumn().$i,
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(7,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(7,$i)->getValue()  ),
+                    );
+
+                    $category[] = array(
+                        "error" => 0,
+                        "cell" =>  $objWorksheet->getCellByColumnAndRow(8,$i)->getColumn().$i,
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(8,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(8,$i)->getValue()  ),
+                    );
                     
                     $dob[] = array(
                         "error" => 0,
-                        "cell" =>  $objWorksheet->getCellByColumnAndRow(7,$i)->getColumn().$i,
-                        "value" =>  ($objWorksheet->getCellByColumnAndRow(7,$i)->getValue() == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow(7,$i)->getValue())) ),
+                        "cell" =>  $objWorksheet->getCellByColumnAndRow(9,$i)->getColumn().$i,
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(9,$i)->getValue() == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow(9,$i)->getValue())) ),
                     );
 
                     $doj[] = array(
                         "error" => 0,
-                        "cell" =>  $objWorksheet->getCellByColumnAndRow(8,$i)->getColumn().$i,
-                        "value" =>  ($objWorksheet->getCellByColumnAndRow(8,$i)->getValue() == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow(8,$i)->getValue())) ),
-                    );
-
-                    $age[] = array(
-                        "error" => 0,
-                        "cell" =>  $objWorksheet->getCellByColumnAndRow(9,$i)->getColumn().$i,
-                        "value" =>  ($objWorksheet->getCellByColumnAndRow(9,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(9,$i)->getValue()  ),
-                    );
-
-                    $year_of_service[] = array(
-                        "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(10,$i)->getColumn().$i,
-                        "value" =>  round(($objWorksheet->getCellByColumnAndRow(10,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(10,$i)->getValue()  )),
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(10,$i)->getValue() == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow(10,$i)->getValue())) ),
                     );
+
+                   
 
 
                 }//end of row for loop 
@@ -143,11 +145,12 @@ class Fileimport extends CI_Controller{
                     "employee_name" => $employee_name,
                     "father_name" => $father_name,
                     "division_or_departm" => $division_or_departm,
+                    "challan" => $challan,
+                    "line" => $line,
                     "category" => $category,
                     "dob" => $dob,
-                    "doj" => $doj,
-                    "age" => $age,
-                    "year_of_service" => $year_of_service
+                    "doj" => $doj
+                    
                 ];
     }//end of file check
 

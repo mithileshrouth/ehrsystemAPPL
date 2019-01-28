@@ -41,11 +41,15 @@ class Fileimport_model extends CI_Model{
                     $doj = NULL;
                 }
                 
+                $estateWhere = array('estate.name' =>$value->estate_name->value);
+                $EstateData = $this->commondatamodel->getSingleRowByWhereCls('estate',$estateWhere);
+
+                $estateId=$EstateData->id;
               
 
-            $employeeArray= [
-                "estate_name" => $value->estate_name->value,
-                "employee_code" => $value->employee_code->value,
+         /*   $employeeArray= [
+                "estate" => $estateId,
+                "patient_code" => $value->employee_code->value,
                 "pf_no" => $value->pf_no->value,
                 "employee_name" => $value->employee_name->value,
                 "father_name" => $value->father_name->value,
@@ -53,13 +57,29 @@ class Fileimport_model extends CI_Model{
                 "category" => $value->category->value,
                 "dob" => $dob,
                 "doj" => $doj,
-                "age" => $value->age->value,
-                "year_of_service" => $value->year_of_service->value,
+                "challan" => $value->challan->value,
+                "line" => $value->line->value,
                 "hospital_id" => $hospital_id
+            ];*/
+
+
+            $patientArray = [
+                'estate' => $estateId,
+                'patient_code' => $value->employee_code->value,
+                'pf_no' => $value->pf_no->value,
+                'patient_name' => $value->employee_name->value,
+                'father_name' => $value->father_name->value,
+                'division_number' => $value->division_or_departm->value,
+                'line_number' => $value->line->value,
+                'challan_number' => $value->challan->value,
+                "category" => $value->category->value,
+                "dob" => $dob,
+                "doj" => $doj,
+                
             ];
 
-			
-			$this->db->insert('test_employee', $employeeArray); 
+			//pre($patientArray);
+			$this->db->insert('test_employee', $patientArray); 
             
         }//end of foreach
 		

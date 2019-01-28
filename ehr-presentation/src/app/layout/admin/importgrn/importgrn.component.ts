@@ -80,7 +80,7 @@ basicUpload(files: File[]){
       this.isLoader=false;
       const dialogRef = this.dialog.open(ImportgrnvalidationdialogComponent, {
         width: '950px',
-        height:'700px',
+        height:'500px',
         disableClose: true,
         data: event 
       });

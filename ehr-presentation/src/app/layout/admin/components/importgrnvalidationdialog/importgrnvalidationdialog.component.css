@@ -1,6 +1,8 @@
 table {
   font-size: 15px;
   letter-spacing: 1px;
+  cursor: pointer;
+  
   }
   
   table, th, td {
@@ -22,4 +24,6 @@ td{
     padding: 1%;
     margin-top: 20px;
 }
+
+
 
