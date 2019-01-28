@@ -89,11 +89,21 @@
                                 <ng-container matColumnDef="action">
                                     <th mat-header-cell *matHeaderCellDef> Action </th>
                                     <td mat-cell *matCellDef="let row">
-                                        <a mat-raised-button color="warn" (click)="getPresciption(row)" *ngIf="isButtonActive">
+                                        <a mat-raised-button color="warn" class="opdIssueBtn" (click)="getPresciption(row)"  id="opdIssueBtn_{{row.registration_id}}">
                                             <mat-icon>enhanced_encryption</mat-icon>
                                             Open
                                         </a>
-                                        <mat-spinner [diameter]="25"  *ngIf="!isButtonActive"></mat-spinner>
+                                        <mat-spinner [diameter]="25"  style="display:none;" id="opdIssueLoader_{{row.registration_id}}" ></mat-spinner>
+
+                                        <!--
+
+                                            <a mat-raised-button color="warn" (click)="getPresciption(row)" *ngIf="isButtonActive" id="opdIssueBtn_{{row.registration_id}}">
+                                            <mat-icon>enhanced_encryption</mat-icon>
+                                            Open
+                                        </a>
+                                        <mat-spinner [diameter]="25"  *ngIf="!isButtonActive" id="opdIssueLoader_{{row.registration_id}}" ></mat-spinner>
+
+                                        -->
                                     </td>
                                 </ng-container>
                                 

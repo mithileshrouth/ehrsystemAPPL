@@ -304,7 +304,8 @@ class Medicine extends CI_Controller{
 		$batchnos = "";
 		if(isset($batchArray)){
 			for($i=0; $i<count($batchArray); $i++ ) {
-				$string.= "<p class='batchinfo'>".$batchArray[$i]['batchno']." - <span>".abs($batchArray[$i]['qty'])."</span><span> - ".$batchArray[$i]['exp']."</span></p>";
+				//$string.= "<p class='batchinfo'>".$batchArray[$i]['batchno']." - <span>".abs($batchArray[$i]['qty'])."</span><span> - ".$batchArray[$i]['exp']."</span></p>";
+				$string.= $batchArray[$i]['batchno']." - ".abs($batchArray[$i]['qty'])." - ".$batchArray[$i]['exp']."\n";
 			}
 		}
 		//$batchnos = rtrim($string,',');

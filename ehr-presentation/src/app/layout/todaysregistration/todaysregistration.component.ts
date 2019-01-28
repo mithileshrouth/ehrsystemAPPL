@@ -97,6 +97,7 @@ export class TodaysregistrationComponent implements OnInit {
     //console.log("fgdsf"+e);
   }
   ngOnInit() {
+    
     this.isButtonActive = true;
    this.getTodaysRegForDoc("ALL","N");
    this.getTodaysRegForDocCount("ALL","N");
@@ -104,7 +105,7 @@ export class TodaysregistrationComponent implements OnInit {
    this.getTodaysRegForDocCount("T/W","N");
    this.getTodaysRegForDocCount("Dep","N");
    this.getTodaysRegForDocCount("N/W","N");
- 
+   //(document.querySelector('.opdLoder') as HTMLElement).style.display = 'none';
   }
 
 
@@ -263,6 +264,10 @@ export class TodaysregistrationComponent implements OnInit {
     console.log(p);
     console.log("End Get Prescription");
    **/
+
+  (document.querySelector('#opdIssueBtn_'+p.registration_id) as HTMLElement).style.display = 'none';
+  (document.querySelector('#opdIssueLoader_'+p.registration_id) as HTMLElement).style.display = 'inline-block';
+
     this.isButtonActive = false;
     this.datashareService.saveData(p);
     this.router.navigate(['/panel/opd']);

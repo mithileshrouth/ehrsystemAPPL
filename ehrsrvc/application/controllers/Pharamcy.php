@@ -178,7 +178,7 @@ class Pharamcy extends CI_Controller{
             $postdata = file_get_contents("php://input");
 			$request = json_decode($postdata);
 			
-			
+            
             $register = $this->pharamcy->insertIntoMedicineIssue($request,$hospital_id);
 			if($register){
 				$json_response = [

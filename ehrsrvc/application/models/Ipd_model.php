@@ -320,14 +320,20 @@ class Ipd_model extends CI_Model{
 				$medicinerow = $medicineData[$i]->medicinetd;
 				$doserow = $medicineData[$i]->dosagetd;
 				$frequencyrow = $medicineData[$i]->unittd;
+
+				$doseRowID = NULL;
+				if(isset($doserow->id)){ $doseRowID = $doserow->id; }
+
+				$freqRowID = NULL;
+				if(isset($frequencyrow->id)){ $freqRowID = $frequencyrow->id; }
 					
 				$insert_arry = [
 					"hospital_id" => $hospital_id,
 					"prescription_admission_id" => $admission_id,
 					"opd_ipd_flag" => 'I',
 					"medicine_id" => $medicinerow->id,
-					"dose_id" => $doserow->id,
-					"frequeny" => $frequencyrow->id,
+					"dose_id" => $doseRowID,
+					"frequeny" => $freqRowID,
 					"number_of_days_sick_leave" => $medicineData[$i]->daystd,
 					"health_profile_id" => $healthprofile_inserted_id
 				];

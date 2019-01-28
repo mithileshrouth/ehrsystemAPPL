@@ -258,7 +258,14 @@ class Patient_model extends CI_Model
             $aadhar = $patientdata->aadharCtrl;
             $mobile = $patientdata->mobileCtrl;
             $alternatembl = $patientdata->alternatemblCtrl;
-            $bloodgrp = $patientdata->bldgrpCtrl;
+
+            $bloodgrp = NULL;
+            if(!empty($patientdata->bldgrpCtrl) && isset($patientdata->bldgrpCtrl)) {
+                $bloodgrp = $patientdata->bldgrpCtrl;
+            }
+            
+
+          
 
             $patient_data = [
                 "patients.patient_code" => trim(htmlspecialchars($pcode)),
@@ -277,6 +284,8 @@ class Patient_model extends CI_Model
                 "patients.blood_group" => $bloodgrp,
                 "patients.relation_id" => $relationID
             ];
+
+            
 
             $this->db->insert('patients', $patient_data);
 

@@ -109,7 +109,7 @@ export class MedicineissueComponent implements OnInit {
     if(this.prescriptObj && this.prescriptObj.prescFrom == "I") {
       localStorage.setItem("prescid", this.prescriptObj.prescription_ID);
       localStorage.setItem("prescpcode", this.prescriptObj.patient_code);
-      localStorage.setItem("prescpno", this.prescriptObj.prescription_No);
+      localStorage.setItem("prescpno", this.prescriptObj.prescription_ID);
       localStorage.setItem("presfrom", this.prescriptObj.prescFrom);
       localStorage.setItem("med_p_health_id", this.prescriptObj.patient_health_profile_id);
 
@@ -169,7 +169,7 @@ export class MedicineissueComponent implements OnInit {
             patientType:pdata.patient_type,
             patientName: pdata.patient_name,
             patientAge: response.age + " Yrs.",
-            prescriptionNo : this.localStrgPrescpNo
+            prescriptionNo :  localStorage.getItem("prescpno")
            
         });
         
@@ -193,11 +193,12 @@ export class MedicineissueComponent implements OnInit {
   }
 
 
-  initializeMedicine(medidval , stockval, issueval) {
+  initializeMedicine(medidval , stockval, issueval , info) {
       return this.fb.group({
         medicineHdnID : [medidval],
           stock : [stockval],
-          issue : [issueval]
+          issue : [issueval],
+          batchinfo : [info]
       });
   }
     
@@ -219,9 +220,7 @@ export class MedicineissueComponent implements OnInit {
           const count3 = Object.keys(meddata).length;
           const control = <FormArray>this.prescriptionMedForm.controls['medicineRows'];
           for(let i = 0 ; i < count3 ; i++ ) {
-
-            control.push(this.initializeMedicine(this.medicineListsDatas[0][i].medicine_id,this.medicineListsDatas[0][i].totalstock,this.medicineListsDatas[0][i].expectedissueqty));
-
+            control.push(this.initializeMedicine(this.medicineListsDatas[0][i].medicine_id,this.medicineListsDatas[0][i].totalstock,this.medicineListsDatas[0][i].expectedissueqty,this.medicineListsDatas[0][i].batchnos));
           }
         }
      
@@ -234,7 +233,9 @@ export class MedicineissueComponent implements OnInit {
   
     getbatchInfo(data,event,index,stockval) {
       this.issueBtnDisable = false;
-      (document.querySelector('#batchinfo_'+index) as HTMLElement).innerHTML = "";
+      //(document.querySelector('#batchinfo_'+index) as HTMLElement).innerHTML = "";
+      let myRow = document.getElementById('batchinfo_'+index);
+      (myRow as HTMLInputElement).value = "";
       let issuedqty = event.target.value;
 
       if(issuedqty > 0){
@@ -247,8 +248,10 @@ export class MedicineissueComponent implements OnInit {
           this.sendPhrmcyBtnActive = true;
         if(response.msg_status == 200) {
          
-          (document.querySelector('#batchinfo_'+index) as HTMLElement).innerHTML = response.batchnos;
-
+          //(document.querySelector('#batchinfo1_'+index) as HTMLElement).innerHTML = response.batchnos;
+          let myRow = document.getElementById('batchinfo_'+index);
+          (myRow as HTMLInputElement).value = response.batchnos;
+        
 
         }
         else {
@@ -290,7 +293,7 @@ export class MedicineissueComponent implements OnInit {
 
       this.sendPhrmcyBtnActive = false;
       let response;
-      this.phramcyService.insertToMedicineIssue(this.prescriptionMedPatientInfoForm.value,this.prescriptionMedForm.value,this.prescrptDoneFrom,this.healthProfileID).then(data => {
+      this.phramcyService.insertToMedicineIssue(this.prescriptionMedPatientInfoForm.value,this.prescriptionMedForm.value,localStorage.getItem("presfrom"),localStorage.getItem("med_p_health_id")).then(data => {
         response = data;
           this.sendPhrmcyBtnActive = true;
         if(response.msg_status == 200) {

@@ -1,4 +1,4 @@
-<div class="wraper-container">
+<div id="medicineIssuePage" class="wraper-container">
     <div class="search-container">
         <mat-card>
 
@@ -106,7 +106,10 @@
                                                                     </mat-form-field>
                                                                 </th>
                                                                 <th>
-                                                                    <div id="batchinfo_{{i}}"></div>
+                                                                        <mat-form-field class="batchInfoText">
+                                                                                <textarea class="medbatchinfo" matInput placeholder="" formControlName="batchinfo" id="batchinfo_{{i}}" autocomplete="off"  readonly ></textarea>
+                                                                        </mat-form-field>
+                                                                    <div id="batchinfo1_{{i}}"></div>
                                                                 </th>
                                                             </tr>
                                                 </table>

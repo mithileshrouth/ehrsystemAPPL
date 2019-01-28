@@ -6,6 +6,7 @@ class Pharamcy_model extends CI_Model{
         parent::__construct();
 		$this->load->model("Patient_model", "patient", TRUE);
 		$this->load->model("Opd_model", "opd", TRUE);
+		$this->load->model("Medicine_model", "medicine", TRUE);
 	}
     
 	/**
@@ -186,8 +187,10 @@ class Pharamcy_model extends CI_Model{
 		}
 
 		//echo $this->db->last_query();
+
         if($query->num_rows()>0) {
 			//$resultdata  = $query->result();
+			$batchinfo = "";
 			foreach ($query->result() as $rows) {
 				$expected_issued_qty = "";
 				if($rows->expectedissue <=0 || empty($rows->expectedissue)) {
@@ -195,8 +198,14 @@ class Pharamcy_model extends CI_Model{
 				}
 				else{
 					$expected_issued_qty = $rows->expectedissue;
+					$result = $this->medicine->getMedicineBatchInfoAccordingtoStock($rows->medicine_id,$expected_issued_qty,$rows->hospital_id);
+					if(!empty($result)){
+						$batchinfo = $this->convertArrayToString($result['batchinfo']);
+					}
+
+					
 				}
-				
+
 
 				$resultdata[] = [
 					"hospital_id" => $rows->hospital_id,
@@ -210,12 +219,14 @@ class Pharamcy_model extends CI_Model{
 					"value" => $rows->value,
 					"frequency_name" => $rows->frequency_name,
 					"expectedissueqty" => $expected_issued_qty,
-					"totalstock" => $this->calculateStockBymedicine($rows->medicine_id,$rows->hospital_id)
+					"totalstock" => $this->calculateStockBymedicine($rows->medicine_id,$rows->hospital_id),
+					"batchnos" => $batchinfo
 				];
 			}
 			
 		}
-        return $resultdata;
+		//pre($resultdata);
+         return $resultdata;
 	}
 	
 	public function insertIntoMedicineIssue($request , $hospital_id) {
@@ -229,6 +240,8 @@ class Pharamcy_model extends CI_Model{
 				$patients = $request->patientinfo;
 				$doneFrom = $request->from;
 
+
+				
 
 				$healthProfileID = $request->hprofile;
 				$rowPatient = $this->patient->getPatientByCode($patients->patientID);
@@ -546,6 +559,19 @@ class Pharamcy_model extends CI_Model{
 
 	}
 
+
+	private function convertArrayToString($batchArray) {
+		$string = "";
+		$batchnos = "";
+		if(isset($batchArray)){
+			for($i=0; $i<count($batchArray); $i++ ) {
+				$string.= $batchArray[$i]['batchno']." - ".abs($batchArray[$i]['qty'])." - ".$batchArray[$i]['exp']."\n";
+			}
+		}
+		//$batchnos = rtrim($string,',');
+		
+		return $string;
+	}
 
     
 }

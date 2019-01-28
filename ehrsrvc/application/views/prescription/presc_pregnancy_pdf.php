@@ -186,7 +186,7 @@
 
 	<div id="medicineandTest" class="smallFont">
 	<?php 
-		if(!empty($prescData['medicineDatas']) && !empty($prescData['investigationsData'])) {
+		if(!empty($prescData['medicineDatas']) || !empty($prescData['investigationsData'])) {
 	?>
 	<table width="100%" cellspacing="0" cellpadding="0" class="noborder" border="1" style="border:0px solid #000;font-family:Verdana, Geneva, sans-serif; font-size:9px !important;">
 		<!--
@@ -197,7 +197,7 @@
 		<tr style="font-size:9px;font-family:Verdana, Geneva, sans-serif;">
 
 			<?php if(!empty($prescData['medicineDatas'])) { ?>
-			<td width="46%" valign="top" style="font-family:Verdana, Geneva, sans-serif;border-right:1px solid #000; ">
+			<td width="46%" valign="top" style="font-family:Verdana, Geneva, sans-serif;border-right:0px solid #000; ">
 			
 				<table width="100%" class="noborder smallFont" border="0" style="border:0px solid #000;border-right:0px solid #323232;">
 					<tr>
@@ -227,7 +227,7 @@
 			<?php } ?>
 
 			<?php if(!empty($prescData['investigationsData'])) { ?>
-			<td width="46%" valign="top" style="font-family:Verdana, Geneva, sans-serif; ">
+			<td width="46%" valign="top" style="font-family:Verdana, Geneva, sans-serif; border-left:1px solid #000;">
 			<table width="100%" class="noborder smallFont" >
 					<tr>
 						<td class="boldStyle">Medical Tests</td>

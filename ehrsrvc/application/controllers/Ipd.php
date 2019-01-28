@@ -590,6 +590,8 @@ class Ipd extends CI_Controller{
 
                         $result['pregnancyInfo'] =  $this->pregnancy->getPatientPregnancyInfoByPres($result['prescData']['patienthealthProfileData']->prescription_addmission_id,$result['prescData']['patienthealthProfileData']->opd_ipd_flag,$hospital_id);
                         
+                        
+
                         $page = 'prescription/presc_pregnancy_pdf';
                     }
                     elseif($calling_from == "DISCHARGE") {

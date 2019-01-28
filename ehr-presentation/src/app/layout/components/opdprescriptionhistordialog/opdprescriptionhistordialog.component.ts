@@ -58,19 +58,20 @@ export class OpdprescriptionhistordialogComponent implements OnInit {
     let pdata;
     
     this.patientService.getOpdPatientPrescHistory(patientID).then(data => {
+      this.visitHistoryList = [];
       this.isRecordFoundFound = false;
       response = data;
       if(response.msg_status==200) {
         this.isContentLoaded = true;
         pdata = response.result ; 
-       
-        if(this.visitHistoryList.length > 0){
+        this.visitHistoryList.push(pdata);
+        if(this.visitHistoryList[0].length > 0){
           this.isRecordFoundFound = true;
         }
         else{
           this.isRecordFoundFound = false;
         }
-        this.visitHistoryList.push(pdata);
+      
     }
     else{
       this.isContentLoaded = false;

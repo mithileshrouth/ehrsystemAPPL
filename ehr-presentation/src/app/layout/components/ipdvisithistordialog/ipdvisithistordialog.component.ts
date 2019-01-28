@@ -65,7 +65,7 @@ export class IpdvisithistordialogComponent implements OnInit {
       if(response.msg_status==200) {
         this.isContentLoaded = true;
         pdata = response.result ; 
-        if(this.visitHistoryList.length > 0){
+        if(this.visitHistoryList[0].length > 0){
           this.isRecordFoundFound = true;
         }
         else{
