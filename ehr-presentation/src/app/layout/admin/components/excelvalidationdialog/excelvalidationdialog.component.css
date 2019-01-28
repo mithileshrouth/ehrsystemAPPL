@@ -1,9 +1,13 @@
 table {
-    border-collapse: collapse;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  
   }
   
   table, th, td {
-    border: 1px solid black;
+    border: 1px solid #499f9c;
+    padding: 1px;
   }
 td{
   padding: 1px;
@@ -18,4 +22,5 @@ td{
 
   #SubmitBlock {
     padding: 1%;
+    margin-top: 20px;
 }

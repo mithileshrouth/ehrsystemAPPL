@@ -568,7 +568,7 @@ class Master extends CI_Controller
                 $token_data = $client_token->data;
                 $hospital_id = $token_data->hospital_id;
 
-                $resultdata = $this->commondatamodel->getAllDropdownData('group_master');
+                $resultdata = $this->commondatamodel->getAllDropdownData('group');
 
                 $json_response = [
                     "msg_status" => HTTP_SUCCESS,

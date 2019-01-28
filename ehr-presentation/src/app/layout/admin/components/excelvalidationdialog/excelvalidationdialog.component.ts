@@ -17,6 +17,7 @@ export class ExcelvalidationdialogComponent implements OnInit {
   exceldata;
   employeeList=[];
   private isButtonVisible = true;
+  totalError=0;
 
   private msg=false;
   messagetext='';
@@ -38,13 +39,17 @@ export class ExcelvalidationdialogComponent implements OnInit {
   ngOnInit() {
     
     
-    const count1 = Object.keys(this.exceldata.age).length;
+    const count1 = Object.keys(this.exceldata.estate_name).length;
 
     if(count1 > 0) {
       let resultObj1;
       for(let i = 0; i<count1; i++){
 
        // console.log(this.exceldata.age[i]);
+
+       if(this.exceldata.estate_name[i].error != 0){
+        this.totalError++;
+       }
 
 
       resultObj1 = {
@@ -56,16 +61,23 @@ export class ExcelvalidationdialogComponent implements OnInit {
           'father_name': this.exceldata.father_name[i],
           'division_or_departm': this.exceldata.division_or_departm[i],
           'category': this.exceldata.category[i],
+          'challan':this.exceldata.challan[i],
+          'line':this.exceldata.line[i],
           'dob': this.exceldata.dob[i],
           'doj': this.exceldata.doj[i],
-          'age':this.exceldata.age[i],
-          'year_of_service':this.exceldata.year_of_service[i],
+          
       }
      // this.selectedSymptom.push(resultObj1);
       this.employeeList.push(resultObj1);
      
       }
-    
+
+          console.log(this.totalError);
+          if(this.totalError >0){
+            this.isButtonVisible = false;
+            
+          }
+        
    
 
   }

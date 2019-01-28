@@ -28,6 +28,7 @@ export class ImportexcelComponent implements OnInit {
   excelImportForm : FormGroup;
   fileNameCtrl:string = "";
   authentication;
+  isLoader=false;
   
   constructor(
      private router:Router,
@@ -88,8 +89,10 @@ export class ImportexcelComponent implements OnInit {
 upload(files: File[]){
  
   console.log(files);
+  this.isLoader=true;
   
   this.basicUpload(files);
+  
 
 }
 
@@ -112,7 +115,7 @@ basicUpload(files: File[]){
   this.http.post(this.global.excelvalidation_URL,formData,httpOptions)
     .subscribe(event => {  
       console.log(event)
-
+      this.isLoader=false;
       const dialogRef = this.dialog.open(ExcelvalidationdialogComponent, {
         width: '950px',
         height:'700px',

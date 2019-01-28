@@ -17,7 +17,7 @@ export class LayoutComponent implements OnInit {
     currdate = new Date();
     collapedSideBar: boolean;
     isNotAdmin:boolean = false;
-    isAdmin:boolean = false;
+    isAdmin:boolean = true;
     redirectHome;
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)

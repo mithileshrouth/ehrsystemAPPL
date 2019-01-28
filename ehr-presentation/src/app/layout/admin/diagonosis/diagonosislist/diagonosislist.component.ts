@@ -111,6 +111,8 @@ export class DiagonosislistComponent implements OnInit {
       
       dialogRef.afterClosed().subscribe(result => {
        // console.log("fsds");
+
+       this.getDiagonosisList();
        
       });
      

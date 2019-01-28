@@ -41,11 +41,15 @@ class Fileimport_model extends CI_Model{
                     $doj = NULL;
                 }
                 
+                $estateWhere = array('estate.name' =>$value->estate_name->value);
+                $EstateData = $this->commondatamodel->getSingleRowByWhereCls('estate',$estateWhere);
+
+                $estateId=$EstateData->id;
               
 
-            $employeeArray= [
-                "estate_name" => $value->estate_name->value,
-                "employee_code" => $value->employee_code->value,
+         /*   $employeeArray= [
+                "estate" => $estateId,
+                "patient_code" => $value->employee_code->value,
                 "pf_no" => $value->pf_no->value,
                 "employee_name" => $value->employee_name->value,
                 "father_name" => $value->father_name->value,
@@ -53,13 +57,29 @@ class Fileimport_model extends CI_Model{
                 "category" => $value->category->value,
                 "dob" => $dob,
                 "doj" => $doj,
-                "age" => $value->age->value,
-                "year_of_service" => $value->year_of_service->value,
+                "challan" => $value->challan->value,
+                "line" => $value->line->value,
                 "hospital_id" => $hospital_id
+            ];*/
+
+
+            $patientArray = [
+                'estate' => $estateId,
+                'patient_code' => $value->employee_code->value,
+                'pf_no' => $value->pf_no->value,
+                'patient_name' => $value->employee_name->value,
+                'father_name' => $value->father_name->value,
+                'division_number' => $value->division_or_departm->value,
+                'line_number' => $value->line->value,
+                'challan_number' => $value->challan->value,
+                "category" => $value->category->value,
+                "dob" => $dob,
+                "doj" => $doj,
+                
             ];
 
-			
-			$this->db->insert('test_employee', $employeeArray); 
+			//pre($patientArray);
+			$this->db->insert('test_employee', $patientArray); 
             
         }//end of foreach
 		
@@ -78,6 +98,121 @@ class Fileimport_model extends CI_Model{
 		
 	}
 
+
+        	/**
+     * @name insertIntoMedicine
+     * @author Shankha ghosh
+     * @desc insert medicine
+     */
+
+	public function insertIntoMedicine($request,$hospital_id){
+		
+		try{
+			
+			$this->db->trans_begin();
+			$insert_data = [];
+		
+			$todaydt = date("Y-m-d H:i:s");
+            $MedData = $request->fdata;
+            
+            //pre($MedData);
+
+            foreach ($MedData as $key => $meddata) {
+             
+                $date=$meddata->date->value;
+                $supplier=$meddata->supplier->value;
+                $medicine=trim($meddata->medicine->value);
+                $batch_id=$meddata->batch->value;
+                $expiry=$meddata->expiry->value;
+                $quantity=$meddata->quantity->value;
+                if($date!=""){
+                    $date = str_replace('/', '-', $date);
+                    $date = date("Y-m-d",strtotime($date));
+                }
+                else{
+                    $date = NULL;
+                }
+
+                if($expiry!=""){
+                    $expiry = str_replace('/', '-', $expiry);
+                    $expiry = date("Y-m-d",strtotime($expiry));
+                }
+                else{
+                    $expiry = NULL;
+                }
+
+                $grn_array = [
+                    'hospital_id' =>$hospital_id,
+                    'date' =>$date,
+                    'supplier_details' =>$supplier,
+                 ];
+
+                 $grnmasterID = $this->commondatamodel->insertSingleTableDataRerurnInsertId('grn_master',$grn_array);
+                 $medicineWhere = array('medicine.medicine_name' =>$medicine );
+                 $medicineData = $this->commondatamodel->getSingleRowByWhereCls('medicine',$medicineWhere);
+                 $medicine_id=$medicineData->medicine_id;
+                 $grn_details_array = [
+                    'grn_master_id' =>$grnmasterID,
+                    'medicine_id' =>$medicine_id,
+                    'batch_id' =>$batch_id,
+                    'expiray_date' =>$expiry,
+                    'qty' =>$quantity,
+                    
+                 ];
+
+                 $grnDetails= $this->commondatamodel->insertSingleTableDataRerurnInsertId('grn_details',$grn_details_array);
+
+                 $medWhere = array(
+                                 
+                                    'medicine_stock.medicine_id' =>$medicine_id,
+                                    'medicine_stock.batch_id' =>$batch_id,
+                                    'medicine_stock.hospital_id' =>$hospital_id
+                                 );
+                 $checkMedStock= $this->commondatamodel->duplicateValueCheck('medicine_stock',$medWhere);
+                 if($checkMedStock){
+
+                    $MedStockData= $this->commondatamodel->getSingleRowByWhereCls('medicine_stock',$medWhere);
+                    $medicine_stock_id=$MedStockData->medicine_stock_id;
+                    $stock=$MedStockData->stock;
+                    $new_stock=$stock+$quantity;
+
+                    $med_stock_array = array('stock' =>$new_stock);
+                    $where_med_stockID = array('medicine_stock.medicine_stock_id' =>$medicine_stock_id);
+
+                    $this->commondatamodel->updateSingleTableData('medicine_stock',$med_stock_array,$where_med_stockID);
+
+
+                 }else{
+                    $med_stock_array = array(
+                                            'hospital_id' =>$hospital_id,
+                                            'medicine_id' =>$medicine_id,
+                                            'batch_id' =>$batch_id,
+                                            'expairy_date' =>$expiry,
+                                            'stock' =>$quantity,
+                                            );
+
+                                            $this->db->insert('medicine_stock', $med_stock_array); 
+
+                 }
+              
+
+            
+        }//end of foreach
+		
+			if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+				return false;
+            } else {
+				$this->db->trans_commit();
+                return true;
+            }
+				
+		}
+		catch(Exception $exc){
+			 echo $exc->getTraceAsString();
+		}
+		
+	}
 
 
 }//end of class

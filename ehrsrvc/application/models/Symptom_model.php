@@ -66,10 +66,11 @@ class Symptom_model extends CI_Model{
 	public function getSymptomsListByHospital($hospital_id){
 		$data = "";
 		$where = array('symptoms.hospital_id' =>$hospital_id);
-		$query = $this->db->select("symptoms.*,hospitals.hospital_name")
+		$query = $this->db->select("symptoms.*,hospitals.hospital_name,group.name as group_name")
 				->from("symptoms")
 				->where($where)
 				->join("hospitals", "hospitals.hospital_id = symptoms.hospital_id", "INNER")
+				->join("group", "group.id = symptoms.group", "INNER")
 				->order_by('symptoms.symptom')->get();
 		if($query->num_rows()>0){
             $data=$query->result();
@@ -79,7 +80,7 @@ class Symptom_model extends CI_Model{
 	
 	
 
-	/**
+/**
      * @name insertIntoSymp
      * @author Shankha ghosh
      * @desc insert symptoms
@@ -94,15 +95,12 @@ class Symptom_model extends CI_Model{
 		
 			$todaydt = date("Y-m-d H:i:s");
             $sympForm = $request->fdata;
-            $where = array('group_master.group_id' =>$sympForm->groupCtrl );
-
-            $groupData = $this->commondatamodel->getSingleRowByWhereCls('group_master',$where);
+     
           
 
 			$symptomsArry = [
 				"symptom" => $sympForm->symptomsCtrl, 
-				"group" => $groupData->group, 
-				"group_master_id" => $sympForm->groupCtrl, 
+				"group" => $sympForm->groupCtrl,
 				"hospital_id" => $hospital_id
 				
 			];
@@ -127,7 +125,48 @@ class Symptom_model extends CI_Model{
 	
 	
 	
-	
+		/**
+     * @name updateSymp
+     * @author Shankha ghosh
+     * @desc update symptoms
+     */
+
+	public function updateSymp($request,$hospital_id){
+		
+		try{
+			
+			$this->db->trans_begin();
+			$insert_data = [];
+		
+			$todaydt = date("Y-m-d H:i:s");
+			$sympForm = $request->fdata;
+
+			//pre($diagForm);
+			$diagonosisArry = [
+				"symptom" => $sympForm->symptomsCtrl, 
+				"group" => $sympForm->groupCtrl
+			
+				
+			];
+			
+			$this->db->where("symptom_id", $sympForm->sympIdCtrl);
+            $this->db->update("symptoms",$diagonosisArry);
+
+		
+			if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+				return false;
+            } else {
+				$this->db->trans_commit();
+                return true;
+            }
+				
+		}
+		catch(Exception $exc){
+			 echo $exc->getTraceAsString();
+		}
+		
+	}
 
     
 }

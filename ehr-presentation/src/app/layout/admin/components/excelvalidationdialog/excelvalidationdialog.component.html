@@ -1,5 +1,15 @@
 
+<mat-toolbar>
 
+    <div style="width:100%;float: right;text-align:right;">
+      <b style="margin-right:245px;">{{messagetext}}</b>
+      
+      <button mat-mini-fab color="warn"   (click)="redirectToComp()" type="button" ><i class="material-icons">
+          clear
+          </i></button>
+     
+    </div>
+</mat-toolbar>
 <table class="table table-striped mat-elevation-z8" style="font-size: 11px;
 letter-spacing: 1px;" >
   <thead>
@@ -10,11 +20,12 @@ letter-spacing: 1px;" >
       <th>Employee Name</th>
       <th>Father's Name</th>
       <th>Division/<br>Department Name</th>
+      <th>Challan</th>
+      <th>Line</th>
       <th>Category</th>
       <th>DOB</th>
       <th>DOJ</th>
-      <th>Age</th>
-      <th>Year Of Service</th>
+      
     </tr>
   </thead>
   <tbody>
@@ -23,17 +34,18 @@ letter-spacing: 1px;" >
             <td class="errorcell"> {{excelrow.estate_name.value}} </td> 
             </div>
             <ng-template #i><td class="errorcell"><td>{{excelrow.estate_name.value}}</td></ng-template>-->
-        <td>{{excelrow.estate_name.value}}</td>
+      <td matTooltip="{{excelrow.estate_name.cell}}" [ngClass]="{'errorcell' : excelrow.estate_name.error}">{{excelrow.estate_name.value}}</td>
       <td>{{excelrow.employee_code.value}}</td>
       <td>{{excelrow.pf_no.value}}</td>
       <td>{{excelrow.employee_name.value}}</td>
       <td>{{excelrow.father_name.value}}</td>
       <td>{{excelrow.division_or_departm.value}}</td>
+      <td>{{excelrow.challan.value}}</td>
+      <td>{{excelrow.line.value}}</td>
       <td>{{excelrow.category.value}}</td>
       <td>{{excelrow.dob.value}}</td>
       <td>{{excelrow.doj.value}}</td>
-      <td align="center">{{excelrow.age.value}}</td>
-      <td align="center">{{excelrow.year_of_service.value}}</td>
+      
     
     </tr>
    

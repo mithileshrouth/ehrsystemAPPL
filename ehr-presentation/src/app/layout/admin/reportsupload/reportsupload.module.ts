@@ -7,6 +7,9 @@ import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 
 import { ReportsuploadRoutingModule } from './reportsupload-routing.module';
 import { ReportsuploadComponent } from './reportsupload.component';
+import { HttpClientModule } from '@angular/common/http'
+import { HttpModule } from '@angular/http';
+
 
 
 
@@ -22,12 +25,14 @@ import { ReportsuploadComponent } from './reportsupload.component';
     ReportsuploadRoutingModule,
     AppMaterialModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule, 
     
     
   ],
   providers:[],
-  declarations: [ReportsuploadComponent],
-  entryComponents : [ReportsuploadComponent]
+  declarations: [ReportsuploadComponent,],
+  entryComponents : [ReportsuploadComponent,]
 })
 export class ReportsuploadModule { }

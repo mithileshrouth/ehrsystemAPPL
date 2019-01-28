@@ -123,7 +123,11 @@ export class CommonService {
     });
   });
   }
-
+/**
+ * @name deleteRecords
+ * @param delid 
+ * @desc change status is_deleted 'Y'
+ */
 
   deleteRecords(delid,column,fromtbl) {
     let myData = JSON.stringify({tid:delid,tc:column,from:fromtbl});
@@ -374,6 +378,123 @@ insertIntoEmployee(formval) {
   let datas = JSON.stringify({fdata:formval});
   return new Promise(resolve => {
     this.http.post(this.global.insertEMP_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @description get Upload report List by patient id
+ */
+getUploadreportList(data) {
+  let datas = JSON.stringify({data:data}); 
+  return new Promise(resolve => {
+     this.http.post(this.global.reportUploadList_URL,datas).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+deleteReportbyId(data) {
+// console.log(data);
+let datas = JSON.stringify({data:data});
+return new Promise(resolve => {
+  
+    this.http.post(this.global.deleteReport_URL,datas).subscribe(data => {
+     resolve(data);
+   }, err => {
+     console.log(err);
+   });
+});
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @description delete row record
+ */
+
+deleteRowRecords(delid,column,fromtbl) {
+  let myData = JSON.stringify({tid:delid,tc:column,from:fromtbl});
+  return new Promise(resolve => {
+     this.http.post(this.global.deleteRowRecord_URL,myData).subscribe(data => {
+       resolve(data);
+      
+     }, err => {
+       console.log(err);
+     });
+   });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @description filter Test name
+ */
+
+filterTestByName(name){
+  let myData = JSON.stringify({pcode: name});
+   return new Promise(resolve => {
+      this.http.post(this.global.testSearchByQry_URL,myData).subscribe(data => {
+        resolve(data);
+       
+      }, err => {
+        console.log(err);
+      });
+    });
+}
+
+
+
+/**
+ * @author Shankha Ghosh
+ * @description change status
+ */
+setstatus(rowid,tablename,columnname,status) {
+  // console.log(data);
+   let datas = JSON.stringify({rowid:rowid,tablename:tablename,columnname:columnname,value:status});
+   return new Promise(resolve => {
+     
+       this.http.post(this.global.changeStatusData_URL,datas).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+   });
+ }
+
+ /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update Diagonosis data by diagonosis_id
+ */
+updateSymptoms(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateSYMP_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+
+  /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert diagonosis into diagonosis table
+ */
+
+
+insertIntoMedicine(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertMED_URL,datas).subscribe(data => {
       resolve(data);
     }, err => {
       console.log(err);

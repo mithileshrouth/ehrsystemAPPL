@@ -12,12 +12,12 @@ import { OkdialogComponent } from './components/dialog/okdialog/okdialog.compone
 import { SuccessdialogComponent } from './components/successdialog/successdialog.component';
 import { ConfirmationdischargeComponent } from  './components/confirmationdischarge/confirmationdischarge.component';
 import { MasterentrydialogComponent } from './components/masterentrydialog/masterentrydialog.component';
-import { SymptomsdialogComponent } from './admin/components/symptomsdialog/symptomsdialog.component';
+
 import { SuccessdialogwithprintComponent } from './components/successdialogwithprint/successdialogwithprint.component';
 import { PrescriptionprintComponent } from './prescriptionprint/prescriptionprint.component';
 import { DismisswithpromptdialogComponent } from './components/dismisswithpromptdialog/dismisswithpromptdialog.component';
 
-
+import { DeleteconfirmationdialogComponent } from './admin/components/deleteconfirmationdialog/deleteconfirmationdialog.component';
 
 @NgModule({
     imports: [
@@ -28,8 +28,9 @@ import { DismisswithpromptdialogComponent } from './components/dismisswithprompt
         ReactiveFormsModule
        
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SymptomsdialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent, DismisswithpromptdialogComponent ],
-    entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent,DismisswithpromptdialogComponent ]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent, DismisswithpromptdialogComponent,DeleteconfirmationdialogComponent ],
+   
+    entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent,DismisswithpromptdialogComponent,DeleteconfirmationdialogComponent ]
  
 })
 export class LayoutModule {}

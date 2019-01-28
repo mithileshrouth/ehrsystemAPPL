@@ -6,7 +6,8 @@ import { AppMaterialModule } from '../../../../app-material/app-material.module'
 import { FormsModule ,ReactiveFormsModule } from '@angular/forms';
 import { SymptomslistRoutingModule } from './symptomslist-routing.module';
 import { SymptomslistComponent } from './symptomslist.component';
-import { DiagonosisedialogComponent } from '../../components/diagonosisedialog/diagonosisedialog.component';
+import { SymptomsdialogComponent } from '../../components/symptomsdialog/symptomsdialog.component';
+
 
 
 
@@ -28,7 +29,7 @@ import { DiagonosisedialogComponent } from '../../components/diagonosisedialog/d
     
   ],
   providers:[],
-  declarations: [SymptomslistComponent, DiagonosisedialogComponent],
-  entryComponents : [DiagonosisedialogComponent]
+  declarations: [SymptomslistComponent,SymptomsdialogComponent],
+  entryComponents : [SymptomsdialogComponent,]
 })
 export class SymptomslistModule { }
