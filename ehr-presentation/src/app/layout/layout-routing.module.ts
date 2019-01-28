@@ -27,7 +27,7 @@ const routes: Routes = [
             { path:'excel', loadChildren:'./admin/importexcel/importexcel.module#ImportexcelModule'},
             { path:'symptoms', loadChildren:'./admin/symptoms/symptoms/symptoms.module#SymptomsModule'},
             { path:'symptomslist', loadChildren:'./admin/symptoms/symptomslist/symptomslist.module#SymptomslistModule'},
-
+            { path:'grn', loadChildren:'./admin/importgrn/importgrn.module#ImportgrnModule'},
            
 
             { path:'sickapproval', loadChildren:'./sickleaveapproval/sickleaveapproval.module#sickleaveapprovalModule'} ,  

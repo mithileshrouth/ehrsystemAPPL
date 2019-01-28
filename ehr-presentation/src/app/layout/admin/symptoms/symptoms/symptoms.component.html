@@ -42,8 +42,8 @@
                       <div fxFlex="90%">
                         <mat-form-field class="fullwidthinp">
                           <mat-select placeholder="Group" formControlName="groupCtrl" >
-                              <mat-option *ngFor="let groups of groupsList[0]" [value]="groups.group_id">
-                                  {{groups.group}}
+                              <mat-option *ngFor="let groups of groupsList[0]" [value]="groups.id">
+                                  {{groups.name}}
                               </mat-option>
                           </mat-select>
                       </mat-form-field>

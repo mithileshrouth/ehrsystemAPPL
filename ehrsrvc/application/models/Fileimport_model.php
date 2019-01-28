@@ -79,5 +79,120 @@ class Fileimport_model extends CI_Model{
 	}
 
 
+        	/**
+     * @name insertIntoMedicine
+     * @author Shankha ghosh
+     * @desc insert medicine
+     */
+
+	public function insertIntoMedicine($request,$hospital_id){
+		
+		try{
+			
+			$this->db->trans_begin();
+			$insert_data = [];
+		
+			$todaydt = date("Y-m-d H:i:s");
+            $MedData = $request->fdata;
+            
+            //pre($MedData);
+
+            foreach ($MedData as $key => $meddata) {
+             
+                $date=$meddata->date->value;
+                $supplier=$meddata->supplier->value;
+                $medicine=trim($meddata->medicine->value);
+                $batch_id=$meddata->batch->value;
+                $expiry=$meddata->expiry->value;
+                $quantity=$meddata->quantity->value;
+                if($date!=""){
+                    $date = str_replace('/', '-', $date);
+                    $date = date("Y-m-d",strtotime($date));
+                }
+                else{
+                    $date = NULL;
+                }
+
+                if($expiry!=""){
+                    $expiry = str_replace('/', '-', $expiry);
+                    $expiry = date("Y-m-d",strtotime($expiry));
+                }
+                else{
+                    $expiry = NULL;
+                }
+
+                $grn_array = [
+                    'hospital_id' =>$hospital_id,
+                    'date' =>$date,
+                    'supplier_details' =>$supplier,
+                 ];
+
+                 $grnmasterID = $this->commondatamodel->insertSingleTableDataRerurnInsertId('grn_master',$grn_array);
+                 $medicineWhere = array('medicine.medicine_name' =>$medicine );
+                 $medicineData = $this->commondatamodel->getSingleRowByWhereCls('medicine',$medicineWhere);
+                 $medicine_id=$medicineData->medicine_id;
+                 $grn_details_array = [
+                    'grn_master_id' =>$grnmasterID,
+                    'medicine_id' =>$medicine_id,
+                    'batch_id' =>$batch_id,
+                    'expiray_date' =>$expiry,
+                    'qty' =>$quantity,
+                    
+                 ];
+
+                 $grnDetails= $this->commondatamodel->insertSingleTableDataRerurnInsertId('grn_details',$grn_details_array);
+
+                 $medWhere = array(
+                                 
+                                    'medicine_stock.medicine_id' =>$medicine_id,
+                                    'medicine_stock.batch_id' =>$batch_id,
+                                    'medicine_stock.hospital_id' =>$hospital_id
+                                 );
+                 $checkMedStock= $this->commondatamodel->duplicateValueCheck('medicine_stock',$medWhere);
+                 if($checkMedStock){
+
+                    $MedStockData= $this->commondatamodel->getSingleRowByWhereCls('medicine_stock',$medWhere);
+                    $medicine_stock_id=$MedStockData->medicine_stock_id;
+                    $stock=$MedStockData->stock;
+                    $new_stock=$stock+$quantity;
+
+                    $med_stock_array = array('stock' =>$new_stock);
+                    $where_med_stockID = array('medicine_stock.medicine_stock_id' =>$medicine_stock_id);
+
+                    $this->commondatamodel->updateSingleTableData('medicine_stock',$med_stock_array,$where_med_stockID);
+
+
+                 }else{
+                    $med_stock_array = array(
+                                            'hospital_id' =>$hospital_id,
+                                            'medicine_id' =>$medicine_id,
+                                            'batch_id' =>$batch_id,
+                                            'expairy_date' =>$expiry,
+                                            'stock' =>$quantity,
+                                            );
+
+                                            $this->db->insert('medicine_stock', $med_stock_array); 
+
+                 }
+              
+
+            
+        }//end of foreach
+		
+			if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+				return false;
+            } else {
+				$this->db->trans_commit();
+                return true;
+            }
+				
+		}
+		catch(Exception $exc){
+			 echo $exc->getTraceAsString();
+		}
+		
+	}
+
 
 }//end of class

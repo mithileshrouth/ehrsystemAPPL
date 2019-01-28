@@ -139,3 +139,19 @@ mat-tab-group {
 	99%{	color:transparent;	}
 	100%{	color: #FFF;	}
 }
+
+.activebtn{
+    background-color: #27a89a;
+}
+
+.inactivebtn{
+    background-color: #d25f57;
+}
+
+table {
+    width: 100%;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }

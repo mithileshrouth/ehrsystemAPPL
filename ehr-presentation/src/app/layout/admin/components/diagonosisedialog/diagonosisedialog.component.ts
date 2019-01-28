@@ -6,6 +6,8 @@ import { Observable} from 'rxjs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Router } from '@angular/router';
 import { SuccessdialogComponent } from '../../../components/successdialog/successdialog.component';
+import {MatSnackBar} from '@angular/material';
+
 
 
 @Component({
@@ -29,6 +31,9 @@ export class DiagonosisedialogComponent implements OnInit {
   msgIcon:string;
   iconColor:string;
   redirectUrl:string;
+
+  updatemessage:string;
+  updateaction:string;
  
 
   constructor(
@@ -37,6 +42,7 @@ export class DiagonosisedialogComponent implements OnInit {
     private commonService:CommonService,
     private patientService:PatientService,
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any 
       ) {
     this.msg = this.data.msg;  
@@ -70,6 +76,7 @@ export class DiagonosisedialogComponent implements OnInit {
 
   onSubmitEdit(formdata) {
     console.log(formdata);
+    
 
    
    
@@ -80,12 +87,22 @@ export class DiagonosisedialogComponent implements OnInit {
       response = data;
       if(response.msg_data == "SUCCESS" && response.msg_status == "200"){
            
-        this.openDialog();
+        //this.openDialog();
+        this.updatemessage='Save Successfully';
+        this.updateaction='';
+ 
+        
+        this.openSnackBar(this.updatemessage,this.updateaction);
         
         
       }
       else{
-        this.openDialogError();
+       // this.openDialogError();
+       this.updatemessage='Something Wrong!';
+       this.updateaction='';
+
+       
+       this.openSnackBar(this.updatemessage,this.updateaction);
       }
       console.log(response);
     },
@@ -102,7 +119,7 @@ export class DiagonosisedialogComponent implements OnInit {
    
   }
 
-  openDialog() {
+ /* openDialog() {
     const dialogRef = this.dialog.open(SuccessdialogComponent, {
       width: '350px',
       disableClose: true,
@@ -134,7 +151,7 @@ export class DiagonosisedialogComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
     
     });
-  }
+  }*/
 
   validateForm(){
     this.validFormErr = "";
@@ -153,4 +170,10 @@ export class DiagonosisedialogComponent implements OnInit {
     return validForm;
   }
 
-}
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
+
+}//end of class

@@ -24,7 +24,7 @@ export class SymptomslistComponent implements OnInit {
   displayedColumns: string[] = [
     'slno',
     'symptom',
-    'group',
+    'group_name',
     'symptom_id'
   ];
 
@@ -72,50 +72,31 @@ export class SymptomslistComponent implements OnInit {
 
   getsympEditDetail(event,data) {
     
-
-    // console.log(data);
-    /*
-     this.diagonosisList = [];
-     let datavaledit;
-     let diaglist;
-     let diagonosis_id;
-     let diagonosis_name;
-     let icd_code;
-     this.commonService.getDiagonosisDataById(data).then(data => {
-       datavaledit = data;
-       diaglist = datavaledit.result;
-       this.diagonosisList.push(diaglist);
-       console.log(this.diagonosisList);
-       const tcount = this.diagonosisList[0].length;
-       diagonosis_id=this.diagonosisList[0].diagonosis_id;
-       diagonosis_name=this.diagonosisList[0].diagonosis_name;
-       icd_code=this.diagonosisList[0].accociated_icd_code;
- 
- 
-       const dialogRef = this.dialog.open(DiagonosisedialogComponent, {
-         width: '650px',
-         disableClose: true,
-         data:  {
-           msg : 'Save Successfully',
-           msgicon : 'check_circle',
-           iconcolor: '#1d8c3d',
-           btnurl : 'panel/diagonosislist',
-           diag_id : diagonosis_id,
-           diag_name : diagonosis_name,
-           i_code : icd_code,
-           }
-       });
-       
-       dialogRef.afterClosed().subscribe(result => {
-        // console.log("fsds");
-        
-       });
-      
-     } ,
-     error => {
-      console.log("error in todays investigation list");
+     console.log(data);
+     console.log(data.group);
+     console.log(data.symptom);
+     console.log(data.symptom_id);
+    
+     const dialogRef = this.dialog.open(SymptomsdialogComponent, {
+      width: '650px',
+      disableClose: true,
+      data:  {
+        msg : 'Save Successfully',
+        msgicon : 'check_circle',
+        iconcolor: '#1d8c3d',
+        btnurl : 'panel/symptomslist',
+        symptom_id : data.symptom_id,
+        symptom : data.symptom,
+        group : data.group,
+        }
     });
-     */
+    
+    dialogRef.afterClosed().subscribe(result => {
+     // console.log("fsds");
+     this.getSymptomsList();
+     
+    });
+     
    }
 
   applyFilter(filterValue: string) {

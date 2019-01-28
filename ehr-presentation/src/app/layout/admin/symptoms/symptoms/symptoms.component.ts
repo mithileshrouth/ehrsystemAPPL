@@ -138,6 +138,7 @@ export class SymptomsComponent implements OnInit {
   }
 
   gotoList(){
+    console.log('list')
     this.router.navigateByUrl('panel/symptomslist');
   }
 }// end of class

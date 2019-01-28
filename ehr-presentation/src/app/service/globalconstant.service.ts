@@ -97,6 +97,7 @@ export class GlobalconstantService {
 
 
   public deleteRecord_URL = this.APIURL+"remove/removeRecord";
+  public deleteRowRecord_URL = this.APIURL+"remove/removeRowRecord";
 
     /* --------------------------------------------------------- 
    * ---------------------------------------------------------
@@ -164,6 +165,7 @@ public groupList_URL = this.APIURL+"master/getGroup";
 
   public insertSYMP_URL = this.APIURL+"symptoms/insertIntoSymptoms";
   public sympList_URL = this.APIURL+"symptoms/getSymptomsList";
+  public updateSYMP_URL = this.APIURL+"symptoms/updateSymptoms";
 
 
   /* --------------------------------------------------------- 
@@ -175,6 +177,26 @@ public groupList_URL = this.APIURL+"master/getGroup";
 
   public excelvalidation_URL = this.APIURL+"fileimport/insertIntoTemp";
   public insertEMP_URL = this.APIURL+"Fileimport/insertIntoEmployee";
+  public grnvalidation_URL = this.APIURL+"fileimport/verifyGrnFile";		
+  public insertMED_URL = this.APIURL+"Fileimport/insertIntoMedicine";
+
+
+/* --------------------------------------------------------- 		
+ * ---------------------------------------------------------		
+ * @ Reports UPLOAD URL 		
+* ---------------------------------------------------------		
+* ---------------------------------------------------------		
+*/		
+public testSearchByQry_URL = this.APIURL+"reportupload/testSearchByQry";		
+public reportUpload_URL = this.APIURL+"Reportupload/uploadReport";		
+public reportUploadList_URL = this.APIURL+"Reportupload/getReportList";		
+public deleteReport_URL = this.APIURL+"Reportupload/deleteReport";		
+		
+/**		
+* change stasus		
+*/		
+		
+public changeStatusData_URL = this.APIURL+"Commoncontroller/changeStatus";
 
 
   getApiURL(){

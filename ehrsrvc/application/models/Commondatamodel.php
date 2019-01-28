@@ -30,7 +30,7 @@ class Commondatamodel extends CI_Model{
             $this->db->trans_begin();
             //$this->db->where($where);
 			$this->db->update($table, $data,$where);
-			$this->db->last_query();
+			//echo $this->db->last_query();
             //$affectedRow = $this->db->affected_rows();
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
@@ -87,7 +87,7 @@ class Commondatamodel extends CI_Model{
 				->from($table)
 				->where($where);
 		$query = $this->db->get();
-	
+	#q();
 		if($query->num_rows()>0){
 			return 1;
 		}

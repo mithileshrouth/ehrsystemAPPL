@@ -1,6 +1,4 @@
-<p>
-  importexcel works!
-</p>
+
 
 
 
@@ -15,9 +13,21 @@
       </div>
   </section>
     </form> -->
+    <h5 class="form_block_title">Patient Excel File Import</h5>
+    <div class="upload-btn-wrapper">
+        <button class="btn">Upload a file</button>
+        <input type="file" name="employeefile" id="employeefile" (change)="upload($event.target.files)" />
+      </div>
 
-    <input type="file" name="employeefile" id="employeefile" (change)="upload($event.target.files)" />
-     <br />
+    
+     <br /> <br />
+     <div *ngIf="isLoader" style="display: inline-block">
+      <mat-spinner [diameter]="70"></mat-spinner>
+      <h3>Lodaing.....</h3>
+     </div>
+    
+
+
     
    <!--<ng-container *ngIf="uploadSuccess">
       Upload Successful
