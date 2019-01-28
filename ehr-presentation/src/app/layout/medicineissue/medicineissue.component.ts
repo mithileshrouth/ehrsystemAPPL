@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild , ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild , ViewEncapsulation  } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 import { MatSelect, VERSION } from '@angular/material';
@@ -30,7 +30,7 @@ import { PhramcyService } from '../../service/phramcy.service';
 })
 export class MedicineissueComponent implements OnInit {
 
- 
+  
   issueBtnDisable = false;
   patientData ;
   PatientID = null;
@@ -69,6 +69,7 @@ export class MedicineissueComponent implements OnInit {
   invoiceForm: FormGroup;
 
   prescrptDoneFrom ;
+  healthProfileID;
 
 
     constructor(
@@ -84,19 +85,25 @@ export class MedicineissueComponent implements OnInit {
         {
       
     this.prescriptObj = this.datashareService.getPrescriptionRowData();
-    this.prescrptDoneFrom = this.prescriptObj.prescFrom;
+    console.log("A");
+    console.log(this.prescriptObj);
+    console.log("B");
 
-    
+     // this.prescrptDoneFrom = this.prescriptObj.prescFrom;
       if(this.prescriptObj && this.prescriptObj.prescFrom == "O") {
 
         localStorage.setItem("prescid", this.prescriptObj.prescription_ID);
         localStorage.setItem("prescpcode", this.prescriptObj.patient_code);
         localStorage.setItem("prescpno", this.prescriptObj.prescription_No);
         localStorage.setItem("presfrom", this.prescriptObj.prescFrom);
+        localStorage.setItem("med_p_health_id", this.prescriptObj.patient_health_profile_id);
 
         this.localStrgPrescpID = localStorage.getItem("prescid");
         this.localStrgPrescpPCode = localStorage.getItem("prescpcode");
         this.localStrgPrescpNo = localStorage.getItem("prescpno");
+        this.prescrptDoneFrom = localStorage.getItem("presfrom");
+        this.healthProfileID = localStorage.getItem("med_p_health_id");
+       
     }
 
     if(this.prescriptObj && this.prescriptObj.prescFrom == "I") {
@@ -104,10 +111,13 @@ export class MedicineissueComponent implements OnInit {
       localStorage.setItem("prescpcode", this.prescriptObj.patient_code);
       localStorage.setItem("prescpno", this.prescriptObj.prescription_No);
       localStorage.setItem("presfrom", this.prescriptObj.prescFrom);
+      localStorage.setItem("med_p_health_id", this.prescriptObj.patient_health_profile_id);
 
       this.localStrgPrescpID = localStorage.getItem("prescid");
       this.localStrgPrescpPCode = localStorage.getItem("prescpcode");
       this.localStrgPrescpNo = localStorage.getItem("prescid"); // prescpno = prescid in IPD case
+      this.prescrptDoneFrom = localStorage.getItem("presfrom");
+      this.healthProfileID = localStorage.getItem("med_p_health_id");
     
     }
      
@@ -137,7 +147,6 @@ export class MedicineissueComponent implements OnInit {
 
   
     ngOnInit() {
-      
       
       this.prescriptionMedForm = this.fb.group({
         medicineRows: this.fb.array([])
@@ -194,6 +203,12 @@ export class MedicineissueComponent implements OnInit {
     
 
     getMedicinesByPrescription(prescriptionID,prescrptDoneFrom){
+
+      console.log("Presc ID "+prescriptionID);
+      console.log("Presc From "+prescrptDoneFrom);
+
+
+
       let response;
       let meddata;
       this.phramcyService.getMedicinesByPrescription(prescriptionID,prescrptDoneFrom).then(data => {
@@ -214,7 +229,7 @@ export class MedicineissueComponent implements OnInit {
       error => {
            console.log("There is some error on submitting...");
        });
-      
+    
     }
   
     getbatchInfo(data,event,index,stockval) {
@@ -269,12 +284,13 @@ export class MedicineissueComponent implements OnInit {
       console.log(this.prescriptionMedForm.value);
       console.log("prescrptDoneFrom");
       console.log(this.prescrptDoneFrom);
+
    
      
-  
+
       this.sendPhrmcyBtnActive = false;
       let response;
-      this.phramcyService.insertToMedicineIssue(this.prescriptionMedPatientInfoForm.value,this.prescriptionMedForm.value,this.prescrptDoneFrom,this.prescriptObj.patient_health_profile_id).then(data => {
+      this.phramcyService.insertToMedicineIssue(this.prescriptionMedPatientInfoForm.value,this.prescriptionMedForm.value,this.prescrptDoneFrom,this.healthProfileID).then(data => {
         response = data;
           this.sendPhrmcyBtnActive = true;
         if(response.msg_status == 200) {
@@ -294,7 +310,7 @@ export class MedicineissueComponent implements OnInit {
            console.log("There is some error on submitting...");
        });
   
-     
+ 
 
 
      }

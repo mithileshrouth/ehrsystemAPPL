@@ -9,7 +9,17 @@ class User_model extends CI_Model {
                         "users.PASSWORD"=>md5($password),
                         "users.is_active"=>'Y'
                 ];
-        $query = $this->db->select("users.*,user_role.*")
+        $query = $this->db->select("
+                            users.user_id,
+                            users.user_name,
+                            users.first_name,
+                            users.last_name,
+                            users.user_role_id,
+                            users.hospital_id,
+                            users.doctor_id,
+                            user_role.user_role_code,
+                            user_role.user_role_name
+                            ")
                           ->from("users")
                           ->join("user_role","users.user_role_id=user_role.id")
                           ->where($where_clause)

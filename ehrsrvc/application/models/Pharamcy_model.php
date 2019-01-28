@@ -39,18 +39,23 @@ class Pharamcy_model extends CI_Model{
 							opd_prescription.id AS prescription_ID,
 							opd_prescription.opd_prescription_id AS prescription_No,
 							DATE_FORMAT(opd_prescription.date,'%d/%m/%Y') AS prescDate,
-							'O' AS prescFrom
+							'O' AS prescFrom,
+							patient_health_profile.patient_health_profile_id
 							",FALSE)
                           ->from("opd_prescription") 
 						  ->join("issue_medicine_master","issue_medicine_master.opd_ipd_prescription_id = opd_prescription.id AND issue_medicine_master.opd_ipd_flag = 'O' ", "LEFT")
 						  ->join("patients" , "patients.patient_id = opd_prescription.patient_id" , "INNER")
+						  ->join("patient_health_profile" , "patient_health_profile.prescription_addmission_id = opd_prescription.id AND patient_health_profile.opd_ipd_flag = 'O'" , "INNER")
+						  ->join("opd_ipd_medicine" , "opd_ipd_medicine.health_profile_id = patient_health_profile.patient_health_profile_id AND opd_ipd_medicine.opd_ipd_flag = 'O'" , "LEFT")
 						  ->join("patient_type" , "patient_type.patient_type_id = patients.patient_type_id" , "INNER")
 						  ->where($where)
 						  ->where('issue_medicine_master.issue_id IS NULL')
+						  ->where('opd_ipd_medicine.id IS NOT NULL')
+						  ->group_by("`patient_health_profile`.`patient_health_profile_id`")
 						  ->order_by('opd_prescription.date','DESC')
 						  ->get();
 						  
-		// echo $this->db->last_query();
+		 //echo $this->db->last_query();
 		
         if($query->num_rows()>0) {
             $resultdata=$query->result();
@@ -100,6 +105,7 @@ class Pharamcy_model extends CI_Model{
 	  ->join("patients" , "patients.patient_id = ipd_patient_master.patient_id" , "INNER")
 	  ->join("patient_type" , "patient_type.patient_type_id = patients.patient_type_id" , "INNER")
 	  ->join("issue_medicine_master" , "`issue_medicine_master`.`opd_ipd_prescription_id` = `ipd_patient_master`.`admission_id` AND issue_medicine_master.`health_profile_id` = patient_health_profile.`patient_health_profile_id`" , "LEFT")
+	  ->join("opd_ipd_medicine" , "opd_ipd_medicine.health_profile_id = patient_health_profile.patient_health_profile_id AND opd_ipd_medicine.opd_ipd_flag = 'I'" , "LEFT")
 	  ->where($where)
 	  ->where("patient_health_profile.`patient_health_profile_id` IN (
 				SELECT MAX(patient_health_profile.`patient_health_profile_id`)
@@ -107,6 +113,8 @@ class Pharamcy_model extends CI_Model{
 				GROUP BY patient_health_profile.`prescription_addmission_id`
 			)")
 	  ->where('issue_medicine_master.issue_id IS NULL')
+	  ->where('opd_ipd_medicine.id IS NOT NULL')
+	  ->group_by("`patient_health_profile`.`patient_health_profile_id`")
 	  ->order_by('patient_health_profile.date','DESC')
 	  ->get();
 
@@ -141,8 +149,8 @@ class Pharamcy_model extends CI_Model{
 				")
 				->from("opd_ipd_medicine") 
 				->join("medicine","medicine.medicine_id = opd_ipd_medicine.medicine_id","INNER")
-				->join("medicine_dosage","medicine_dosage.dosage_id = opd_ipd_medicine.dose_id","INNER")
-				->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","INNER")
+				->join("medicine_dosage","medicine_dosage.dosage_id = opd_ipd_medicine.dose_id","LEFT")
+				->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","LEFT")
 				->where($where)
 				->get();
 		}
@@ -159,8 +167,8 @@ class Pharamcy_model extends CI_Model{
 				")
 				->from("opd_ipd_medicine") 
 				->join("medicine","medicine.medicine_id = opd_ipd_medicine.medicine_id","INNER")
-				->join("medicine_dosage","medicine_dosage.dosage_id = opd_ipd_medicine.dose_id","INNER")
-				->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","INNER")
+				->join("medicine_dosage","medicine_dosage.dosage_id = opd_ipd_medicine.dose_id","LEFT")
+				->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","LEFT")
 				->join("issue_medicine_master","issue_medicine_master.health_profile_id = opd_ipd_medicine.health_profile_id","LEFT")
 				->where($where)
 				->where("opd_ipd_medicine.health_profile_id = 
@@ -220,6 +228,8 @@ class Pharamcy_model extends CI_Model{
 				$master_data = [];
 				$patients = $request->patientinfo;
 				$doneFrom = $request->from;
+
+
 				$healthProfileID = $request->hprofile;
 				$rowPatient = $this->patient->getPatientByCode($patients->patientID);
 				$pres_id = 0;

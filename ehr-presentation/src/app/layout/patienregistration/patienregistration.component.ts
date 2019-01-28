@@ -672,6 +672,7 @@ searchPatient(){
   openDialog() {
     const dialogRef = this.dialog.open(PatientadddialogComponent, {
       width: '900px',
+      disableClose: true,
       data: ''
     });
   

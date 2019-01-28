@@ -16,7 +16,7 @@
     [opened]="!(isHandset$ | async)">
     <mat-toolbar class="primarycolor" >Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink='/panel/dashboard'><mat-icon>dashboard</mat-icon> Dashboard</a>
+      <a mat-list-item routerLink='{{redirectHome}}'><mat-icon>dashboard</mat-icon> Home</a>
       <a mat-list-item routerLink="/panel/test"><mat-icon>queue</mat-icon> Test</a>
       <a mat-list-item routerLink="/panel/diagonosis"><mat-icon>queue</mat-icon> Diagonosis</a>
       <a mat-list-item routerLink="/panel/symptoms"><mat-icon>queue</mat-icon> Symptoms</a>
@@ -32,6 +32,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
+    
     <mat-toolbar class="primarycolor">
       <button
         type="button"
@@ -44,21 +45,19 @@
       
 
       <span class="fill-remaining-space">
-         
+        <!---->
         <mat-menu #menu="matMenu" [overlapTrigger]="false">
-          <button mat-menu-item>
-            <mat-icon>home</mat-icon>
-            <span>Home</span>
-          </button>
+        
          
          
-          <button mat-menu-item>
+          <button mat-menu-item (click)="Logout()">
             <mat-icon>exit_to_app</mat-icon>
             <span>Logout</span>
           </button>
-        </mat-menu>
+      </mat-menu>
       </span>
-      <span class="fill-remaining-space">Application Title</span>
+
+      <span class="fill-remaining-space">Pawoi</span>
     
        <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>dashboard</mat-icon>
@@ -73,7 +72,7 @@
 
 
 
-<mat-sidenav-container class="sidenav-container" *ngIf="isNotAdmin">
+<mat-sidenav-container class="sidenav-container" *ngIf="!isAdmin">
   
      
       <mat-sidenav-content>
@@ -95,7 +94,7 @@
 
         <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
             <mat-toolbar class="primarycolor" >
-                <mat-icon>home</mat-icon>
+                <mat-icon style="cursor:pointer;" (click)="redirectToHome()">home</mat-icon>
                 <div fxFlex="50%">
                    
                     <p class="welcome_title">Welcome {{username}} </p>
@@ -103,7 +102,7 @@
 
                     <span class="fill-remaining-space">
                         <mat-menu #menu="matMenu" [overlapTrigger]="false">
-                          <button mat-menu-item>
+                          <button mat-menu-item (click)="redirectToHome()">
                             <mat-icon>home</mat-icon>
                             <span>Home</span>
                           </button>

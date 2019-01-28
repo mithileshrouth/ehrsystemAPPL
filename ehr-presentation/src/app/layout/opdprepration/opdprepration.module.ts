@@ -9,6 +9,7 @@ import { OpdpreprationComponent } from './opdprepration.component';
 import { ChildvaccinationComponent } from '../partialcomponent/childvaccination/childvaccination.component';
 import { PregnancyComponent } from '../partialcomponent/pregnancy/pregnancy.component';
 import { OpdprescriptionhistordialogComponent } from '../components/opdprescriptionhistordialog/opdprescriptionhistordialog.component';
+import { OpdnewprescconfirmationdialogComponent } from '../components/opdnewprescconfirmationdialog/opdnewprescconfirmationdialog.component';
 
 
 
@@ -29,7 +30,7 @@ import { OpdprescriptionhistordialogComponent } from '../components/opdprescript
     
   ],
   providers:[],
-  declarations: [OpdpreprationComponent,ChildvaccinationComponent,PregnancyComponent,OpdprescriptionhistordialogComponent],
-  entryComponents : [OpdprescriptionhistordialogComponent]
+  declarations: [OpdpreprationComponent,ChildvaccinationComponent,PregnancyComponent,OpdprescriptionhistordialogComponent,OpdnewprescconfirmationdialogComponent],
+  entryComponents : [OpdprescriptionhistordialogComponent,OpdnewprescconfirmationdialogComponent]
 })
 export class OpdpreprationModule { }

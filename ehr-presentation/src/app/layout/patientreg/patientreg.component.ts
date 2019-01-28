@@ -8,7 +8,7 @@ import { GlobalconstantService } from '../../service/globalconstant.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-import * as jwt_decode from "jwt-decode";
+
 
 
 
@@ -170,8 +170,8 @@ export class PatientregComponent implements OnInit {
   ngOnInit() {
     this.getPatientLists();
     this.getContacts();
-    let token = this.getDecodedAccessToken(localStorage.getItem("token"));
-    console.log(token.data.user_name); // show decoded token object in console
+   // let token = this.getDecodedAccessToken(localStorage.getItem("token"));
+  //  console.log(token.data.user_name); // show decoded token object in console
   }
   public  getContacts(){
     let patient;
@@ -216,7 +216,7 @@ export class PatientregComponent implements OnInit {
 
   getDecodedAccessToken(token: string): any {
     try{
-        return jwt_decode(token);
+      //  return jwt_decode(token);
     }
     catch(Error){
         return null;

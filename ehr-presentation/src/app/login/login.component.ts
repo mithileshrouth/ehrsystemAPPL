@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   onSubmit(formVal) {
     
     
-
+    localStorage.removeItem("token");
   
     if(this.isLoginFormValid(formVal)){
     this.loginButtonActive = false;
@@ -49,10 +49,11 @@ export class LoginComponent implements OnInit {
     if(response.msg_status==100){
       const user_data = response.userdata;
       localStorage.setItem("token", response.token);
+      
       localStorage.setItem("fname", user_data.first_name);
       localStorage.setItem("lname", user_data.last_name);
      // this.router.navigate(['/panel/registration']);
-      console.log(user_data.user_role_code);
+      
       if(user_data.user_role_code=="ADMIN"){
         this.router.navigate(['/panel/dashboard']);
       }

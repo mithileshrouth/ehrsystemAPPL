@@ -13,7 +13,7 @@
 
     <div class="ipdFormContainer">
 
-        <form [formGroup]="ipdDischargeForm" (ngSubmit)="onSubmit(ipdDischargeForm.value)">
+        <form (keydown.enter)="$event.preventDefault()" [formGroup]="ipdDischargeForm" (ngSubmit)="onSubmit(ipdDischargeForm.value)">
 
             <!--  Discahrge Block-->
             <section class="ipdregBlock">
@@ -326,7 +326,7 @@
             <section id="ipdSubmitBlock">
                 <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
                     <button mat-flat-button color="warn" class="phrmcybtn" type="button" (click)="removeIPDDischarge()" *ngIf="isRemoveEnable"> Remove</button>
-                    <button mat-flat-button color="primary" class="phrmcybtn" type="submit"> Submit</button>
+                    <button mat-flat-button color="primary" class="phrmcybtn" type="submit"> Save</button>
                 </div>
             </section>
 

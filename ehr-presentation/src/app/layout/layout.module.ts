@@ -15,6 +15,7 @@ import { MasterentrydialogComponent } from './components/masterentrydialog/maste
 import { SymptomsdialogComponent } from './admin/components/symptomsdialog/symptomsdialog.component';
 import { SuccessdialogwithprintComponent } from './components/successdialogwithprint/successdialogwithprint.component';
 import { PrescriptionprintComponent } from './prescriptionprint/prescriptionprint.component';
+import { DismisswithpromptdialogComponent } from './components/dismisswithpromptdialog/dismisswithpromptdialog.component';
 
 
 
@@ -27,8 +28,8 @@ import { PrescriptionprintComponent } from './prescriptionprint/prescriptionprin
         ReactiveFormsModule
        
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SymptomsdialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent  ],
-    entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent ]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent, OkdialogComponent , SuccessdialogComponent , ConfirmationdischargeComponent, MasterentrydialogComponent,SymptomsdialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent, DismisswithpromptdialogComponent ],
+    entryComponents : [SuccessdialogComponent , ConfirmationdischargeComponent , MasterentrydialogComponent,SuccessdialogwithprintComponent,PrescriptionprintComponent,DismisswithpromptdialogComponent ]
  
 })
 export class LayoutModule {}

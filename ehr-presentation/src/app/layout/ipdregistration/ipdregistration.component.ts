@@ -12,6 +12,13 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA , MatDialogConfig } from '@angular/material';
 import { SuccessdialogComponent } from '../components/successdialog/successdialog.component';
 import { IpdService } from './../../service/ipd.service';
+import { MasterentrydialogComponent } from '../components/masterentrydialog/masterentrydialog.component';
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material';
 
 
 
@@ -76,7 +83,7 @@ export class IpdregistrationComponent implements OnInit {
   testReportError:string = "";
   validFormErr:string = "";
 
-  constructor(private router:Router, private commonService:CommonService, private symptomdiseaseService:SymptomdiseaseService , private datashareService:DatashareService , private patientService:PatientService , public dialog: MatDialog , private ipdService:IpdService) { 
+  constructor(private router:Router, private commonService:CommonService, private symptomdiseaseService:SymptomdiseaseService , private datashareService:DatashareService , private patientService:PatientService , public dialog: MatDialog , private ipdService:IpdService,public snackBar: MatSnackBar) { 
     
     this.ipdRegistrationForm = new FormGroup({
       admissionDtCtrl: new FormControl(new Date().toISOString()),
@@ -517,6 +524,57 @@ export class IpdregistrationComponent implements OnInit {
     
     });
   }
+
+  // Investigation
+  openInvestigationEntryDialog() {
+      
+    
+     
+     
+    let fields = [
+      {
+        "ctrlname" : "investigationNameCtrl",
+        "inputtyep" : "text",
+        "placeholder" : "Test Name *"
+      }
+      
+    ];
+
+    let formCtrlInilize = {
+      investigationNameCtrl : new FormControl('',Validators.required)
+      
+    }
+
+    const dialogRef = this.dialog.open(MasterentrydialogComponent, {
+      width: '350px',
+      disableClose: true,
+      data:  {
+        fielddatas : fields,
+        initializeField:formCtrlInilize,
+        iconcolor: '#1d8c3d',
+        tbl : 'investigation',
+        datafrom : 'INVESTIGATION', // don't change this value
+        heading:'Add Test'
+       }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+        //this.getDiseaseList(this.presciptionForm.get("symptomsMultiCtrl").value);
+        if(result.from=="Save") {
+          this.openSnackBar("Test Added successfully");
+          this.getIvestigations();
+        }
+    });
+
+  }
+
+  openSnackBar(msg) {
+    let config = new MatSnackBarConfig();
+    config.duration = 3000;
+    this.snackBar.open(msg, "", config);
+   
+  }
+
 
   backToIpdList() {
     this.router.navigateByUrl('panel/ipdlist');

@@ -127,7 +127,7 @@ class Pharamcy extends CI_Controller{
 		$request = json_decode($postdata);
 		
 		$prescriptionID = $request->prescID;
-		$reqFrom = $request->from;
+        $reqFrom = $request->from;
         $resultdata = $this->pharamcy->getMedicineByPrescription($prescriptionID , $reqFrom, $hospital_id);
            
 		$json_response = [

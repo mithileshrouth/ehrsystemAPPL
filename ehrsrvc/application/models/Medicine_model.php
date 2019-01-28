@@ -156,8 +156,8 @@ class Medicine_model extends CI_Model{
 									")
                          ->from("opd_ipd_medicine") 
 						 ->join("medicine","medicine.medicine_id = opd_ipd_medicine.medicine_id","INNER")
-						 ->join("medicine_dosage","medicine_dosage.dosage_id = opd_ipd_medicine.dose_id","INNER")
-						 ->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","INNER")
+						 ->join("medicine_dosage","medicine_dosage.dosage_id = opd_ipd_medicine.dose_id","LEFT")
+						 ->join("frequency_master","frequency_master.frequency_master_id = opd_ipd_medicine.frequeny","LEFT")
 						 ->where($where)
 						 ->get();
 		//echo $this->db->last_query();

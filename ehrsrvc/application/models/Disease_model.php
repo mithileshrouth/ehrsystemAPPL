@@ -23,17 +23,23 @@ class Disease_model extends CI_Model{
 		}
 		
 	
-		
+		/* Temporary Blocked This Query on 01.12.2018  
 		$query = $this->db->select("diagonosis.diagonosis_id,diagonosis.diagonosis_name")
                          ->from("symptoms_diagonosis_map") 
 						  ->join("diagonosis","diagonosis.diagonosis_id = symptoms_diagonosis_map.diagonosis_id","INNER")
-						 ->order_by('diagonosis.diagonosis_name')
+                         ->order_by('diagonosis.diagonosis_name')
+        */                 
 						 /* Temporary Blocked This Line on 01.12.2018  
 							Don't remove this line
 							->where_in('symptoms_diagonosis_map.symptom_id', $symptomsID)
 						 */
-						 ->where($where)
-                         ->get();
+        
+        $query = $this->db->select("diagonosis.diagonosis_id,diagonosis.diagonosis_name")
+                        ->from("diagonosis") 
+                        ->order_by('diagonosis.diagonosis_name')
+                        ->where($where)
+                        ->get();
+
 		//echo $this->db->last_query();
         if($query->num_rows()>0) {
             $resultdata=$query->result();

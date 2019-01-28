@@ -16,8 +16,9 @@ export class LayoutComponent implements OnInit {
     time: Date;
     currdate = new Date();
     collapedSideBar: boolean;
-    isNotAdmin:boolean = true;
-    isAdmin:boolean = true;
+    isNotAdmin:boolean = false;
+    isAdmin:boolean = false;
+    redirectHome;
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -38,9 +39,21 @@ export class LayoutComponent implements OnInit {
     }
 
     ngOnInit() {
+
         let token = this.getDecodedAccessToken(localStorage.getItem("token"));
-        
-        this.username = localStorage.getItem('fname') +" "+localStorage.getItem('lname');
+       // console.log(token);
+        this.redirectHome = this.getHomeUrl(token.data.user_role_code);
+
+        if(token.data.user_role_code=="ADMIN") {
+            this.isAdmin = true;
+           // this.isNotAdmin = false;
+        }
+        else{
+            this.isAdmin = false;
+           // this.isNotAdmin = true;
+        }
+        //this.username = localStorage.getItem('fname') +" "+localStorage.getItem('lname');
+        this.username = localStorage.getItem('fname') ;
     }
 
     receiveCollapsed($event) {
@@ -61,4 +74,36 @@ export class LayoutComponent implements OnInit {
         localStorage.clear();
         this.router.navigate(['/']);
       }
+
+      getHomeUrl(rolecode:string){
+        let homeUrl = "";
+        if(rolecode == "ADMIN"){
+            homeUrl = "/panel/dashboard";
+        }
+
+        else if(rolecode == "DOC"){
+            homeUrl = "/panel/doctor";
+        }
+
+        else if(rolecode == "PHRM"){
+            homeUrl = "/panel/prescriptionlist";
+        }
+
+        
+        else if(rolecode == "ASST"){
+            homeUrl = "/panel/registration";
+        }
+        else {
+            homeUrl = "";
+        }
+
+        return homeUrl;
+
+      }
+
+
+      redirectToHome(){
+        this.router.navigate([this.redirectHome]);
+      }
+      
 }

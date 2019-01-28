@@ -274,7 +274,8 @@ class Registration_model extends CI_Model{
 		
 		$where = [
 			"DATE_FORMAT(registration.date_of_registration,'%Y-%m-%d')" => $today,
-			"registration.hospital_id" => $hospitalid
+			"registration.hospital_id" => $hospitalid,
+			"registration.is_deleted" => 'N'
 		];
 	
 		$query = $this->db->select("

@@ -12,7 +12,7 @@
 
     <div class="ipdFormContainer">
 
-        <form [formGroup]="ipdRegistrationForm" (ngSubmit)="onSubmit(ipdRegistrationForm.value)">
+        <form (keydown.enter)="$event.preventDefault()" [formGroup]="ipdRegistrationForm" (ngSubmit)="onSubmit(ipdRegistrationForm.value)">
 
             <!--  Reg Block-->
             <section class="ipdregBlock">
@@ -227,7 +227,7 @@
                                             </mat-form-field>
                                         </th>
                                         <th>
-                                            <button type="button" mat-mini-fab color="warn" (click)="addMedicine()"><mat-icon class="addicon">add_circle</mat-icon></button>
+                                            <button type="button" mat-mini-fab color="warn" (click)="addMedicine()"  ><mat-icon class="addicon">add_circle</mat-icon></button>
                                         </th>
 
                                 </tr>
@@ -259,16 +259,21 @@
 
                         <div class="patient_investigation">
 
-                            <h5>Add Tests <span class="dtlerr" style="text-align: right;float:right;">{{testReportError}}</span></h5>
+                            <h5>Add Tests 
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span (click)="openInvestigationEntryDialog()" matTooltip="+ New Test" color="warn" style="color: #FF2616;font-size: 12px;cursor:pointer;">+ New Test</span>  
+                                <span class="dtlerr" style="text-align: right;float:right;">{{testReportError}}</span></h5>
                             
                             <table style="width:100%;" class="cutomTbl" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Report</th>
+                                    <!--<th>Date</th>-->
+                                    <th>Test</th>
                                     <th>Action</th>
                                 </tr>
 
                                 <tr>
+                                    <!--
                                     <th style="width: 30%;">
                                         <mat-form-field>
                                             <input matInput [matDatepicker]="picker2" placeholder="" formControlName="investigationDt">
@@ -276,9 +281,10 @@
                                             <mat-datepicker #picker2></mat-datepicker>
                                         </mat-form-field>
                                     </th>
+                                    -->
 
                                     <th style="width: 60%;">
-                                        <mat-select formControlName="reportsCtrl" placeholder="Reports" #singleSelect (selectionChange)="clearTestError($event)">
+                                        <mat-select formControlName="reportsCtrl" placeholder="Select Test" #singleSelect (selectionChange)="clearTestError($event)">
                                             <ngx-mat-select-search formControlName="reportsFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
                                             <mat-option *ngFor="let reports of filteredReports | async" [value]="reports">
                                                 {{reports.name}}
@@ -295,7 +301,7 @@
                                
 
                                 <tr *ngFor="let addedinv of addedInvestigations;">
-                                        <td>{{addedinv.invdate | date:'dd/MM/yyyy' }}</td>
+                                        <!--<td>{{addedinv.invdate | date:'dd/MM/yyyy' }}</td>-->
                                         <td>{{addedinv.reports.name}}</td>
                                         <td>
                                             <button mat-icon-button color="primary" type="button" (click)="removeMedReports(i)"><mat-icon >clear</mat-icon></button>
@@ -345,7 +351,7 @@
             <!--Button Block-->
             <section id="ipdSubmitBlock">
                 <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-                    <button mat-flat-button color="primary" class="phrmcybtn" type="submit"> Register</button>
+                    <button mat-flat-button color="primary" class="phrmcybtn" type="submit"> Save</button>
                 </div>
             </section>
 

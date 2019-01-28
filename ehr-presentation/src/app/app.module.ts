@@ -25,6 +25,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatSidenavModule, MatListModule ,MatMenuModule } from '@angular/material';
 import { AppMaterialModule } from './app-material/app-material.module';
+import { AutofocusDirective } from './autofocus.directive';
 
 
 
@@ -34,6 +35,7 @@ import { AppMaterialModule } from './app-material/app-material.module';
 @NgModule({
   declarations: [
     AppComponent,
+    AutofocusDirective,
     
    
      

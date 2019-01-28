@@ -13,7 +13,7 @@
         </mat-toolbar>
       <div class="ipdFormContainer">
   
-          <form [formGroup]="ipdVisitRegistrationForm" (ngSubmit)="onSubmit(ipdVisitRegistrationForm.value)">
+          <form (keydown.enter)="$event.preventDefault()" [formGroup]="ipdVisitRegistrationForm" (ngSubmit)="onSubmit(ipdVisitRegistrationForm.value)">
   
               <!--  Reg Block-->
               <section class="ipdregBlock">
@@ -233,7 +233,7 @@
                               <table style="width:100%;" class="cutomTbl" cellspacing="0" cellpadding="0">
                                   <tr>
                                       <!--<th>Date</th>-->
-                                      <th>Report</th>
+                                      <th>Test</th>
                                       <th>Action</th>
                                   </tr>
   
@@ -249,7 +249,7 @@
                                       -->
   
                                       <th style="width: 60%;">
-                                          <mat-select formControlName="reportsCtrl" placeholder="Reports" #singleSelect (selectionChange)="clearTestError($event)">
+                                          <mat-select formControlName="reportsCtrl" placeholder="Select Test" #singleSelect (selectionChange)="clearTestError($event)">
                                               <ngx-mat-select-search formControlName="reportsFilterCtrl" [placeholderLabel]="'Search'" [noEntriesFoundLabel]="'no records found'"></ngx-mat-select-search>
                                               <mat-option *ngFor="let reports of filteredReports | async" [value]="reports">
                                                   {{reports.name}}
@@ -311,7 +311,7 @@
               <!--Button Block-->
               <section id="ipdSubmitBlock">
                   <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-                      <button mat-flat-button color="primary" class="phrmcybtn" type="submit"> Submit</button>
+                      <button mat-flat-button color="primary" class="phrmcybtn" type="submit"> Save</button>
                   </div>
               </section>
   

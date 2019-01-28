@@ -2,15 +2,15 @@ import { Component, OnInit,Inject } from '@angular/core';
 import { CommonService } from '../../../service/common.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { PatientService } from '../../../service/patient.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-
 import { AfterViewInit,  OnDestroy,  ViewChild } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { MatSelect, VERSION } from '@angular/material';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA , MatDialogConfig} from '@angular/material';
 import { GlobalconstantService } from '../../../service/globalconstant.service';
+import { DismisswithpromptdialogComponent } from '../dismisswithpromptdialog/dismisswithpromptdialog.component';
+
 
 export interface DialogData {
   animal: string;
@@ -42,11 +42,12 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
   registerButtonActive = true;
   loaderActive = false;
   issubmitted = false;
+  maxDate:Date = new Date();
 
   date = new FormControl(new Date());
   serializedDate = new FormControl((new Date()).toISOString());
   
-  constructor(public dialogRef: MatDialogRef<PatientadddialogComponent> , private commonService:CommonService,private patientService:PatientService ,  @Inject(MAT_DIALOG_DATA) public data: "d" , private _global:GlobalconstantService) { 
+  constructor(public dialogRef: MatDialogRef<PatientadddialogComponent> , private commonService:CommonService,private patientService:PatientService ,  @Inject(MAT_DIALOG_DATA) public data: "d" , private _global:GlobalconstantService ,public dialog: MatDialog) { 
 
     this.patientAddForm = new FormGroup({
      /* pcodeCtrl: new FormControl(''), */
@@ -64,7 +65,7 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
       linenoCtrl: new FormControl(''),
       divisionCtrl: new FormControl(''),
       challannoCtrl: new FormControl(''),
-      estateCtrl: new FormControl('' , Validators.required)
+      estateCtrl: new FormControl({value: '', disabled: true}, Validators.required)
      
  });
 
@@ -79,6 +80,9 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
   @ViewChild('singleSelect') singleSelect: MatSelect;
     /** Subject that emits when the component has been destroyed. */
     private _onDestroy = new Subject<void>();
+
+
+  get f() { return this.patientAddForm.controls; }
 
   ngOnInit() {
     this.getPatientCode('E');
@@ -157,6 +161,8 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
         estateCtrl: estatelist[0].id
       });
 
+      this.patientAddForm.controls['estateCtrl'].disable(); 
+
     },
     error => {
      console.log("There is some error in Estate List...");
@@ -194,7 +200,8 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
     let data = {
       "from":"Close"
     }
-    this.dialogRef.close();
+    this.openConfirmationDialog();
+    //this.dialogRef.close();
   }
 
   getBloodGroup(){
@@ -277,7 +284,7 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
       console.log("Validation Required");
     }
     else{
-
+      this.patientAddForm.controls['estateCtrl'].enable(); 
       this.registerButtonActive = false;
       this.loaderActive = true;
       let response;
@@ -309,10 +316,19 @@ export class PatientadddialogComponent implements OnInit , OnDestroy {
        });
     }
 
+}
 
 
 
-  }
+openConfirmationDialog() {
+  const dialogRef = this.dialog.open(DismisswithpromptdialogComponent, {
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+     
+  });
+}
 
 
   

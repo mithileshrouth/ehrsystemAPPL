@@ -9,6 +9,7 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 import { MatTabChangeEvent } from '@angular/material';
 
 
+
 @Component({
   selector: 'app-pharmacymedicinelist',
   templateUrl: './pharmacymedicinelist.component.html',
@@ -198,8 +199,11 @@ getOPDMedicineByPresciption(event,data){
   
   (document.querySelector('#prescriptrowBtn_'+data.prescription_ID) as HTMLElement).style.display = 'none';
   (document.querySelector('#prescriptrowLoader_'+data.prescription_ID) as HTMLElement).style.display = 'block';
+ // console.log(data);
+  
   this.datashareService.savePrescriptionRowData(data);
   this.router.navigate(['/panel/medicineissue']);
+  
    
 }
 

@@ -21,6 +21,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material';
 import { SuccessdialogwithprintComponent } from '../components/successdialogwithprint/successdialogwithprint.component';
+import { OpdnewprescconfirmationdialogComponent } from '../components/opdnewprescconfirmationdialog/opdnewprescconfirmationdialog.component';
 
 
 
@@ -783,9 +784,9 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
     }
 
     resetPresForm(){
-     
      // this.presciptionForm.reset();
-      this.presciptionForm.patchValue({
+       
+        this.presciptionForm.patchValue({
         symptomsMultiCtrl: '',
         symptomsMultiFilterCtrl: '',
         diagnosisMultiCtrl: '',
@@ -810,16 +811,35 @@ export class OpdpreprationComponent implements OnInit, OnDestroy {
         isReffHospital: '',
         reffHospitalCtrl: '',
         reffHospitalFilterCtrl: ''
+       
+
       });
 
       this.addedMeddata = [];
       this.addedInvestigations = [];
+     
+     
     }
 
     clearFormValidErr(event){
       this.validFormErr = "";
     }
     
+
+    
+    openNewFormConfirmationDialog() {
+      const dialogRef = this.dialog.open(OpdnewprescconfirmationdialogComponent, {
+        disableClose: true
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        //console.log(result);
+        if(result.status=="YES") {
+          this.resetPresForm();
+        }
+        
+      });
+    }
 
 
     getIvestigations(){
