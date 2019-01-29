@@ -16,10 +16,10 @@ export class ExcelvalidationdialogComponent implements OnInit {
 
   exceldata;
   employeeList=[];
-  private isButtonVisible = true;
+  public isButtonVisible = true;
   totalError=0;
 
-  private msg=false;
+  public msg=false;
   messagetext='';
 
   test_cls=0;

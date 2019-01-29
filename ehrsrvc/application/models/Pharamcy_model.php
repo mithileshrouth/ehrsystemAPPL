@@ -190,17 +190,20 @@ class Pharamcy_model extends CI_Model{
 
         if($query->num_rows()>0) {
 			//$resultdata  = $query->result();
-			$batchinfo = "";
+			$batchinfos = NULL;
 			foreach ($query->result() as $rows) {
 				$expected_issued_qty = "";
 				if($rows->expectedissue <=0 || empty($rows->expectedissue)) {
 					$expected_issued_qty = "";
 				}
 				else{
+					$result['batchinfo'] = [];
+					$batchinfos = NULL;
 					$expected_issued_qty = $rows->expectedissue;
 					$result = $this->medicine->getMedicineBatchInfoAccordingtoStock($rows->medicine_id,$expected_issued_qty,$rows->hospital_id);
-					if(!empty($result)){
-						$batchinfo = $this->convertArrayToString($result['batchinfo']);
+
+					if(!empty($result['batchinfo']) && isset($result['batchinfo']) && count($result['batchinfo']) > 0 ){
+						$batchinfos = $this->convertArrayToString($result['batchinfo']);
 					}
 
 					
@@ -220,7 +223,7 @@ class Pharamcy_model extends CI_Model{
 					"frequency_name" => $rows->frequency_name,
 					"expectedissueqty" => $expected_issued_qty,
 					"totalstock" => $this->calculateStockBymedicine($rows->medicine_id,$rows->hospital_id),
-					"batchnos" => $batchinfo
+					"batchnos" => $batchinfos
 				];
 			}
 			
@@ -561,9 +564,11 @@ class Pharamcy_model extends CI_Model{
 
 
 	private function convertArrayToString($batchArray) {
+	
 		$string = "";
 		$batchnos = "";
 		if(isset($batchArray)){
+			$string = "";
 			for($i=0; $i<count($batchArray); $i++ ) {
 				$string.= $batchArray[$i]['batchno']." - ".abs($batchArray[$i]['qty'])." - ".$batchArray[$i]['exp']."\n";
 			}

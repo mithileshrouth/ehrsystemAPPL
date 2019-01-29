@@ -16,7 +16,7 @@ import {MatSnackBar} from '@angular/material';
 export class ImportgrnvalidationdialogComponent implements OnInit {
   exceldata;
   grnList=[];
-  private isButtonVisible = true;
+  public isButtonVisible = true;
   totalError=0;
 
   updatemessage:string;

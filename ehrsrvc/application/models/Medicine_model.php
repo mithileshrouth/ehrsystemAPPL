@@ -181,7 +181,7 @@ class Medicine_model extends CI_Model{
 						 ->order_by("medicine_stock.expairy_date")
 						 ->get();
 						 
-		// echo $this->db->last_query();
+		 // $this->db->last_query();
 		
         if($query->num_rows()>0) {
            // $resultdata=$query->result();
