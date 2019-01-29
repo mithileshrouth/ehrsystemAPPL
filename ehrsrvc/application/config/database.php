@@ -97,7 +97,7 @@ $db['default'] = array(
 	*/ 
     
     //'hostname' => 'localhost',
-    'hostname' => '192.168.2.19',
+    'hostname' => 'localhost',
     'username' => 'root',
     'password' => '',
     'database' => 'ehrdata',

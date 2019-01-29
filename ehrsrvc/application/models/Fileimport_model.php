@@ -63,23 +63,63 @@ class Fileimport_model extends CI_Model{
             ];*/
 
 
-            $patientArray = [
-                'estate' => $estateId,
-                'patient_code' => $value->employee_code->value,
-                'pf_no' => $value->pf_no->value,
-                'patient_name' => $value->employee_name->value,
-                'father_name' => $value->father_name->value,
-                'division_number' => $value->division_or_departm->value,
-                'line_number' => $value->line->value,
-                'challan_number' => $value->challan->value,
-                "category" => $value->category->value,
-                "dob" => $dob,
-                "doj" => $doj,
-                
-            ];
+           
+
+            $patientwhere = array('patients.patient_code' =>$value->employee_code->value);
+            $checkpatientCode=$this->commondatamodel->checkExistanceData('patients',$patientwhere);
+
+            if($checkpatientCode){
+                                $patientUpdateArray = [
+                                    'estate' => $estateId,
+                                    'patient_code' => $value->employee_code->value,
+                                    'pf_no' => $value->pf_no->value,
+                                    'patient_name' => $value->employee_name->value,
+                                    'father_name' => $value->father_name->value,
+                                    'division_number' => $value->division_or_departm->value,
+                                    'line_number' => $value->line->value,
+                                    'challan_number' => $value->challan->value,
+                                    "category" => $value->category->value,
+                                    "dob" => $dob,
+                                    "doj" => $doj,
+                                    "hospital_id" => $hospital_id,
+                                    
+                                ];
+
+
+                                $this->db->where($patientwhere);
+                                $this->db->update('patients',$patientUpdateArray);
+
+                            
+            
+            
+                        }else{
+
+                           
+
+
+
+                            $patientArray = [
+                                'estate' => $estateId,
+                                'patient_code' => $value->employee_code->value,
+                                'pf_no' => $value->pf_no->value,
+                                'patient_name' => $value->employee_name->value,
+                                'father_name' => $value->father_name->value,
+                                'division_number' => $value->division_or_departm->value,
+                                'line_number' => $value->line->value,
+                                'challan_number' => $value->challan->value,
+                                "category" => $value->category->value,
+                                "dob" => $dob,
+                                "doj" => $doj,
+                                "hospital_id" => $hospital_id,
+                                
+                            ];
+
+
+                            $this->db->insert('patients', $patientArray); 
+            }
 
 			//pre($patientArray);
-			$this->db->insert('test_employee', $patientArray); 
+			
             
         }//end of foreach
 		

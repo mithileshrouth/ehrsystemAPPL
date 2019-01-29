@@ -2,7 +2,7 @@
 <mat-toolbar>
 
     <div style="width:100%;float: right;text-align:right;">
-      <b style="margin-right:245px;">{{messagetext}}</b>
+     
       
       <button mat-mini-fab color="warn"   (click)="redirectToComp()" type="button" ><i class="material-icons">
           clear
@@ -14,6 +14,7 @@
 letter-spacing: 1px;" >
   <thead>
     <tr style="background-color: #5361c6; color: #f3f1ed;">
+      <th>Sl No.</th>
       <th>Estate Name</th>
       <th>Employee Code</th>
       <th>PF No.</th>
@@ -30,10 +31,7 @@ letter-spacing: 1px;" >
   </thead>
   <tbody>
     <tr *ngFor="let excelrow of employeeList; let i = index">
-       <!-- <div *ngIf="(excelrow.estate_name.error);else i">
-            <td class="errorcell"> {{excelrow.estate_name.value}} </td> 
-            </div>
-            <ng-template #i><td class="errorcell"><td>{{excelrow.estate_name.value}}</td></ng-template>-->
+      <td align='center'>{{i+1}}</td>
       <td matTooltip="{{excelrow.estate_name.cell}}" [ngClass]="{'errorcell' : excelrow.estate_name.error}">{{excelrow.estate_name.value}}</td>
       <td>{{excelrow.employee_code.value}}</td>
       <td>{{excelrow.pf_no.value}}</td>
@@ -62,14 +60,7 @@ letter-spacing: 1px;" >
 
 <section id="SubmitBlock" *ngIf="this.msg" (click)="this.msg = false">
 
-    <mat-toolbar>
-
-        <div style="width:100%;float: right;text-align:right;">
-          <b style="margin-right:245px;">{{messagetext}}</b>
-            <button mat-flat-button color="primary"  style="width:10%;" (click)="redirectToComp()" type="button" >Close</button>
-         
-        </div>
-    </mat-toolbar>
+   
 
 
 

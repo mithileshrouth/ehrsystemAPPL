@@ -20,7 +20,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let excelrow of grnList; let i = index">
-      <td>{{i+1}}</td>
+      <td align='center'>{{i+1}}</td>
       <td>{{excelrow.date.value}}</td>
       <td>{{excelrow.supplier.value}}</td>
       <td matTooltip="{{excelrow.medicine.cell}}" [ngClass]="{'errorcell' : excelrow.medicine.error}">{{excelrow.medicine.value}}</td>
