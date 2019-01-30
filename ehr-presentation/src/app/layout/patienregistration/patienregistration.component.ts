@@ -48,7 +48,8 @@ interface PatientAadhar{
 @Component({
   selector: 'app-patienregistration',
   templateUrl: './patienregistration.component.html',
-  styleUrls: ['./patienregistration.component.css']
+  styleUrls: ['./patienregistration.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class PatienregistrationComponent implements OnInit ,OnDestroy {
@@ -106,14 +107,14 @@ export class PatienregistrationComponent implements OnInit ,OnDestroy {
     'action',
     //'regtype',
     'patient_code',
-    'patient_name',
-    'birthdate',
-    'gender', 
+   // 'patient_name',
+   // 'birthdate',
+   // 'gender', 
     'division_number' ,
     'challan_number' ,
     'line_number' ,
     'mobile_one',
-    'adhar'
+   // 'adhar'
   ];
 
 
@@ -425,14 +426,14 @@ displayFn(id) {
                           'action',
                         //  'regtype',
                           'patient_code',
-                          'patient_name',
+                        /*  'patient_name',
                           'birthdate',
-                          'gender', 
+                          'gender',  */
                           'division_number' ,
                           'challan_number' ,
                           'line_number' ,
                           'mobile_one',
-                          'adhar'
+                          /*'adhar' */
                           ];
       this.dataSource = new MatTableDataSource(this.todaysregistrationList[0]);
       this.dataSource.paginator = this.paginator;
@@ -490,14 +491,14 @@ searchPatient(){
            'reg-action' ,
           //  'reg-type',
            'reg-patientid' ,
-           'reg-patientname' ,
+          /* 'reg-patientname' ,
            'reg-patientdob' ,
-           'reg-patientgender' ,
+           'reg-patientgender' , */
            'reg-patientdivision' ,
            'reg-patientchallan' ,
            'reg-patientline' ,
-           'reg-patientmobile' ,
-           'reg-patientaadhar' 
+            'reg-patientmobile' ,
+          /* 'reg-patientaadhar' */
            ];
  
            this.tblPatientID = null;
@@ -683,14 +684,14 @@ searchPatient(){
           'reg-action' ,
         //  'reg-type',
           'reg-patientid' ,
-          'reg-patientname' ,
+         /* 'reg-patientname' ,
           'reg-patientdob' ,
-          'reg-patientgender' ,
+          'reg-patientgender' , */
           'reg-patientdivision' ,
           'reg-patientchallan' ,
           'reg-patientline' ,
-          'reg-patientmobile' ,
-          'reg-patientaadhar' 
+           'reg-patientmobile' ,
+          /* 'reg-patientaadhar' */
           ];
       this.enableregister = true;
       this.displayp = 'table-row';

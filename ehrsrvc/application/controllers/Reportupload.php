@@ -34,11 +34,12 @@ class Reportupload extends CI_Controller{
         $prescr_type= $this->input->post('prescrCtrlval');
         $testid=$this->input->post('testCtrlval');
         /* for local*/ 
-        $dir1 = $_SERVER['DOCUMENT_ROOT'].'/ehrsystemAPPL/ehrsrvc/uploadfiles/report_upload';
+        $dir1 = $_SERVER['DOCUMENT_ROOT'].'/devehrsystem/ehrsrvc/uploadfiles/report_upload/';
 
         $config = array(
 			'upload_path' => $dir1,
-			'allowed_types' => 'docx|doc|pdf|jpg|png|txt|xls|xlsx',
+			//'allowed_types' => 'docx|doc|pdf|jpg|png|txt|xls|xlsx',
+			'allowed_types' => '*',
 			'max_size' => '5120', // Can be set to particular file size , here it is 2 MB(2048 Kb)
 			'max_filename' => '255',
 			'encrypt_name' => TRUE,
@@ -54,21 +55,22 @@ class Reportupload extends CI_Controller{
             $_FILES['reportfile']['error']= $_FILES['file']['error'];
             $_FILES['reportfile']['size']= $_FILES['file']['size']; */
 
-           // pre($_FILES);
-        
+          //  pre($_FILES);
+      
         $this->upload->initialize($config);
-        $this->upload->do_upload('file');
-        $file_detail = $this->upload->data();
+       // $this->upload->do_upload('file');
+       
         
 
-        $file_name = $file_detail['file_name']; 
-        
        
+       // $this->upload->do_upload('file');
+       // pre($this->upload->display_errors());
 
         if ($this->upload->do_upload('file'))
 		{ 
-            $this->upload->do_upload('file');
+            
             $file_detail = $this->upload->data();
+            $file_name = $file_detail['file_name']; 
 
             $insert_fileDetails = $this->report_upload->insertIntoReportUpload($file_detail,$patient_id,$prescr_type,$testid);
 

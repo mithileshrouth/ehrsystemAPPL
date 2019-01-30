@@ -452,7 +452,9 @@ class CI_Upload {
 		if ($this->detect_mime !== FALSE)
 		{
 			$this->_file_mime_type($_file);
+			
 		}
+		//$this->_file_mime_type($_FILES[$field]); var_dump($this->file_type); die();
 
 		$this->file_type = preg_replace('/^(.+?);.*$/', '\\1', $this->file_type);
 		$this->file_type = strtolower(trim(stripslashes($this->file_type), '"'));
