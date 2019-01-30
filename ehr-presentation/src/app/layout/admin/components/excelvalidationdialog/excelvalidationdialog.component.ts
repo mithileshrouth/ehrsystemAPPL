@@ -151,6 +151,7 @@ export class ExcelvalidationdialogComponent implements OnInit {
       this.snackBar.open(message, action, {
         duration: 2000,
       });
+      
     }
 
 }//end of class

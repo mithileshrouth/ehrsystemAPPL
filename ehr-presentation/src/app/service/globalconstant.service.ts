@@ -11,8 +11,8 @@ export class GlobalconstantService {
   //private APIURL = "http://192.168.2.10/ehrsystem/ehrsrvc/";
   //private APIURL = "http://127.0.0.1:8011/ehrsystem/ehrsrvc/";
   //private APIURL = "http://127.0.0.1/ehrsystem/ehrsrvc/";
-  // private APIURL = "http://127.0.0.1/ehrsystemAPPL/ehrsrvc/";
-  private APIURL =  "http://13.234.41.243/devehrsystem/ehrsrvc/";
+   private APIURL = "http://127.0.0.1:8088/ehrsystemAPPL/ehrsrvc/";
+ // private APIURL =  "http://13.234.41.243/devehrsystem/ehrsrvc/";
   //private APIURL = "http://medewise.com/medehr/";
   // private APIURL = "http://softhought.com/medewise/ehrsrvc/";
 
@@ -57,6 +57,10 @@ export class GlobalconstantService {
   public medicinelist_URL = this.APIURL+"medicine/getMedicineBySymptoms";
   public medicinelistByName_URL = this.APIURL+"medicine/getMedicineByName";
   public allMedicineList_URL = this.APIURL+"medicine/getAllMedicineList";
+
+  public insertMEDI_URL = this.APIURL+"medicine/insertIntoMedicine";
+
+
 
   public dosageByMedlist_URL = this.APIURL+"medicine/getDosageByMedicine";
   public frequencyByMedlist_URL = this.APIURL+"medicine/getFrequencyByMedicine";
@@ -128,6 +132,8 @@ export class GlobalconstantService {
   public masterDataSave_URL = this.APIURL+"master/saveCommonMastDatas";
   public getmasterTblData_URL = this.APIURL+"master/getMasterInfos";
 
+  public getmasterDropdown_URL = this.APIURL+"master/getMasterDropdown";
+
 // Group
 public groupList_URL = this.APIURL+"master/getGroup";
 
@@ -190,7 +196,8 @@ public groupList_URL = this.APIURL+"master/getGroup";
 public testSearchByQry_URL = this.APIURL+"reportupload/testSearchByQry";		
 public reportUpload_URL = this.APIURL+"Reportupload/uploadReport";		
 public reportUploadList_URL = this.APIURL+"Reportupload/getReportList";		
-public deleteReport_URL = this.APIURL+"Reportupload/deleteReport";		
+public deleteReport_URL = this.APIURL+"Reportupload/deleteReport";
+		
 		
 /**		
 * change stasus		

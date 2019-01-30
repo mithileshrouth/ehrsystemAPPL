@@ -503,4 +503,40 @@ insertIntoMedicine(formval) {
 }
 
 
+  /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description get dropdown
+ */
+
+getDropdownData(tbl) {
+  let data = JSON.stringify({datas:tbl});
+  return new Promise(resolve => {
+     this.http.post(this.global.getmasterDropdown_URL,data).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert symptoms into symptoms table
+ */
+
+
+insertNewMedicine(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertMEDI_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
 }

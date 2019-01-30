@@ -28,6 +28,8 @@ const routes: Routes = [
             { path:'symptoms', loadChildren:'./admin/symptoms/symptoms/symptoms.module#SymptomsModule'},
             { path:'symptomslist', loadChildren:'./admin/symptoms/symptomslist/symptomslist.module#SymptomslistModule'},
             { path:'grn', loadChildren:'./admin/importgrn/importgrn.module#ImportgrnModule'},
+
+            { path:'med', loadChildren:'./admin/medicine/medicine/medicine.module#MedicineModule'},
            
 
             { path:'sickapproval', loadChildren:'./sickleaveapproval/sickleaveapproval.module#sickleaveapprovalModule'} ,  

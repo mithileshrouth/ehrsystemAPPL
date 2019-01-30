@@ -238,5 +238,53 @@ class Medicine_model extends CI_Model{
 	}
 	
 
+
+
+	/**
+     * @name insertMedicine
+     * @author Shankha ghosh
+     * @desc insert medicine
+	 * @date 29.01.2019
+     */
+
+	public function insertIntoMedicine($request,$hospital_id){
+		
+		try{
+			
+			$this->db->trans_begin();
+			$insert_data = [];
+		
+			$todaydt = date("Y-m-d H:i:s");
+			$MedForm = $request->fdata;
+
+			$medicineArry = [
+				"medicine_name" => $MedForm->medicineCtrl, 
+				"medicine_type" => $MedForm->medTypeCtrl, 
+				"brand_name" => $MedForm->brandnameCtrl, 
+				"generic" => $MedForm->genericCtrl, 
+				
+				
+			];
+		
+
+		
+			
+			$this->db->insert('medicine', $medicineArry); 
+			
+		
+			if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+				return false;
+            } else {
+				$this->db->trans_commit();
+                return true;
+            }
+				
+		}
+		catch(Exception $exc){
+			 echo $exc->getTraceAsString();
+		}
+		
+	}
     
-}
+}//end of class
