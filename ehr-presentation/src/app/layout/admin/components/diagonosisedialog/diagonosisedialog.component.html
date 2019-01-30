@@ -11,17 +11,17 @@
       <!--test Reg Block-->
       <section class="invregBlock">
               <mat-toolbar>
-
+                    <h5 class="form_block_title">Edit Diagnosis</h5>
                       <div style="width:100%;float: right;text-align:right;">
                           <button mat-mini-fab color="warn"   (click)="redirectToComp()" type="button" ><i class="material-icons">
                                 clear
                                 </i></button>
                        
                       </div>
-                  </mat-toolbar>
+                  </mat-toolbar><br>
               <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
                   <div fxFlex="50%">
-                      <h5 class="form_block_title">Edit Diagonosis</h5>
+                     
   
                       <div class="container infocontainer" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
                           
@@ -29,14 +29,14 @@
               
                           <div fxFlex="90%">
                             <mat-form-field class="fullwidthinp" style="width:100%;">
-                                <input matInput placeholder="Diagonosis name." formControlName="diaNameCtrl" autocomplete="off" >
+                                <input matInput placeholder="Diagnosis name." formControlName="diaNameCtrl" autocomplete="off" >
                                
                             </mat-form-field>
                         </div>
   
                         <div fxFlex="90%">
                           <mat-form-field class="fullwidthinp" style="width:100%;">
-                              <input matInput placeholder="Accociated ICD code" formControlName="acdCodeCtrl" autocomplete="off" >
+                              <input matInput placeholder="ICD code" formControlName="acdCodeCtrl" autocomplete="off" >
                               
                           </mat-form-field>
                       </div>

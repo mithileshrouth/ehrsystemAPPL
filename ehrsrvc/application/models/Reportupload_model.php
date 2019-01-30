@@ -82,10 +82,11 @@ class Reportupload_model extends CI_Model{
      * @return Test data
      */
     public function testSearchByQry($qry)
-    {
+    {   $where = array('investigation.is_active' => 'Y' );
         $test_data = "";
         $query = $this->db->select("*")
             ->from("investigation")
+            ->where($where)
             ->like('investigation.investigation_name', $qry)
             ->order_by('investigation.investigation_name', 'ASC')
             ->limit(20)

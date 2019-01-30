@@ -111,7 +111,7 @@ export class DiagonosisComponent implements OnInit {
 
     if(this.addDiagonosisForm.controls['diaNameCtrl'].value==''){
           this.validFormErr = "Error : Diagonosis name is required";
-          validForm = false;
+          return validForm = false;
         
     }
 
@@ -121,6 +121,6 @@ export class DiagonosisComponent implements OnInit {
   }
 
   gotoList(){
-    this.router.navigateByUrl('panel/diagonosislist');
+    this.router.navigateByUrl('panel/diagnosislist');
   }
 }// end of class

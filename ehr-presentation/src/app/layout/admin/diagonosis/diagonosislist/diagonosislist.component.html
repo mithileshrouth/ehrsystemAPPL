@@ -6,7 +6,7 @@
             
           <div class="diagsearchTabs" fxFlex="100%">
                     <mat-toolbar style="background: transparent;justify-content: center;"> 
-                            <h4 class="card_title"> Diagonosis List</h4>
+                            <h4 class="card_title"> Diagnosis List</h4>
                     </mat-toolbar>
 
                     <div class="diagtables">
@@ -14,7 +14,9 @@
                     <div class="mat-elevation-z8">
                             <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" >
                                 <div fxFlex="75%">
-                                    
+                                    <button mat-raised-button color="primary" class="toplink"  type="button" (click)="gotoAdd()" style="margin: 10px;"><i class="material-icons">
+                                        add
+                                        </i>Add </button>       
                                 </div>
                                 <div fxFlex="20%">
                                     <mat-form-field class="fullwidthinp" style="margin-right: 15px;">
@@ -38,13 +40,13 @@
                       
                         <!-- Name Column -->
                         <ng-container matColumnDef="diagonosis_name">
-                          <th mat-header-cell *matHeaderCellDef style="width:20%;"> Diagonosis Name </th>
+                          <th mat-header-cell *matHeaderCellDef style="width:20%;"> Diagnosis Name </th>
                           <td mat-cell *matCellDef="let row">{{row.diagonosis_name}} </td>
                         </ng-container>
 
                         <!-- Name Column -->
                         <ng-container matColumnDef="accociated_icd_code">
-                          <th mat-header-cell *matHeaderCellDef style="width:20%;">Accociated Code </th>
+                          <th mat-header-cell *matHeaderCellDef style="width:20%;">ICD Code </th>
                           <td mat-cell *matCellDef="let row">{{row.accociated_icd_code}} </td>
                         </ng-container>
 

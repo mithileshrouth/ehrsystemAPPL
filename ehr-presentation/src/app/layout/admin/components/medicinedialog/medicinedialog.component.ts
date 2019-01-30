@@ -1,15 +1,15 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { Component, OnInit,Inject,ViewChild  } from '@angular/core';
+import { CommonService } from '../../../../service/common.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { CommonService } from './../../../../service/common.service';
-import { DatashareService } from './../../../../service/datashare.service';
+import { PatientService } from '../../../../service/patient.service';
+import { Observable} from 'rxjs';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA , MatDialogConfig } from '@angular/material';
 import { SuccessdialogComponent } from '../../../components/successdialog/successdialog.component';
-import { MatSelect, VERSION } from '@angular/material';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material';
+import { ReplaySubject } from 'rxjs';
+import { MatSelect, VERSION } from '@angular/material';
+import {map, startWith} from 'rxjs/operators';
 
 
 interface Medicine {
@@ -22,76 +22,92 @@ interface MedicineType {
 }
 
 @Component({
-  selector: 'app-medicine',
-  templateUrl: './medicine.component.html',
-  styleUrls: ['./medicine.component.css']
+  selector: 'app-medicinedialog',
+  templateUrl: './medicinedialog.component.html',
+  styleUrls: ['./medicinedialog.component.css']
 })
-export class MedicineComponent implements OnInit {
+export class MedicinedialogComponent implements OnInit {
 
-  addMedicineForm : FormGroup;
+  editMedicineForm : FormGroup;
   medicinesTypeList = []; 
   medicinesList = []; 
 
   medicineCtrl:string = "";
+  oldmedicineCtrl:string = "";
   medTypeCtrl:string = "";
   brandnameCtrl:string = "";
   genericCtrl:string = "";
 
+
+  msg:string;
+  msgIcon:string;
+  iconColor:string;
+  redirectUrl:string;
+
   message:string;
   action:string;
-
 
   validFormErr:string = "";
 
   filtermedcines: Observable<Medicine[]>;
   medicineinfo:Medicine[] = [];
 
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
 
   constructor(
     private router:Router,
+    public dialogRef: MatDialogRef<MedicinedialogComponent> ,
     private commonService:CommonService,
-    private datashareService:DatashareService ,
+    private patientService:PatientService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) { 
+    private snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any 
+  ) {
+    this.msg = this.data.msg;  
+    this.msgIcon = this.data.msgicon;
+    this.iconColor = this.data.iconcolor;
+    this.redirectUrl = this.data.btnurl;
+   
 
-    this.addMedicineForm = new FormGroup({ 
+    this.editMedicineForm = new FormGroup({ 
+      medIdCtrl: new FormControl(''),
       medicineCtrl: new FormControl(''),  
+      oldmedicineCtrl: new FormControl(''),  
       medTypeCtrl: new FormControl(''), 
       brandnameCtrl: new FormControl(''), 
       genericCtrl: new FormControl(''), 
     });
 
-    }
-    @ViewChild('singleSelect') singleSelect: MatSelect; 
-    private medicinestype: MedicineType[] = [];
-    public filtermedicines: ReplaySubject<MedicineType[]> = new ReplaySubject<MedicineType[]>(1);
+    this.editMedicineForm.patchValue({
+       
+      medIdCtrl: this.data.medicine_id,
+      medicineCtrl: this.data.medicine_name,
+      oldmedicineCtrl: this.data.medicine_name,
+      medTypeCtrl: this.data.medicine_type,
+      brandnameCtrl: this.data.brand_name,
+      genericCtrl: this.data.generic
+     
+     
+       });
 
-   
-
-    
-
-    private _filterMedicine(value: string): Medicine[] {
-      const filterValue = value.toLowerCase();
-      return this.medicineinfo.filter(medicine => medicine.name.toLowerCase().indexOf(filterValue) === 0);
-    }
+ 
+   }
+   @ViewChild('singleSelect') singleSelect: MatSelect; 
+   private medicinestype: MedicineType[] = [];
+   public filtermedicines: ReplaySubject<MedicineType[]> = new ReplaySubject<MedicineType[]>(1);
 
   ngOnInit() {
     this.getMedicineTypeData('medicine_type');
+
     this.getMedicine('medicine');
 
-  console.log(this.addMedicineForm.get("medicineCtrl").value);
-
-          this.filtermedcines = this.addMedicineForm.get("medicineCtrl").valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filter(value))
-          );
-        
-
+    console.log(this.editMedicineForm.get("medicineCtrl").value);
+  
+            this.filtermedcines = this.editMedicineForm.get("medicineCtrl").valueChanges
+            .pipe(
+              startWith(''),
+              map(value => this._filter(value))
+            );
+          
   }
 
   getMedicineTypeData(tablename) {
@@ -138,38 +154,28 @@ export class MedicineComponent implements OnInit {
    });
   }
 
-  onSubmit(formdata) {
-   // console.log(formdata);
 
-   if(this.validateForm()){
+  onSubmitEdit(formdata) {
+    console.log(formdata);
+    
+
+   
+   
+    if(this.validateForm()){
+   
     let response;
-    this.commonService.insertNewMedicine(formdata,).then(data => {
+    this.commonService.updateMedicine(formdata,).then(data => {
       response = data;
       if(response.msg_data == "SUCCESS" && response.msg_status == "200"){
-       // this.openDialog();
-       // this.addMedicineForm.reset();
-        this.message='Saved Successfully';
+           
+        //this.openDialog();
+        this.message='Updated Successfully';
         this.action='';
  
-        console.log('success');
+        
         this.openSnackBar(this.message,this.action);
-
-        this.addMedicineForm.patchValue({
-       
-          medicineCtrl: '',
-          medTypeCtrl: '',
-          brandnameCtrl: '', 
-          genericCtrl: '', 
-         
-         
-           });
-        this.getMedicine('medicine');
-
-
-
         
         
-       
       }
       else{
 
@@ -185,9 +191,6 @@ export class MedicineComponent implements OnInit {
             this.openSnackBar(this.message,this.action);
             this.getMedicine('medicine');
         }
-
-
-       // this.openDialogError();
       }
       console.log(response);
     },
@@ -196,12 +199,6 @@ export class MedicineComponent implements OnInit {
     });
   }
 
-
-  }
-
-  gotoList(){
-    console.log('list')
-    this.router.navigateByUrl('panel/medlist');
   }
 
   openedChange(opened: boolean) {
@@ -223,13 +220,13 @@ validateForm(){
   this.validFormErr = "";
   let validForm = false;
 
-  if(this.addMedicineForm.controls['medicineCtrl'].value==''){
+  if(this.editMedicineForm.controls['medicineCtrl'].value==''){
         this.validFormErr = "Error : Medicine is required";
         return validForm = false;
       
   }
 
-  if(this.addMedicineForm.controls['medTypeCtrl'].value==''){
+  if(this.editMedicineForm.controls['medTypeCtrl'].value==''){
     this.validFormErr = "Error : Medicine Type is required";
     return validForm = false;
   
@@ -246,7 +243,14 @@ openSnackBar(message: string, action: string) {
     duration: 2000,
   });
 
-  
 }
 
-}//end of class
+redirectToComp(){
+  console.log(this.redirectUrl);
+  this.dialogRef.close();
+  this.router.navigateByUrl(this.redirectUrl);
+ 
+}
+
+
+}// end of class

@@ -103,6 +103,8 @@ export class InvestigationlistComponent implements OnInit {
     }
   }
 
-
+  gotoAdd(){
+    this.router.navigateByUrl('panel/test');
+  }
 
 }//end of class

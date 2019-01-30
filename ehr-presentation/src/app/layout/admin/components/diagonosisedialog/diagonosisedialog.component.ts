@@ -112,6 +112,7 @@ export class DiagonosisedialogComponent implements OnInit {
   }
 
   }
+  
   redirectToComp(){
     console.log(this.redirectUrl);
     this.dialogRef.close();

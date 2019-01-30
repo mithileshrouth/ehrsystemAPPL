@@ -539,4 +539,36 @@ insertNewMedicine(formval) {
  });
 }
 
+
+/**
+ * @author Shankha Ghosh
+ * @description get Diagonosis List
+ */
+getMedicineList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.allMedicineList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
 }
+
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update DMedicine by medicine_id
+ */
+updateMedicine(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateMEDI_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+}//end of class

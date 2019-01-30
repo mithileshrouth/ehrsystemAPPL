@@ -70,7 +70,11 @@ class Medicine_model extends CI_Model{
 	
 	public function getAllMedicines(){
 		$resultdata = "";
-		$query = $this->db->select("medicine.medicine_id,medicine.medicine_name,medicine.medicine_type")
+		$query = $this->db->select(
+							"medicine.medicine_id,
+							 medicine.medicine_name,
+							 medicine.medicine_type,
+							 medicine.brand_name,medicine.generic")
                          ->from("medicine") 
 						 ->order_by('medicine.medicine_name')
 						 ->get();				 
@@ -271,6 +275,54 @@ class Medicine_model extends CI_Model{
 			
 			$this->db->insert('medicine', $medicineArry); 
 			
+		
+			if($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+				return false;
+            } else {
+				$this->db->trans_commit();
+                return true;
+            }
+				
+		}
+		catch(Exception $exc){
+			 echo $exc->getTraceAsString();
+		}
+		
+	}
+
+
+		/**
+     * @name updateMed
+     * @author Shankha ghosh
+     * @desc update Medicine
+     */
+
+	public function updateMed($request,$hospital_id){
+		
+		try{
+			
+			$this->db->trans_begin();
+			$insert_data = [];
+		
+			$todaydt = date("Y-m-d H:i:s");
+			$medForm = $request->fdata;
+
+			
+			$MedForm = $request->fdata;
+
+			$medicineArry = [
+				"medicine_name" => $MedForm->medicineCtrl, 
+				"medicine_type" => $MedForm->medTypeCtrl, 
+				"brand_name" => $MedForm->brandnameCtrl, 
+				"generic" => $MedForm->genericCtrl, 
+				
+				
+			];
+			
+			$this->db->where("medicine_id", $MedForm->medIdCtrl);
+            $this->db->update("medicine",$medicineArry);
+
 		
 			if($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();

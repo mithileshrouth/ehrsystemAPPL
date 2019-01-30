@@ -102,7 +102,7 @@ export class DiagonosislistComponent implements OnInit {
           msg : 'Save Successfully',
           msgicon : 'check_circle',
           iconcolor: '#1d8c3d',
-          btnurl : 'panel/diagonosislist',
+          btnurl : 'panel/diagnosislist',
           diag_id : diagonosis_id,
           diag_name : diagonosis_name,
           i_code : icd_code,
@@ -133,7 +133,10 @@ export class DiagonosislistComponent implements OnInit {
     }
   }
 
-
+  gotoAdd(){
+    this.router.navigateByUrl('panel/diagnosis');
+  }
+  
 
 
 }//end of class
