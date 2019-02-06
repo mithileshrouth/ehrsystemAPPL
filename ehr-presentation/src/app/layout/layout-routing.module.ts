@@ -31,6 +31,12 @@ const routes: Routes = [
 
             { path:'med', loadChildren:'./admin/medicine/medicine/medicine.module#MedicineModule'},
             { path:'medlist', loadChildren:'./admin/medicine/medicinelist/medicinelist.module#MedicinelistModule'},
+
+            { path:'division', loadChildren:'./admin/division/division/division.module#DivisionModule'},
+            { path:'divisionlist', loadChildren:'./admin/division/divisionlist/divisionlist.module#DivisionlistModule'},
+
+            { path:'challan', loadChildren:'./admin/challan/challan/challan.module#ChallanModule'},
+            { path:'challanlist', loadChildren:'./admin/challan/challanlist/challanlist.module#ChallanlistModule'},
            
 
             { path:'sickapproval', loadChildren:'./sickleaveapproval/sickleaveapproval.module#sickleaveapprovalModule'} ,  
