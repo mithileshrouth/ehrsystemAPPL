@@ -24,6 +24,8 @@ class Fileimport extends CI_Controller{
       echo "string";
     }
 // patient Excel file
+
+/* -------------------------------------------------modified on 08.02.2019-------------------------------*/ 
   public function insertIntoTemp(){
 
     CUSTOMHEADER::getCustomHeader();
@@ -64,8 +66,8 @@ class Fileimport extends CI_Controller{
                 for($i=2;$i<=$totalrows;$i++)
 		        { 
                    
-                    $estate_name[] = array(
-                        "error" =>  $this->isValidEstateStatus($objWorksheet->getCellByColumnAndRow(0,$i)->getValue()),
+                    $garden_code[] = array(
+                        "error" =>  $this->isValidGardenCodeStatus($objWorksheet->getCellByColumnAndRow(0,$i)->getValue()),
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(0,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(0,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(0,$i)->getValue()  ),
                     );
@@ -75,62 +77,108 @@ class Fileimport extends CI_Controller{
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(1,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(1,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(1,$i)->getValue()  ),
                     );
-
-                    $pf_no[] = array(
+                    $employee_name[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(2,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(2,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(2,$i)->getValue()  ),
                     );
 
-                    $employee_name[] = array(
+                    $type[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(3,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(3,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(3,$i)->getValue()  ),
                     );
-
-                    $father_name[] = array(
+                    $dr_type[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(4,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(4,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(4,$i)->getValue()  ),
                     );
 
-                    $division_or_departm[] = array(
+                    $sex[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(5,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(5,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(5,$i)->getValue()  ),
                     );
 
-                 
-                    $challan[] = array(
+                    $phno[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(6,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(6,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(6,$i)->getValue()  ),
                     );
 
-                    $line[] = array(
+                    
+                    $mobilephno[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(7,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(7,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(7,$i)->getValue()  ),
                     );
 
-                    $category[] = array(
+                    $challan[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(8,$i)->getColumn().$i,
                         "value" =>  ($objWorksheet->getCellByColumnAndRow(8,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(8,$i)->getValue()  ),
                     );
-                    
-                    $dob[] = array(
+
+                    $current_status[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(9,$i)->getColumn().$i,
-                        "value" =>  ($objWorksheet->getCellByColumnAndRow(9,$i)->getValue() == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow(9,$i)->getValue())) ),
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(9,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(9,$i)->getValue()  ),
                     );
 
-                    $doj[] = array(
+                    $date_of_birth=htmlspecialchars(trim($objWorksheet->getCellByColumnAndRow(10,$i)->getValue()));          			         //Excel Column 10
+                    //echo $objWorksheet->getCellByColumnAndRow(10,$i)->getValue();
+                    if (strpos($date_of_birth, '-') == true) 
+                    {   // echo $objWorksheet->getCellByColumnAndRow(10,$i)->getValue();
+                          $date_of_birth=str_replace(['/'], '-', $objWorksheet->getCellByColumnAndRow(10,$i)->getValue());  
+                          $date_of_birth = date("d-m-Y",strtotime($date_of_birth));
+                        
+                    }
+                    else
+                    {
+                            $date_of_birth = $objWorksheet->getCellByColumnAndRow(10,$i)->getValue();
+                            $date_of_birth= ($date_of_birth == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($date_of_birth)) );
+      
+                            
+                    }
+
+                    $dob[] = array(
                         "error" => 0,
                         "cell" =>  $objWorksheet->getCellByColumnAndRow(10,$i)->getColumn().$i,
-                        "value" =>  ($objWorksheet->getCellByColumnAndRow(10,$i)->getValue() == "" ? NULL : date('d-m-Y', PHPExcel_Shared_Date::ExcelToPHP($objWorksheet->getCellByColumnAndRow(10,$i)->getValue())) ),
+                        "value" => $date_of_birth ,
                     );
 
+                    $division[] = array(
+                        "error" => 0,
+                        "cell" =>  $objWorksheet->getCellByColumnAndRow(11,$i)->getColumn().$i,
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(11,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(11,$i)->getValue()  ),
+                    );
+
+                    $line[] = array(
+                        "error" => 0,
+                        "cell" =>  $objWorksheet->getCellByColumnAndRow(12,$i)->getColumn().$i,
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(12,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(12,$i)->getValue()  ),
+                    );
+
+
+
+                    $houseno[] = array(
+                        "error" => 0,
+                        "cell" =>  $objWorksheet->getCellByColumnAndRow(13,$i)->getColumn().$i,
+                        "value" =>  ($objWorksheet->getCellByColumnAndRow(13,$i)->getValue() == "" ? "" :$objWorksheet->getCellByColumnAndRow(13,$i)->getValue()  ),
+                    );
+
+                 
+
+                    
+
+                 
+                   
+
+                  
+                  
+                    
+
+                   
                    
 
 
@@ -139,17 +187,23 @@ class Fileimport extends CI_Controller{
                 $json_response= [
                     "msg_status" => HTTP_SUCCESS,
                     "msg_data" => "Authentication ok.",
-                    "estate_name" => $estate_name,
+                    "garden_code" => $garden_code,
                     "employee_code" => $employee_code,
-                    "pf_no" => $pf_no,
                     "employee_name" => $employee_name,
-                    "father_name" => $father_name,
-                    "division_or_departm" => $division_or_departm,
+                    "type" => $type,
+                    "dr_type" => $dr_type,
+                    "sex" => $sex,
+                    "phno" => $phno,
+                    "mobilephno" => $mobilephno,
                     "challan" => $challan,
-                    "line" => $line,
-                    "category" => $category,
+                    "current_status" => $current_status,
                     "dob" => $dob,
-                    "doj" => $doj
+                    "division" => $division,
+                    "line" => $line,
+                    "houseno" => $houseno,
+                    
+                   
+                    
                     
                 ];
     }//end of file check
@@ -234,16 +288,17 @@ exit;
 /*
 	@return type boolean
 	@method isValidPreTrainingStatus(pretrainingstatus)
-	@date  26.03.2018
+    @date  26.03.2018
+    @modified on 08.02.2019
 */
-private function isValidEstateStatus($estate_name)
+private function isValidGardenCodeStatus($code)
 {
    
 
 
-        if($estate_name!="")
+        if($code!="")
         {
-            $where = array("estate.name"=>trim($estate_name));
+            $where = array("estate.code"=>trim($code));
             $isexist = $this->commondatamodel->checkExistanceData('estate',$where);
             if($isexist>=1)
             {

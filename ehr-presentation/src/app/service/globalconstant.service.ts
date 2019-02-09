@@ -207,6 +207,53 @@ public deleteReport_URL = this.APIURL+"Reportupload/deleteReport";
 public changeStatusData_URL = this.APIURL+"Commoncontroller/changeStatus";
 
 
+
+/*  -------------------------------- 7 February 2019 ------------------------------------------------- */
+
+
+
+   /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ DIVISION URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+
+  public insertDIVI_URL = this.APIURL+"division/insertIntoDivision";
+  public divigList_URL = this.APIURL+"division/getDivisionList";
+  public updateDIVI_URL = this.APIURL+"division/updateDivision";
+
+  
+   /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ LINE URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+
+  public insertLINE_URL = this.APIURL+"line/insertIntoLine";
+  public lineList_URL = this.APIURL+"line/getLineList";
+  public lineData_URL = this.APIURL+"line/getLineDataById";
+  public updateLINE_URL = this.APIURL+"line/updateLine";
+
+   /* --------------------------------------------------------- 
+   * ---------------------------------------------------------
+   * @ CHALLAN URL 
+   * ---------------------------------------------------------
+   * ---------------------------------------------------------
+   */
+  public insertCHALLAN_URL = this.APIURL+"challan/insertIntoChallan";
+  public challanList_URL = this.APIURL+"challan/getChallanList";
+  public challanData_URL = this.APIURL+"challan/getChallanDataById";
+  public updateCHALLAN_URL = this.APIURL+"challan/updateChallan";
+
+
+/*  -------------------------------- End of 7 February 2019 -----------------------------------------  */
+
+/*  -------------------------------- 8 February 2019 -----------------------------------------  */
+public getmasterPatientBydr_URL = this.APIURL+"patient/getAllPatientByDrType";
+
+
   getApiURL(){
     return this.APIURL;
   }

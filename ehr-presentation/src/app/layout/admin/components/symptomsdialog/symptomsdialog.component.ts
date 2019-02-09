@@ -113,7 +113,7 @@ export class SymptomsdialogComponent implements OnInit {
       if(this.validateForm()){
      
       let response;
-      this.commonService.updateSymptoms(formdata,).then(data => {
+      this.commonService.updateDivision(formdata,).then(data => {
         response = data;
         if(response.msg_data == "SUCCESS" && response.msg_status == "200"){
              

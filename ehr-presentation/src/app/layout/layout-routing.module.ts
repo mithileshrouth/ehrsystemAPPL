@@ -34,11 +34,13 @@ const routes: Routes = [
 
             { path:'division', loadChildren:'./admin/division/division/division.module#DivisionModule'},
             { path:'divisionlist', loadChildren:'./admin/division/divisionlist/divisionlist.module#DivisionlistModule'},
+            { path:'line', loadChildren:'./admin/line/line/line.module#LineModule'},
+            { path:'linelist', loadChildren:'./admin/line/linelist/linelist.module#LinelistModule'},
 
             { path:'challan', loadChildren:'./admin/challan/challan/challan.module#ChallanModule'},
             { path:'challanlist', loadChildren:'./admin/challan/challanlist/challanlist.module#ChallanlistModule'},
            
-
+            { path:'patientlist', loadChildren:'./admin/patient/patientlist/patientlist.module#PatientlistModule'},
             { path:'sickapproval', loadChildren:'./sickleaveapproval/sickleaveapproval.module#sickleaveapprovalModule'} ,  
             { path:'prescriptionlist', loadChildren:'./pharmacymedicinelist/pharmacymedicinelist.module#PharmacymedicinelistModule'} , 
             { path:'medicineissue', loadChildren:'./medicineissue/medicineissue.module#MedicineissueModule'},

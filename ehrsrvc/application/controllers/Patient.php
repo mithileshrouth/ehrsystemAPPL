@@ -686,5 +686,65 @@ class Patient extends CI_Controller{
         echo json_encode($json_response);
         exit;
     }
+
+/* -----------------------------------8 Feb 2019------------------------------------- */
+
+public function getAllPatientByDrType()
+{
+    CUSTOMHEADER::getCustomHeader();
+    $json_response = [];
+    $headers = $this->input->request_headers();
+    
+    if(CUSTOMHEADER::getAuthotoken($headers)){$client_token = CUSTOMHEADER::getAuthotoken($headers);}else{$client_token = "";}
+    
+    //var_dump($client_token);
+    $server_token="";
+    if($client_token!=""){
+        $server_token = $this->authorisation->getToken($client_token->jti)->web_token;
+       
+    }
+//        echo("client:".$client_token);
+//        echo("serve:".$server_token);
+//        
+    if($client_token!=""){
+    if($client_token->jti==$server_token ){
+
+        $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata);
+        
+        $patient = $this->patient->getPatientListbyDrType($request);
+         $json_response = [
+                              "msg_status"=>HTTP_SUCCESS,
+                              "msg_data"=>"Authentication ok.",
+                              "result"=>$patient
+                              
+        ];
+    }else{
+        $json_response = [
+                            "msg_status"=>HTTP_AUTH_FAIL,
+                            "msg_data"=>"Authentication fail."
+        ];
+    }
+    }else{
+         $json_response = [
+                            "msg_status"=>HTTP_AUTH_FAIL,
+                            "msg_data"=>"Authentication fail."
+        ];
+//            $patient = $this->patient->getPatientList();
+//             $json_response = [
+//                                  "msg_status"=>HTTP_SUCCESS,
+//                                  "msg_data"=>"Authentication ok.",
+//                                  "patient"=>$patient
+//                                  
+//            ];
+    }
+    header('Content-Type: application/json');
+    echo json_encode( $json_response );
+exit;
+    
+  
+}
+
+
     
 }

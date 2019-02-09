@@ -46,7 +46,7 @@ export class ExcelvalidationdialogComponent implements OnInit {
   ngOnInit() {
     
     
-    const count1 = Object.keys(this.exceldata.estate_name).length;
+    const count1 = Object.keys(this.exceldata.garden_code).length;
 
     if(count1 > 0) {
       let resultObj1;
@@ -54,24 +54,29 @@ export class ExcelvalidationdialogComponent implements OnInit {
 
        // console.log(this.exceldata.age[i]);
 
-       if(this.exceldata.estate_name[i].error != 0){
+       if(this.exceldata.garden_code[i].error != 0){
         this.totalError++;
        }
 
 
+      
+
       resultObj1 = {
           
-          'estate_name': this.exceldata.estate_name[i],
+          'garden_code': this.exceldata.garden_code[i],
           'employee_code': this.exceldata.employee_code[i],
-          'pf_no': this.exceldata.pf_no[i],
           'employee_name': this.exceldata.employee_name[i],
-          'father_name': this.exceldata.father_name[i],
-          'division_or_departm': this.exceldata.division_or_departm[i],
-          'category': this.exceldata.category[i],
+          'type': this.exceldata.type[i],
+          'dr_type': this.exceldata.dr_type[i],
+          'sex': this.exceldata.sex[i],
+          'phno': this.exceldata.phno[i],
+          'mobilephno': this.exceldata.mobilephno[i],
           'challan':this.exceldata.challan[i],
-          'line':this.exceldata.line[i],
+          'current_status':this.exceldata.current_status[i],
           'dob': this.exceldata.dob[i],
-          'doj': this.exceldata.doj[i],
+          'division': this.exceldata.division[i],
+          'line':this.exceldata.line[i],
+          'houseno': this.exceldata.houseno[i],
           
       }
      // this.selectedSymptom.push(resultObj1);

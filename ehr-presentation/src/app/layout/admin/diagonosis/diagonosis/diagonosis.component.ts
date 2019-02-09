@@ -76,7 +76,7 @@ export class DiagonosisComponent implements OnInit {
         msg : 'Save Successfully',
         msgicon : 'check_circle',
         iconcolor: '#1d8c3d',
-        btnurl : 'panel/diagonosis'
+        btnurl : 'panel/diagnosis'
         }
     });
   

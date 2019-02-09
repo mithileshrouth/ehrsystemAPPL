@@ -15,35 +15,43 @@ letter-spacing: 1px;" >
   <thead>
     <tr style="background-color: #5361c6; color: #f3f1ed;">
       <th>Sl No.</th>
-      <th>Estate Name</th>
+      <th>Garden Code</th>
       <th>Employee Code</th>
-      <th>PF No.</th>
       <th>Employee Name</th>
-      <th>Father's Name</th>
-      <th>Division/<br>Department Name</th>
-      <th>Challan</th>
-      <th>Line</th>
-      <th>Category</th>
-      <th>DOB</th>
-      <th>DOJ</th>
+      <th>Type</th>
+      <th>DR Type</th>
+      <th>Sex</th>
+      <th>Phone No</th>
+      <th>Mobile No</th>
+      <th>Challan No</th>
+      <th>Current Status</th>
+      <th>Date of Birth</th>
+      <th>Division No</th> 
+      <th>Line No</th>
+      <th>House No</th>
+      
+      
       
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let excelrow of employeeList; let i = index">
       <td align='center'>{{i+1}}</td>
-      <td matTooltip="{{excelrow.estate_name.cell}}" [ngClass]="{'errorcell' : excelrow.estate_name.error}">{{excelrow.estate_name.value}}</td>
+      <td matTooltip="{{excelrow.garden_code.cell}}" [ngClass]="{'errorcell' : excelrow.garden_code.error}">{{excelrow.garden_code.value}}</td>
       <td>{{excelrow.employee_code.value}}</td>
-      <td>{{excelrow.pf_no.value}}</td>
       <td>{{excelrow.employee_name.value}}</td>
-      <td>{{excelrow.father_name.value}}</td>
-      <td>{{excelrow.division_or_departm.value}}</td>
+      <td>{{excelrow.type.value}}</td>
+      <td>{{excelrow.dr_type.value}}</td>
+      <td>{{excelrow.sex.value}}</td>
+      <td>{{excelrow.phno.value}}</td>
+      <td>{{excelrow.mobilephno.value}}</td>
       <td>{{excelrow.challan.value}}</td>
-      <td>{{excelrow.line.value}}</td>
-      <td>{{excelrow.category.value}}</td>
+      <td>{{excelrow.current_status.value}}</td>
       <td>{{excelrow.dob.value}}</td>
-      <td>{{excelrow.doj.value}}</td>
-      
+      <td>{{excelrow.division.value}}</td>
+      <td>{{excelrow.line.value}}</td>
+      <td>{{excelrow.houseno.value}}</td>
+            
     
     </tr>
    

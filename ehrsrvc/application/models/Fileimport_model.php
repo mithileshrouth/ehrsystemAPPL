@@ -8,7 +8,7 @@ class Fileimport_model extends CI_Model{
      * @author Shankha ghosh
      * @desc insert diagonosis
      */
-
+/* -------------------------------------------------modified on 08.02.2019-------------------------------*/ 
 	public function insertIntoEmployee($request,$hospital_id){
 		
 		try{
@@ -32,19 +32,8 @@ class Fileimport_model extends CI_Model{
                     $dob = NULL;
                 }
 
-                $doj=$value->doj->value;
-                if($doj!=""){
-                $doj = str_replace('/', '-', $doj);
-                $doj = date("Y-m-d",strtotime($doj));
-                }
-                else{
-                    $doj = NULL;
-                }
-                
-                $estateWhere = array('estate.name' =>$value->estate_name->value);
-                $EstateData = $this->commondatamodel->getSingleRowByWhereCls('estate',$estateWhere);
-
-                $estateId=$EstateData->id;
+             
+             
               
 
          /*   $employeeArray= [
@@ -63,25 +52,40 @@ class Fileimport_model extends CI_Model{
             ];*/
 
 
-           
+          
+
+        
+            if($value->type->value=='MR'){
+                $patient_type_id=1;
+            }else{
+
+                $PatientTypeWhere = array('patient_type.dr_type' =>trim($value->dr_type->value));
+                $PatientTypeData = $this->commondatamodel->getSingleRowByWhereCls('patient_type',$PatientTypeWhere);
+                if(!empty($PatientTypeData)){
+                $patient_type_id=$PatientTypeData->patient_type_id;
+                }else{$patient_type_id=null;}
+            }
+            
 
             $patientwhere = array('patients.patient_code' =>$value->employee_code->value);
             $checkpatientCode=$this->commondatamodel->checkExistanceData('patients',$patientwhere);
 
             if($checkpatientCode){
                                 $patientUpdateArray = [
-                                    'estate' => $estateId,
-                                    'patient_code' => $value->employee_code->value,
-                                    'pf_no' => $value->pf_no->value,
+                                    'estate' => $value->garden_code->value,
+                                    'patient_type_id' => $patient_type_id,
                                     'patient_name' => $value->employee_name->value,
-                                    'father_name' => $value->father_name->value,
-                                    'division_number' => $value->division_or_departm->value,
-                                    'line_number' => $value->line->value,
+                                    'gender' => $value->sex->value,
+                                    'mobile_one' => $value->phno->value,
+                                    'mobile_two' => $value->mobilephno->value,
                                     'challan_number' => $value->challan->value,
-                                    "category" => $value->category->value,
+                                    'currant_status' => $value->current_status->value,
                                     "dob" => $dob,
-                                    "doj" => $doj,
+                                    'division_number' => $value->division->value,
+                                    'line_number' => $value->line->value,
+                                    'house_no' => $value->houseno->value, 
                                     "hospital_id" => $hospital_id,
+                                    "entry_from" => 'IMPORT',
                                     
                                 ];
 
@@ -99,18 +103,22 @@ class Fileimport_model extends CI_Model{
 
 
                             $patientArray = [
-                                'estate' => $estateId,
+                                'estate' => $value->garden_code->value,
                                 'patient_code' => $value->employee_code->value,
-                                'pf_no' => $value->pf_no->value,
+                                'patient_type_id' => $patient_type_id,
                                 'patient_name' => $value->employee_name->value,
-                                'father_name' => $value->father_name->value,
-                                'division_number' => $value->division_or_departm->value,
-                                'line_number' => $value->line->value,
+                                'gender' => $value->sex->value,
+                                'mobile_one' => $value->phno->value,
+                                'mobile_two' => $value->mobilephno->value,
                                 'challan_number' => $value->challan->value,
-                                "category" => $value->category->value,
+                                'currant_status' => $value->current_status->value,
                                 "dob" => $dob,
-                                "doj" => $doj,
+                                'division_number' => $value->division->value,
+                                'line_number' => $value->line->value,
+                                'house_no' => $value->houseno->value,
+                                
                                 "hospital_id" => $hospital_id,
+                                "entry_from" => 'IMPORT',
                                 
                             ];
 

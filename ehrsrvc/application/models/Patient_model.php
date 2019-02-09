@@ -604,7 +604,27 @@ class Patient_model extends CI_Model
             $resultdata=$query->result();
         }
         return $resultdata;
-	}
+    }
+    
+
+/* -----------------------------------8 Feb 2019------------------------------------- */
+    public function getPatientListbyDrType($request)
+    {  
+         $dr_type=$request->datas;
+       
+        $patient_data = "";
+        $where = array('patients.patient_type_id' => $dr_type , );
+        $query = $this->db->select("patients.*,patient_type.dr_type,DATE_FORMAT(patients.dob,'%d-%m-%Y') as dateofbirth")
+            ->from("patients")
+            ->join("patient_type", "patient_type.patient_type_id = patients.patient_type_id", "LEFT")
+            ->where($where)
+            ->get();
+
+        if ($query->num_rows() > 0) {
+            $patient_data = $query->result();
+        }
+        return $patient_data;
+    }
 
 
 }

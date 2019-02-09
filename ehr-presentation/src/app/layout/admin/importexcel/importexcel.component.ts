@@ -120,7 +120,7 @@ basicUpload(files: File[]){
       console.log(event)
       this.isLoader=false;
       const dialogRef = this.dialog.open(ExcelvalidationdialogComponent, {
-        width: '950px',
+        width: '1250px',
         height:'500px',
         disableClose: true,
         data: event 

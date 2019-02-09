@@ -571,4 +571,212 @@ updateMedicine(formval) {
  });
 }
 
+
+
+/*  -------------------------------- 7 February 2019 -----------------------------------------  */
+
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert division into division table
+ */
+
+
+insertIntoDivision(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertDIVI_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+
+
+/**
+ * @author Shankha Ghosh
+ * @description get Division List
+ */
+getDivisionList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.divigList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+
+ /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update Division data by division_id
+ */
+updateDivision(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateDIVI_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert line into line_master table
+ */
+
+
+insertIntoLine(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertLINE_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @description get Division List
+ */
+getLineList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.lineList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @description get Line Data by Id
+ */
+getLineDataById(data) {
+  // console.log(data);
+   let datas = JSON.stringify({data:data});
+   return new Promise(resolve => {
+     
+       this.http.post(this.global.lineData_URL,datas).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+   });
+ }
+ /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update Division data by division_id
+ */
+updateLine(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateLINE_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @description get Challan List
+ */
+getChallanList() {
+  return new Promise(resolve => {
+     this.http.get(this.global.challanList_URL).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
+
+/**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Insert challan into challan_master table
+ */
+
+
+insertIntoChallan(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.insertCHALLAN_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+/**
+ * @author Shankha Ghosh
+ * @description get Diagonosis Data by Id
+ */
+getChallanDataById(data) {
+  // console.log(data);
+   let datas = JSON.stringify({data:data});
+   return new Promise(resolve => {
+     
+       this.http.post(this.global.challanData_URL,datas).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+   });
+ }
+
+  /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description Update Division data by division_id
+ */
+updateChallan(formval) {
+  let datas = JSON.stringify({fdata:formval});
+  return new Promise(resolve => {
+    this.http.post(this.global.updateCHALLAN_URL,datas).subscribe(data => {
+      resolve(data);
+    }, err => {
+      console.log(err);
+    });
+ });
+}
+
+/*----------------------------------End of 7 February 2019 ------------------------------------ */
+
+/*---------------------------------- 8 February 2019 ------------------------------------ */
+  /**
+ * @author Shankha Ghosh
+ * @param formval 
+ * @description get patient list by dr type
+ */
+
+getPatientListData(dr_type) {
+  let data = JSON.stringify({datas:dr_type});
+  return new Promise(resolve => {
+     this.http.post(this.global.getmasterPatientBydr_URL,data).subscribe(data => {
+       resolve(data);
+     }, err => {
+       console.log(err);
+     });
+  });
+}
+
 }//end of class
